@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author fingon
  */
-@WebServlet(name = "ControllerServlet", loadOnStartup = 1, urlPatterns = {"/index"})
+@WebServlet(name = "ControllerServlet",
+        loadOnStartup = 1,
+        urlPatterns = {"/index","/inscription","/inscriptionValidation"})
 public class ControllerServlet extends HttpServlet {
 
     /** 
@@ -57,7 +59,23 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String userPath = request.getServletPath();
+        
+        if (userPath.equals("inscription")) {
+            
+            userPath = "inscription";
+            
+        }
+        
+        String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+        
+        try {
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+       // processRequest(request, response);
     }
 
     /** 
@@ -70,7 +88,33 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        
+        String userPath = request.getServletPath();
+        
+        if (userPath.equals("/inscriptionValidation")) {
+            
+                String name = request.getParameter("name");
+                String username = request.getParameter("username");
+                String email = request.getParameter("email");
+                String password = request.getParameter("password");
+                String password2 = request.getParameter("password2");
+                String day = request.getParameter("cityRegion");
+                String month = request.getParameter("creditcard");
+                String year = request.getParameter("creditcard");               
+                String phone = request.getParameter("phone");
+                
+                userPath = "confirmation";
+        }
+        
+        String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+
+        try {
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        //processRequest(request, response);
     }
 
     /** 
