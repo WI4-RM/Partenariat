@@ -41,11 +41,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Rubrique.findByNom", query = "SELECT r FROM Rubrique r WHERE r.nom = :nom"),
     @NamedQuery(name = "Rubrique.findByDate", query = "SELECT r FROM Rubrique r WHERE r.date = :date")})
 public class Rubrique implements Serializable {
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
     @Column(name = "idrubrique")
     private Integer idrubrique;
     @Size(max = 45)
@@ -55,9 +58,6 @@ public class Rubrique implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "texte")
     private String texte;
-    @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
     @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil")
     @ManyToOne(optional = false)
     private Profil profilIdprofil;
@@ -96,14 +96,6 @@ public class Rubrique implements Serializable {
 
     public void setTexte(String texte) {
         this.texte = texte;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public Profil getProfilIdprofil() {
@@ -154,6 +146,14 @@ public class Rubrique implements Serializable {
     @Override
     public String toString() {
         return "entity.Rubrique[ idrubrique=" + idrubrique + " ]";
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
     
 }
