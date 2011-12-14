@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author fingon
  */
 @Stateless
-public class FichierUploadeFacade extends AbstractFacade<FichierUploade> implements FichierUploadeFacadeLocal {
+public class FichierUploadeFacade extends AbstractFacade<FichierUploade> {
     @PersistenceContext(unitName = "ProjetPartenariatsPU")
     private EntityManager em;
 

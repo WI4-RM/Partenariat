@@ -38,7 +38,7 @@ public class Pays implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
     @Column(name = "idpays")
     private Integer idpays;
     @Basic(optional = false)

@@ -6,11 +6,16 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import session.InscriptionManager;
+
+
 
 /**
  *
@@ -21,6 +26,10 @@ import javax.servlet.http.HttpServletResponse;
         urlPatterns = {"/index","/inscription","/inscriptionValidation"})
 public class ControllerServlet extends HttpServlet {
 
+    @EJB
+    private InscriptionManager inscriptionManager;
+    
+    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -99,12 +108,17 @@ public class ControllerServlet extends HttpServlet {
                 String email = request.getParameter("email");
                 String password = request.getParameter("password");
                 String password2 = request.getParameter("password2");
-                String day = request.getParameter("cityRegion");
-                String month = request.getParameter("creditcard");
-                String year = request.getParameter("creditcard");               
+                String day = request.getParameter("day");
+                String month = request.getParameter("month");
+                int year = Integer.decode( request.getParameter("year"));               //todo : clean this !!!!
                 String phone = request.getParameter("phone");
                 
-                userPath = "confirmation";
+              boolean res =  inscriptionManager.createUser(name, username, email, password,  year);
+              
+                if (res)
+                    userPath = "confirmation";
+                else
+                    userPath ="error";
         }
         
         String url = "/WEB-INF/compte_view/" + userPath + ".jsp";

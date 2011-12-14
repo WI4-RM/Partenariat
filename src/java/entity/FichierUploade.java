@@ -37,11 +37,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "FichierUploade.findByTaille", query = "SELECT f FROM FichierUploade f WHERE f.taille = :taille"),
     @NamedQuery(name = "FichierUploade.findByDate", query = "SELECT f FROM FichierUploade f WHERE f.date = :date")})
 public class FichierUploade implements Serializable {
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
     @Column(name = "idfichier_uploade")
     private Integer idfichierUploade;
     @Basic(optional = false)
@@ -53,9 +56,6 @@ public class FichierUploade implements Serializable {
     @NotNull
     @Column(name = "taille")
     private int taille;
-    @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
     @JoinColumn(name = "rubrique_idrubrique", referencedColumnName = "idrubrique")
     @ManyToOne(optional = false)
     private Rubrique rubriqueIdrubrique;
@@ -100,14 +100,6 @@ public class FichierUploade implements Serializable {
         this.taille = taille;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public Rubrique getRubriqueIdrubrique() {
         return rubriqueIdrubrique;
     }
@@ -147,6 +139,14 @@ public class FichierUploade implements Serializable {
     @Override
     public String toString() {
         return "entity.FichierUploade[ idfichierUploade=" + idfichierUploade + " ]";
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
     
 }
