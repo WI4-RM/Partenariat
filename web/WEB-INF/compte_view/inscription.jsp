@@ -42,12 +42,12 @@
 
                         <tr>
                             <td>Mot de passe</td>
-                            <td><input type="text" name="password" id="email" /></td>
+                            <td><input type="password" name="password" id="email" /></td>
                         </tr>
 
                         <tr>
                             <td>Vérification du mot de passe</td>
-                            <td><input type="text" name="password2" id="email" /></td>
+                            <td><input type="password" name="password2" id="email" /></td>
                         </tr>
                         <tr>
                             <td>Nom</td>

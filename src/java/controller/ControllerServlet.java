@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import session.InscriptionManager;
+import validator.InputValidator;
 
 
 
@@ -23,7 +24,7 @@ import session.InscriptionManager;
  */
 @WebServlet(name = "ControllerServlet",
         loadOnStartup = 1,
-        urlPatterns = {"/index","/inscription","/inscriptionValidation"})
+        urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect"})
 public class ControllerServlet extends HttpServlet {
 
     @EJB
@@ -70,14 +71,33 @@ public class ControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String userPath = request.getServletPath();
+        String url = "";
         
-        if (userPath.equals("inscription")) {
+        if (userPath.equals("/inscription")) { //inscription request
             
-            userPath = "inscription";
-            
+           // userPath = "inscription";
+            url = "/WEB-INF/compte_view" + userPath + ".jsp";
         }
         
-        String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+        else if (userPath.equals("/index") || userPath.equals("")){ //index 
+            if (request.getSession(false) == null){ //connexion check
+                userPath = "index";
+                url = userPath + ".jsp";
+            }
+            else {
+                userPath = "/indexCo";
+                url = "/WEB-INF" + userPath + ".jsp";
+            }
+                
+        }
+        else if (userPath.equals("/deconnect")){ //deconnexion
+            request.getSession().invalidate();
+            userPath = "index";
+            url = userPath + ".jsp";
+        }
+        
+        
+        //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
         
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -100,8 +120,11 @@ public class ControllerServlet extends HttpServlet {
         
         
         String userPath = request.getServletPath();
+        String url = "/WEB-INF/";
         
         if (userPath.equals("/inscriptionValidation")) {
+            
+            boolean allInputsOk = true;
             
                 String name = request.getParameter("name");
                 String username = request.getParameter("username");
@@ -110,18 +133,64 @@ public class ControllerServlet extends HttpServlet {
                 String password2 = request.getParameter("password2");
                 String day = request.getParameter("day");
                 String month = request.getParameter("month");
-                int year = Integer.decode( request.getParameter("year"));               //todo : clean this !!!!
+                String yearS = request.getParameter("year");              
                 String phone = request.getParameter("phone");
                 
-              boolean res =  inscriptionManager.createUser(name, username, email, password,  year);
+                if (!InputValidator.checkEmail(email)){
+                    allInputsOk = false;
+                   // response.sendError(400, "email error");
+                }
+                if (!(InputValidator.checkNames(name)) ||  !(InputValidator.checkNames(username))){
+                    allInputsOk = false;
+                    //response.sendError(400, "name or username error");
+                }
+                if (!InputValidator.checkPassword(password)){
+                    allInputsOk = false;
+                    //response.sendError(400, "passwd");
+                }
+                if (!InputValidator.checkYear(yearS)){
+                    allInputsOk = false;
+                    //response.sendError(400,"year");
+                }
+                if (!password.equals(password2)){
+                    allInputsOk = false;
+                    //response.sendError(400,"verification pasword failed");
+                }
+              boolean isOK = false; 
+                
+                if (allInputsOk)
+                    isOK =  inscriptionManager.createUser(name, username, email, password,  Integer.decode(yearS));
               
-                if (res)
+                if (isOK)
                     userPath = "confirmation";
                 else
-                    userPath ="error";
+                    userPath ="errorSuscribe";
+                
+                url  += "compte_view/" + userPath + ".jsp";
+        }
+        else if (userPath.equals("/connect")){
+            String username = request.getParameter("login");
+            String password = request.getParameter("password");
+            
+            //todo : clean input
+            
+            boolean ok = inscriptionManager.connect(username, password);
+            
+            if (ok){
+                userPath = "indexCo";
+                url  += userPath + ".jsp";
+                
+                request.getSession(); // create session
+
+            }
+            else {
+                userPath = "index";
+                url = userPath +".jsp";
+            }
+          
         }
         
-        String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+
 
         try {
             request.getRequestDispatcher(url).forward(request, response);
