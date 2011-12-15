@@ -25,5 +25,7 @@ public class PaysFacade extends AbstractFacade<Pays> implements PaysFacadeLocal 
     public PaysFacade() {
         super(Pays.class);
     }
+
+    
     
 }

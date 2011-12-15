@@ -5,12 +5,16 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import session.PaysFacade;
+import entity.Pays;
+import session.PaysFacadeLocal;
 
 /**
  *
@@ -18,8 +22,23 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ControllerServlet",
         loadOnStartup = 1,
-        urlPatterns = {"/index","/inscription","/inscriptionValidation"})
+        urlPatterns = {"/inscription",
+                        "/inscriptionValidation",
+                        "/pays",
+                        "/index.html",
+                        "/deconnexion"})
 public class ControllerServlet extends HttpServlet {
+
+    @EJB
+    private PaysFacadeLocal paysFacade;
+
+    /*@Override
+    public void init() throws ServletException {
+
+        // store category list in servlet context
+        //getServletContext().setAttribute("initialePays", paysFacade.findPaysByFirstLetter());
+        getServletContext().setAttribute("allPays", paysFacade.findAll());
+    }*/
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,20 +50,59 @@ public class ControllerServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        
+        String userPath = request.getServletPath();
+        System.out.println(userPath);
+        //if (partenariat.Util.isConnected(request, response)){
+            //request.setAttribute("connecte", "true");
+        //}
+        //else {
+            request.setAttribute("connecte", "false");
+        //}
+
+        
         try {
-            /* TODO output your page here
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ControllerServlet</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ControllerServlet at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-             */
-        } finally {            
-            out.close();
+            if (userPath.equals("/main")) {
+                String url = "/WEB-INF/compte_view/pageAccueil";
+                request.getRequestDispatcher(url).forward(request, response);
+            }
+            if (userPath.equals("/index.html")) {
+                String url = "/WEB-INF/compte_view/pagePrincipale.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
+            }
+            if (userPath.equals("/deconnexion")) {
+                request.setAttribute("connecte", "false");
+                request.setAttribute("url", "index.html");
+                String urlRedir = "/WEB-INF/fonctions/redirection.jsp";
+                request.getRequestDispatcher(urlRedir).forward(request, response);
+            }
+            if (userPath.equals("/pays")) {
+                //request.setAttribute("poutou", "poutou");
+                //request.getSession().setAttribute("poutou","poutou");
+                String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+                request.getRequestDispatcher(url).forward(request, response);
+            }
+            if (userPath.equals("/paysAlphabet")) {
+                String lettre = request.getParameter("lettre");
+                request.setAttribute("lettre",lettre);
+                String url = "WEB-INF/fonctions/cataloguePays.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
+            }
+            if (userPath.equals("/recherche")) {
+                String type = (String)request.getAttribute("type");
+                if (type.equals("rapide")){
+                    ;
+                }
+                else {
+                    ;
+                }
+            }
+            if (userPath.equals("/afficherRecherche")) {
+                String url = "/WEB-INF/compte_view/recherche.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
+             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -59,7 +117,8 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        /*HttpSession session = request.getSession();
+
         String userPath = request.getServletPath();
         
         if (userPath.equals("inscription")) {
@@ -67,15 +126,18 @@ public class ControllerServlet extends HttpServlet {
             userPath = "inscription";
             
         }
-        
+        if (userPath.equals("pays")) {
+            request.setAttribute("poutou", "poutou");
+            request.getSession().setAttribute("key","value");
+            userPath = "pays";
+        }
         String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
-        
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
-       // processRequest(request, response);
+        }*/
+       processRequest(request, response);
     }
 
     /** 
@@ -88,8 +150,8 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
+       /*
+        HttpSession session = request.getSession();
         String userPath = request.getServletPath();
         
         if (userPath.equals("/inscriptionValidation")) {
@@ -106,6 +168,11 @@ public class ControllerServlet extends HttpServlet {
                 
                 userPath = "confirmation";
         }
+
+        if (userPath.equals("/pays")) {
+            session.setAttribute("poutou", "poutou");
+            userPath = "pays";
+        }
         
         String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
 
@@ -113,8 +180,8 @@ public class ControllerServlet extends HttpServlet {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
-        //processRequest(request, response);
+        }*/
+        processRequest(request, response);
     }
 
     /** 

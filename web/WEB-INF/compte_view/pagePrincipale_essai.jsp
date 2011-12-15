@@ -1,6 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
-<%-- 
+<%--
     Document   : index
     Created on : 3 déc. 2011, 18:45:03
     Author     : fingon
@@ -18,7 +18,7 @@
     <sql:query var="result" dataSource="jdbc/mineworld">
         SELECT *  FROM profil
     </sql:query>
-    
+
     <table border="1">
         <!-- column headers -->
         <tr>
@@ -35,6 +35,6 @@
         </tr>
     </c:forEach>
 </table>
-        
+
     </body>
 </html>
