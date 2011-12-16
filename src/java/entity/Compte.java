@@ -35,18 +35,23 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Compte.findByValidationHash", query = "SELECT c FROM Compte c WHERE c.validationHash = :validationHash"),
     @NamedQuery(name = "Compte.findByIsAdministrator", query = "SELECT c FROM Compte c WHERE c.isAdministrator = :isAdministrator")})
 public class Compte implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 60)
+    @Column(name = "salt")
+    private String salt;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "idcompte")
+   // @NotNull
+    @Column(name = "idcompte",unique=true)
     private Integer idcompte;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
     @Basic(optional = false)
     @NotNull
@@ -149,6 +154,14 @@ public class Compte implements Serializable {
     @Override
     public String toString() {
         return "entity.Compte[ idcompte=" + idcompte + " ]";
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
     
 }

@@ -40,7 +40,7 @@ public class Profil implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
     @Column(name = "idprofil")
     private Integer idprofil;
     @Basic(optional = false)

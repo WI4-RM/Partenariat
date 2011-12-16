@@ -5,6 +5,10 @@
 package controller;
 
 import java.io.IOException;
+<<<<<<< HEAD
+=======
+import java.io.PrintWriter;
+>>>>>>> 990410fcd6110b8fe093ac6832073da9e0771216
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,12 +20,18 @@ import session.PaysFacade;
 import entity.Pays;
 import session.PaysFacadeLocal;
 
+import session.InscriptionManager;
+import validator.InputValidator;
+
+
+
 /**
  *
  * @author fingon
  */
 @WebServlet(name = "ControllerServlet",
         loadOnStartup = 1,
+<<<<<<< HEAD
         urlPatterns = {"/inscription",
                         "/inscriptionValidation",
                         "/pays",
@@ -40,6 +50,15 @@ public class ControllerServlet extends HttpServlet {
         getServletContext().setAttribute("allPays", paysFacade.findAll());
     }*/
 
+=======
+        urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect"})
+public class ControllerServlet extends HttpServlet {
+
+    @EJB
+    private InscriptionManager inscriptionManager;
+    
+    
+>>>>>>> 990410fcd6110b8fe093ac6832073da9e0771216
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -120,18 +139,43 @@ public class ControllerServlet extends HttpServlet {
         /*HttpSession session = request.getSession();
 
         String userPath = request.getServletPath();
+        String url = "";
         
-        if (userPath.equals("inscription")) {
+        if (userPath.equals("/inscription")) { //inscription request
             
-            userPath = "inscription";
-            
+           // userPath = "inscription";
+            url = "/WEB-INF/compte_view" + userPath + ".jsp";
         }
+        
+        else if (userPath.equals("/index") || userPath.equals("")){ //index 
+            if (request.getSession(false) == null){ //connexion check
+                userPath = "index";
+                url = userPath + ".jsp";
+            }
+            else {
+                userPath = "/indexCo";
+                url = "/WEB-INF" + userPath + ".jsp";
+            }
+                
+        }
+        else if (userPath.equals("/deconnect")){ //deconnexion
+            request.getSession().invalidate();
+            userPath = "index";
+            url = userPath + ".jsp";
+        }
+<<<<<<< HEAD
         if (userPath.equals("pays")) {
             request.setAttribute("poutou", "poutou");
             request.getSession().setAttribute("key","value");
             userPath = "pays";
         }
         String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+=======
+        
+        
+        //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+        
+>>>>>>> 990410fcd6110b8fe093ac6832073da9e0771216
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -153,20 +197,74 @@ public class ControllerServlet extends HttpServlet {
        /*
         HttpSession session = request.getSession();
         String userPath = request.getServletPath();
+        String url = "/WEB-INF/";
         
         if (userPath.equals("/inscriptionValidation")) {
+            
+            boolean allInputsOk = true;
             
                 String name = request.getParameter("name");
                 String username = request.getParameter("username");
                 String email = request.getParameter("email");
                 String password = request.getParameter("password");
                 String password2 = request.getParameter("password2");
-                String day = request.getParameter("cityRegion");
-                String month = request.getParameter("creditcard");
-                String year = request.getParameter("creditcard");               
+                String day = request.getParameter("day");
+                String month = request.getParameter("month");
+                String yearS = request.getParameter("year");              
                 String phone = request.getParameter("phone");
                 
-                userPath = "confirmation";
+                if (!InputValidator.checkEmail(email)){
+                    allInputsOk = false;
+                   // response.sendError(400, "email error");
+                }
+                if (!(InputValidator.checkNames(name)) ||  !(InputValidator.checkNames(username))){
+                    allInputsOk = false;
+                    //response.sendError(400, "name or username error");
+                }
+                if (!InputValidator.checkPassword(password)){
+                    allInputsOk = false;
+                    //response.sendError(400, "passwd");
+                }
+                if (!InputValidator.checkYear(yearS)){
+                    allInputsOk = false;
+                    //response.sendError(400,"year");
+                }
+                if (!password.equals(password2)){
+                    allInputsOk = false;
+                    //response.sendError(400,"verification pasword failed");
+                }
+              boolean isOK = false; 
+                
+                if (allInputsOk)
+                    isOK =  inscriptionManager.createUser(name, username, email, password,  Integer.decode(yearS));
+              
+                if (isOK)
+                    userPath = "confirmation";
+                else
+                    userPath ="errorSuscribe";
+                
+                url  += "compte_view/" + userPath + ".jsp";
+        }
+        else if (userPath.equals("/connect")){
+            String username = request.getParameter("login");
+            String password = request.getParameter("password");
+            
+            //todo : clean input
+            
+            boolean ok = inscriptionManager.connect(username, password);
+            
+            if (ok){
+                userPath = "indexCo";
+                url  += userPath + ".jsp";
+                
+                request.getSession(); // create session
+
+            }
+            else {
+                userPath = "index";
+                url = userPath +".jsp";
+            }
+          
         }
 
         if (userPath.equals("/pays")) {
@@ -174,7 +272,7 @@ public class ControllerServlet extends HttpServlet {
             userPath = "pays";
         }
         
-        String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+
 
         try {
             request.getRequestDispatcher(url).forward(request, response);

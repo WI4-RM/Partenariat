@@ -1,3 +1,5 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <%-- 
     Document   : confirmation
     Created on : 5 déc. 2011, 00:47:11
@@ -12,6 +14,8 @@
         <title>confirmation Page</title>
     </head>
     <body>
-        <h1>+1!</h1>
+        <h1>Inscription réussie</h1>
+        <a href=""> accueil </a>
+
     </body>
 </html>

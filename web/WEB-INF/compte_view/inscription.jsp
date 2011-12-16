@@ -42,12 +42,12 @@
 
                         <tr>
                             <td>Mot de passe</td>
-                            <td><input type="text" name="password" id="email" /></td>
+                            <td><input type="password" name="password" id="email" /></td>
                         </tr>
 
                         <tr>
                             <td>Vérification du mot de passe</td>
-                            <td><input type="text" name="pasword2" id="email" /></td>
+                            <td><input type="password" name="password2" id="email" /></td>
                         </tr>
                         <tr>
                             <td>Nom</td>
@@ -66,8 +66,8 @@
                             <td>Date de naissance</td>
                             <td>
                                 <input type="text" name="day" id="jour" size="2" maxlength="2"/>
-                                /<input type="text" name="month" id="mois" size="2" maxlength="2"/>
-                                /<input class="annee" type="text" name="years" id="annee" size="4" maxlength="4"/>
+                                <input type="text" name="month" id="mois" size="2" maxlength="2"/>
+                                <input class="annee" type="text" name="year" id="annee" size="4" maxlength="4"/>
                             </td>
                         </tr>
                         <tr>
