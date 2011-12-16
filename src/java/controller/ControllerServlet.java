@@ -73,23 +73,54 @@ out.println("</html>");
         String userPath = request.getServletPath();
         String url = "";
 
+        if (request.getSession(false) == null){ //connexion check
+            request.setAttribute("connecte", "false");
+        }
+        else {
+            request.setAttribute("connecte", "true");
+        }
+
         if (userPath.equals("/inscription")) { //inscription request
 
            // userPath = "inscription";
             url = "/WEB-INF/compte_view" + userPath + ".jsp";
         }
 
-        else if (userPath.equals("/index") || userPath.equals("")){ //index
-            if (request.getSession(false) == null){ //connexion check
-                userPath = "index";
-                url = userPath + ".jsp";
+        if (userPath.equals("/index.html") || userPath.equals("/index")) {
+            url = "/WEB-INF/compte_view/pagePrincipale.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+        }
+        if (userPath.equals("/deconnexion")) {
+            request.setAttribute("connecte", "false");
+            request.setAttribute("url", "index.html");
+            String urlRedir = "/WEB-INF/fonctions/redirection.jsp";
+            request.getRequestDispatcher(urlRedir).forward(request, response);
+        }
+        if (userPath.equals("/pays")) {
+            //request.setAttribute("poutou", "poutou");
+            //request.getSession().setAttribute("poutou","poutou");
+            url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+        }
+        if (userPath.equals("/paysAlphabet")) {
+            String lettre = request.getParameter("lettre");
+            request.setAttribute("lettre",lettre);
+            url = "WEB-INF/fonctions/cataloguePays.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+        }
+        if (userPath.equals("/recherche")) {
+            String type = (String)request.getAttribute("type");
+            if (type.equals("rapide")){
+                ;
             }
             else {
-                userPath = "/indexCo";
-                url = "/WEB-INF" + userPath + ".jsp";
+                ;
             }
-
         }
+        if (userPath.equals("/afficherRecherche")) {
+            url = "/WEB-INF/compte_view/recherche.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+         }
         else if (userPath.equals("/deconnect")){ //deconnexion
             request.getSession().invalidate();
             userPath = "index";
