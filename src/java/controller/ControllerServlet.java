@@ -42,17 +42,62 @@ public class ControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        String userPath = request.getServletPath();
+        String url = "";
+
+        if (request.getSession(false) == null){ //connexion check
+            request.setAttribute("connecte", "false");
+            System.out.println("false");
+        }
+        else {
+            request.setAttribute("connecte", "true");
+            System.out.println("true");
+        }
+
+        if (userPath.equals("/inscription")) { //inscription request
+
+           // userPath = "inscription";
+            url = "/WEB-INF/compte_view" + userPath + ".jsp";
+        }
+
+        if (userPath.equals("/index.html") || userPath.equals("/index")) {
+            url = "/WEB-INF/compte_view/pagePrincipale.jsp";
+        }
+        if (userPath.equals("/pays")) {
+            //request.setAttribute("poutou", "poutou");
+            //request.getSession().setAttribute("poutou","poutou");
+            url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+        }
+        if (userPath.equals("/paysAlphabet")) {
+            String lettre = request.getParameter("lettre");
+            request.setAttribute("lettre",lettre);
+            url = "WEB-INF/fonctions/cataloguePays.jsp";
+        }
+        if (userPath.equals("/recherche")) {
+            String type = (String)request.getAttribute("type");
+            if (type.equals("rapide")){
+                ;
+            }
+            else {
+                ;
+            }
+        }
+        if (userPath.equals("/afficherRecherche")) {
+            url = "/WEB-INF/compte_view/recherche.jsp";
+         }
+        if (userPath.equals("/deconnect")){ //deconnexion
+            request.getSession().invalidate();
+            userPath = "index";
+            url = userPath + ".jsp";
+        }
+
+
+        //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+
         try {
-            /* TODO output your page here
-out.println("<html>");
-out.println("<head>");
-out.println("<title>Servlet ControllerServlet</title>");
-out.println("</head>");
-out.println("<body>");
-out.println("<h1>Servlet ControllerServlet at " + request.getContextPath () + "</h1>");
-out.println("</body>");
-out.println("</html>");
-*/
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         } finally {
             out.close();
         }
@@ -69,73 +114,7 @@ out.println("</html>");
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String userPath = request.getServletPath();
-        String url = "";
-
-        if (request.getSession(false) == null){ //connexion check
-            request.setAttribute("connecte", "false");
-        }
-        else {
-            request.setAttribute("connecte", "true");
-        }
-
-        if (userPath.equals("/inscription")) { //inscription request
-
-           // userPath = "inscription";
-            url = "/WEB-INF/compte_view" + userPath + ".jsp";
-        }
-
-        if (userPath.equals("/index.html") || userPath.equals("/index")) {
-            url = "/WEB-INF/compte_view/pagePrincipale.jsp";
-            request.getRequestDispatcher(url).forward(request, response);
-        }
-        if (userPath.equals("/deconnexion")) {
-            request.setAttribute("connecte", "false");
-            request.setAttribute("url", "index.html");
-            String urlRedir = "/WEB-INF/fonctions/redirection.jsp";
-            request.getRequestDispatcher(urlRedir).forward(request, response);
-        }
-        if (userPath.equals("/pays")) {
-            //request.setAttribute("poutou", "poutou");
-            //request.getSession().setAttribute("poutou","poutou");
-            url = "/WEB-INF/compte_view/" + userPath + ".jsp";
-            request.getRequestDispatcher(url).forward(request, response);
-        }
-        if (userPath.equals("/paysAlphabet")) {
-            String lettre = request.getParameter("lettre");
-            request.setAttribute("lettre",lettre);
-            url = "WEB-INF/fonctions/cataloguePays.jsp";
-            request.getRequestDispatcher(url).forward(request, response);
-        }
-        if (userPath.equals("/recherche")) {
-            String type = (String)request.getAttribute("type");
-            if (type.equals("rapide")){
-                ;
-            }
-            else {
-                ;
-            }
-        }
-        if (userPath.equals("/afficherRecherche")) {
-            url = "/WEB-INF/compte_view/recherche.jsp";
-            request.getRequestDispatcher(url).forward(request, response);
-         }
-        else if (userPath.equals("/deconnect")){ //deconnexion
-            request.getSession().invalidate();
-            userPath = "index";
-            url = userPath + ".jsp";
-        }
-
-
-        //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
-
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-       // processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -177,6 +156,8 @@ out.println("</html>");
                 }
                 if (!InputValidator.checkPassword(password)){
                     allInputsOk = false;
+                userPath = "index";
+                url = userPath +".jsp";
                     //response.sendError(400, "passwd");
                 }
                 if (!InputValidator.checkYear(yearS)){
@@ -207,20 +188,21 @@ out.println("</html>");
 
             boolean ok = inscriptionManager.connect(username, password);
 
+            url = "index.html";
+            userPath = "index";
             if (ok){
-                userPath = "indexCo";
-                url += userPath + ".jsp";
-
+                request.setAttribute("connecte", "true");
                 request.getSession(); // create session
 
             }
             else {
-                userPath = "index";
-                url = userPath +".jsp";
+                request.setAttribute("connecte", "false");
             }
 
         }
-
+        else {
+            processRequest(request, response);
+        }
 
 
         try {
