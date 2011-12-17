@@ -57,16 +57,9 @@
                             <td>Prénom</td>
                             <td><input type="text" name="username" id="prenom" /></td>
                         </tr>
-                        <td>Sexe</td>
-                        <td>
-                            Homme : <INPUT type=radio name="sexe" value=\"M\">
-                            Femme : <INPUT type=radio name="sexe" value=\"F\">
-                        </td>
                         <tr>
-                            <td>Date de naissance</td>
+                            <td>Promo</td>
                             <td>
-                                <input type="text" name="day" id="jour" size="2" maxlength="2"/>
-                                <input type="text" name="month" id="mois" size="2" maxlength="2"/>
                                 <input class="annee" type="text" name="year" id="annee" size="4" maxlength="4"/>
                             </td>
                         </tr>
