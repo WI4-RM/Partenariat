@@ -140,9 +140,10 @@ public class InscriptionManager {
             
             return Arrays.equals(bdigest, submittedHash);
         } catch (IOException ex) {
-            Logger.getLogger(InscriptionManager.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(InscriptionManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        return false;
+       // return false;
           
     }
 

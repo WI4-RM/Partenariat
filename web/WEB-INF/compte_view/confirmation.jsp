@@ -15,7 +15,7 @@
     </head>
     <body>
         <h1>Inscription réussie</h1>
-        <a href=""> accueil </a>
+        <a href="index"> accueil </a>
 
     </body>
 </html>
