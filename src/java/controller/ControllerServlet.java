@@ -1,7 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
+*/
 package controller;
 
 import java.io.IOException;
@@ -19,131 +19,154 @@ import validator.InputValidator;
 
 
 /**
- *
- * @author fingon
- */
+*
+* @author fingon
+*/
 @WebServlet(name = "ControllerServlet",
         loadOnStartup = 1,
-        urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect"})
+        urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", "/pays",
+        "/paysAlphabet","/afficherRecherche", "/recherche"})
 public class ControllerServlet extends HttpServlet {
 
     @EJB
     private InscriptionManager inscriptionManager;
-    
-    
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
+
+    /**
+* Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+* @param request servlet request
+* @param response servlet response
+* @throws ServletException if a servlet-specific error occurs
+* @throws IOException if an I/O error occurs
+*/
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        String userPath = request.getServletPath();
+        String url = "";
+
+        if (request.getAttribute("connecte") == null) // default : not connected
+            request.setAttribute("connecte", "false");
+
+        
+  /*     
+        if (request.getSession(false) == null){ //connexion check
+            request.setAttribute("connecte", "false");
+            
+            //System.out.println("false");
+        }
+        else {
+            request.setAttribute("connecte", "true");
+            System.out.println("true");
+        }*/
+
+        if (userPath.equals("/inscription")) { //inscription request
+
+           // userPath = "inscription";
+            url = "/WEB-INF/compte_view" + userPath + ".jsp";
+        }
+
+        else if (userPath.equals("/index.html") || userPath.equals("/index") || userPath.equals("")) {
+            url = "/WEB-INF/compte_view/pagePrincipale.jsp";
+        }
+        else if (userPath.equals("/pays")) {
+            //request.setAttribute("poutou", "poutou");
+            //request.getSession().setAttribute("poutou","poutou");
+            url = "/WEB-INF/compte_view" + userPath + ".jsp";
+        }
+        else if (userPath.equals("/paysAlphabet")) {
+            String lettre = request.getParameter("lettre");
+            request.setAttribute("lettre",lettre);
+            url = "WEB-INF/fonctions/cataloguePays.jsp";
+        }
+        else if (userPath.equals("/recherche")) {
+            String type = (String)request.getAttribute("type");
+            if (type.equals("rapide")){
+                ;
+            }
+            else {
+                ;
+            }
+        }
+        else if (userPath.equals("/afficherRecherche")) {
+            url = "/WEB-INF/compte_view/recherche.jsp";
+         }
+        else if (userPath.equals("/deconnect")){ //deconnexion
+            request.getSession().invalidate();
+            userPath = "/pagePrincipale";
+            url = "/WEB-INF/compte_view" +userPath + ".jsp";
+        }
+
+
+        //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+
         try {
-            /* TODO output your page here
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ControllerServlet</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ControllerServlet at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-             */
-        } finally {            
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
             out.close();
         }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    /**
+* Handles the HTTP <code>GET</code> method.
+* @param request servlet request
+* @param response servlet response
+* @throws ServletException if a servlet-specific error occurs
+* @throws IOException if an I/O error occurs
+*/
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String userPath = request.getServletPath();
-        String url = "";
-        
-        if (userPath.equals("/inscription")) { //inscription request
-            
-           // userPath = "inscription";
-            url = "/WEB-INF/compte_view" + userPath + ".jsp";
-        }
-        
-        else if (userPath.equals("/index") || userPath.equals("")){ //index 
-            if (request.getSession(false) == null){ //connexion check
-                userPath = "index";
-                url = userPath + ".jsp";
-            }
-            else {
-                userPath = "/indexCo";
-                url = "/WEB-INF" + userPath + ".jsp";
-            }
-                
-        }
-        else if (userPath.equals("/deconnect")){ //deconnexion
-            request.getSession().invalidate();
-            userPath = "index";
-            url = userPath + ".jsp";
-        }
-        
-        
-        //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
-        
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-       // processRequest(request, response);
+        processRequest(request, response);
     }
 
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    /**
+* Handles the HTTP <code>POST</code> method.
+* @param request servlet request
+* @param response servlet response
+* @throws ServletException if a servlet-specific error occurs
+* @throws IOException if an I/O error occurs
+*/
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
+
+
         String userPath = request.getServletPath();
         String url = "/WEB-INF/";
-        
+
         if (userPath.equals("/inscriptionValidation")) {
-            
+
             boolean allInputsOk = true;
-            
+
                 String name = request.getParameter("name");
                 String username = request.getParameter("username");
                 String email = request.getParameter("email");
                 String password = request.getParameter("password");
-                String password2 = request.getParameter("password2");
-                String yearS = request.getParameter("year");              
+                String password2 = request.getParameter("password2"); 
+
+                String day = request.getParameter("day");
+                String month = request.getParameter("month");
+                String yearS = request.getParameter("year");
+
                 String phone = request.getParameter("phone");
-                
+
                 if (!InputValidator.checkEmail(email)){
                     allInputsOk = false;
                    // response.sendError(400, "email error");
                 }
-                if (!(InputValidator.checkNames(name)) ||  !(InputValidator.checkNames(username))){
+                if (!(InputValidator.checkNames(name)) || !(InputValidator.checkNames(username))){
                     allInputsOk = false;
                     //response.sendError(400, "name or username error");
                 }
                 if (!InputValidator.checkPassword(password)){
                     allInputsOk = false;
+                userPath = "index";
+                url = userPath +".jsp";
                     //response.sendError(400, "passwd");
                 }
                 if (!InputValidator.checkYear(yearS)){
@@ -154,40 +177,44 @@ public class ControllerServlet extends HttpServlet {
                     allInputsOk = false;
                     //response.sendError(400,"verification pasword failed");
                 }
-              boolean isOK = false; 
-                
+              boolean isOK = false;
+
                 if (allInputsOk)
-                    isOK =  inscriptionManager.createUser(name, username, email, password,  Integer.decode(yearS));
-              
-                if (isOK)
+                    isOK = inscriptionManager.createUser(name, username, email, password, Integer.decode(yearS));
+
+                if (isOK){
                     userPath = "confirmation";
+                    request.setAttribute("connecte", "true");
+                    request.getSession(); // create session
+                }
                 else
                     userPath ="errorSuscribe";
-                
-                url  += "compte_view/" + userPath + ".jsp";
+
+                url += "compte_view/" + userPath + ".jsp";
         }
         else if (userPath.equals("/connect")){
             String username = request.getParameter("login");
             String password = request.getParameter("password");
+            boolean ok = false; // default : connection is not ok
             
-            //todo : clean input
-            
-            boolean ok = inscriptionManager.connect(username, password);
-            
+            if (InputValidator.checkEmail(username))
+                ok = inscriptionManager.connect(username, password);
+
+            url = "index.html";
+            userPath = "index";
             if (ok){
-                userPath = "indexCo";
-                url  += userPath + ".jsp";
-                
+                request.setAttribute("connecte", "true");
                 request.getSession(); // create session
 
             }
             else {
-                userPath = "index";
-                url = userPath +".jsp";
+                request.setAttribute("connecte", "false");
             }
-          
+
         }
-        
+        else {
+            processRequest(request, response);
+        }
 
 
         try {
@@ -198,10 +225,10 @@ public class ControllerServlet extends HttpServlet {
         //processRequest(request, response);
     }
 
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
+    /**
+* Returns a short description of the servlet.
+* @return a String containing servlet description
+*/
     @Override
     public String getServletInfo() {
         return "Short description";
