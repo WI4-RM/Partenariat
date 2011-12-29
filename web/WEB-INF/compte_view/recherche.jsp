@@ -10,14 +10,16 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 
-<jsp:include page="/WEB-INF/fonctions/menuGauche.jsp" flush="true"/>
 <div class="divBody">
     <form>
         <input type="hidden"name="type" value="avancee">
         <p>Rechercher un profil</p>
+        <input type="text" name="profil"/>
         <p>Rechercher un pays</p>
+        <input type="text" name="pays"/>
         <p>Rechercher une ville</p>
-        <
+        <input type="text" name="ville"/>
+        <input type="submit" value="Recherche">
     </form>
     <p>Poutou</p>
 </div>

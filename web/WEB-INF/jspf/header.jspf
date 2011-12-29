@@ -9,7 +9,7 @@
         <link rel="stylesheet" type="text/css" media="screen, projection, print" href="css/pagePrincipale.css" />
         <title>Accueil</title>
     </head>
-    <body class="body">
+    <body class="body" onload="cataloguePays('A');">
         <span class="dark"><div class="header" id="header">
 		<div class="logoEMSE"><img class="logo" src="img/logoENSMSE.gif"/></div>
 		<div class = "titreBienvenue"><h1>Bienvenue sur le projet MineWorld !</h1></div>
@@ -55,3 +55,4 @@
                         %>
 		</table></div>
 	</div></span>
+        <jsp:include page="/WEB-INF/fonctions/menuGauche.jsp" flush="true"/>

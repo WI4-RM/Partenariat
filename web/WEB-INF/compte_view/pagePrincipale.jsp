@@ -6,8 +6,7 @@
     Created on : 3 déc. 2011, 18:45:03
     Author     : fingon
 --%>
-
-<jsp:include page="/WEB-INF/fonctions/menuGauche.jsp" flush="true"/>
+ 
 <div id="divBody">
     <span class="light"><div class="intro">
             <p>Cliquez sur la carte pour visiter une destination</p>
@@ -22,9 +21,6 @@
     <span class="light"><div class="paysConnus">
         <p>Les pays déjà répertoriés sont :</p>
         <div id="idPaysConnus">
-            <jsp:include page="/WEB-INF/fonctions/cataloguePays.jsp" flush="true">
-                <jsp:param name="lettre" value="A"/>
-            </jsp:include>
             <SCRIPT type="text/javascript">
 
                     var idDivPaysConnus = 'idPaysConnus';

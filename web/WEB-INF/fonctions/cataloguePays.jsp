@@ -52,8 +52,23 @@
     </tr>
     <tr>
         <td colspan="17">
-            <!-- Aller chercher les pays -->
             <p>Pays commençant par <%= lettreOpen%></p>
+            <!-- Aller chercher les pays -->
+            <%
+                List<entity.Pays> listePays = (List<entity.Pays>)getServletContext().getAttribute("pays");
+                if (listePays != null){
+                    for (int i = 0; i < listePays.size(); i++){
+                        entity.Pays p = listePays.get(i);
+                        String nom = p.getNom();
+                        int id = p.getIdpays();
+                        %>
+                        <a href="pays?id=<%= id%>"><%= nom%></a>
+
+                        <%
+                    }
+                }
+            %>
+            
         </td>
     </tr>
 </table>

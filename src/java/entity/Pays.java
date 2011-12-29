@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pays.findAll", query = "SELECT p FROM Pays p"),
     @NamedQuery(name = "Pays.findByIdpays", query = "SELECT p FROM Pays p WHERE p.idpays = :idpays"),
     @NamedQuery(name = "Pays.findByNom", query = "SELECT p FROM Pays p WHERE p.nom = :nom"),
-    //@NamedQuery(name = "Pays.findByFirstLetter", query = "SELECT nom FROM Pays p WHERE p.nom = :nom")
+    @NamedQuery(name = "Pays.findByFirstLetter", query = "SELECT p FROM Pays p WHERE p.nom LIKE :lettre||'%'")
 })
 
 public class Pays implements Serializable {

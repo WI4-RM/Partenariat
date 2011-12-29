@@ -6,6 +6,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import session.InscriptionManager;
 import validator.InputValidator;
-
-
 
 /**
 *
@@ -30,6 +29,9 @@ public class ControllerServlet extends HttpServlet {
 
     @EJB
     private InscriptionManager inscriptionManager;
+
+    @EJB
+    private session.PaysFacade paysFacade;
 
 
     /**
@@ -77,6 +79,8 @@ public class ControllerServlet extends HttpServlet {
         }
         else if (userPath.equals("/paysAlphabet")) {
             String lettre = request.getParameter("lettre");
+            //List<entity.Pays> liste = paysFacade.findByFirstLetter(lettre);
+            getServletContext().setAttribute("pays", paysFacade.findByFirstLetter(lettre));
             request.setAttribute("lettre",lettre);
             url = "WEB-INF/fonctions/cataloguePays.jsp";
         }
