@@ -79,7 +79,7 @@ public class ControllerServlet extends HttpServlet {
         }
         else if (userPath.equals("/paysAlphabet")) {
             String lettre = request.getParameter("lettre");
-            //List<entity.Pays> liste = paysFacade.findByFirstLetter(lettre);
+            List<entity.Pays> liste = paysFacade.findByFirstLetter(lettre);
             getServletContext().setAttribute("pays", paysFacade.findByFirstLetter(lettre));
             request.setAttribute("lettre",lettre);
             url = "WEB-INF/fonctions/cataloguePays.jsp";

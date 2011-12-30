@@ -11,48 +11,48 @@
     </head>
     <body class="body" onload="cataloguePays('A');">
         <span class="dark"><div class="header" id="header">
-		<div class="logoEMSE"><img class="logo" src="img/logoENSMSE.gif"/></div>
-		<div class = "titreBienvenue"><h1>Bienvenue sur le projet MineWorld !</h1></div>
-		<div class="inscription"><table classe="inscriptionTable">
-                        <%
-                        if (request.getAttribute("connecte").equals("true")){
-                        %>
-                            <tr>
-                                    <td>Bienvenue Dupont ! Dernière connexion le 22/11 à 21h32</td>
-                            </tr>
-                            <tr>
-                                    <td><a href="">Accéder à mon profil</a></td>
-                            </tr>
-                            <tr>
-                                    <td><a href="deconnect">Déconnexion</a></td>
-                            </tr>
-                        <%
-                        }
-                        else {
-                        %>
-                        <form action="connect" method="post">
-                            <tr>
-                                    <td colspan="3">Déjà inscrit ? Identifiez-vous !</td>
-                            </tr>
-                            <tr>
-                                    <td>Identifiant</td>
-                                    <td><input type="text" name="login" id="login"/></td>
-                                   
-                            </tr>
-                            <tr>
-                                    <td>Mot de passe</td>
-                                    <td><input type="password" name="password" id="password" onkeydown="if (event.keyCode == 13)"/></td>
-                            </tr>
-                            <tr>    
-                                <td><input type="submit" value="valider" /></td>
-                                <td colspan="3"><a href="inscription">Cliquez ici pour vous inscrire</a></td>
-                            </tr>
-                            </form>
+            <div class="logoEMSE"><img class="logo" src="img/logoENSMSE.gif"/></div>
+            <div class = "titreBienvenue"><h1>Bienvenue sur le projet MineWorld !</h1></div>
+            <div class="inscription"><table classe="inscriptionTable">
+                <%
+                if (request.getAttribute("connecte").equals("true")){
+                %>
+                    <tr>
+                        <td>Bienvenue Dupont ! Dernière connexion le 22/11 à 21h32</td>
+                    </tr>
+                    <tr>
+                        <td><a href="">Accéder à mon profil</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="deconnect">Déconnexion</a></td>
+                    </tr>
+                <%
+                }
+                else {
+                %>
+                <form action="connect" method="post">
+                    <tr>
+                        <td colspan="3">Déjà inscrit ? Identifiez-vous !</td>
+                    </tr>
+                    <tr>
+                        <td>Identifiant</td>
+                        <td><input type="text" name="login" id="login"/></td>
 
-                        
-                        <%
-                        }
-                        %>
-		</table></div>
+                    </tr>
+                    <tr>
+                        <td>Mot de passe</td>
+                        <td><input type="password" name="password" id="password" onkeydown="if (event.keyCode == 13)"/></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="valider" /></td>
+                        <td colspan="3"><a href="inscription">Cliquez ici pour vous inscrire</a></td>
+                    </tr>
+                    </form>
+
+
+                <%
+                }
+                %>
+            </table></div>
 	</div></span>
         <jsp:include page="/WEB-INF/fonctions/menuGauche.jsp" flush="true"/>
