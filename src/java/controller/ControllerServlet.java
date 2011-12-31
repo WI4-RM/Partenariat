@@ -84,8 +84,9 @@ public class ControllerServlet extends HttpServlet {
         else if (userPath.equals("/index.html") || userPath.equals("/index") || userPath.equals("")) {
             url = "/WEB-INF/compte_view/pagePrincipale.jsp";
         }
+
         else if (userPath.equals("/pays")) {
-            String idPays = request.getParameter("idPays");
+            int idPays = Integer.parseInt(request.getParameter("idPays"));
             String nom = request.getParameter("nom");
             List listeRubriques = rubriqueFacade.findByIdPays(idPays);
             ArrayList<String> titresRubriques = new ArrayList<String>();
@@ -99,8 +100,7 @@ public class ControllerServlet extends HttpServlet {
                     rubriquesPubliees.add(curRub);
                 }
             }
-
-            request.getSession().setAttribute("nom",nom);
+            request.setAttribute("nom",nom);
             getServletContext().setAttribute("rubriques", rubriquesPubliees);
             url = "/WEB-INF/compte_view/pays.jsp";
         }

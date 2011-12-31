@@ -27,7 +27,7 @@ public class RubriqueFacade extends AbstractFacade<Rubrique> {
         super(Rubrique.class);
     }
     
-    public List<Rubrique> findByIdPays(String idPays){
+    public List<Rubrique> findByIdPays(int idPays){
         return em.createNamedQuery("Rubrique.findByIdPays").setParameter("idPays", idPays).getResultList();
     }
 }
