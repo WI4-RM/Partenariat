@@ -33,6 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pays.findAll", query = "SELECT p FROM Pays p"),
     @NamedQuery(name = "Pays.findByIdpays", query = "SELECT p FROM Pays p WHERE p.idpays = :idpays"),
     @NamedQuery(name = "Pays.findByNom", query = "SELECT p FROM Pays p WHERE p.nom = :nom"),
+    @NamedQuery(name = "Pays.findAllOrderedByName", query = "SELECT p FROM Pays p ORDER BY p.nom"),
+    @NamedQuery(name = "Pays.findAllOrderedById", query = "SELECT p FROM Pays p ORDER BY p.idpays DESC"),
     @NamedQuery(name = "Pays.findByFirstLetter", query = "SELECT p FROM Pays p WHERE p.nom LIKE :lettre ORDER BY p.nom")
 })
 

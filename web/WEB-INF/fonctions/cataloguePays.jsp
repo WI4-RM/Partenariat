@@ -47,7 +47,7 @@
     <tr>
         <td colspan="17">
             <%
-                List<entity.Pays> listePays = (List<entity.Pays>)getServletContext().getAttribute("pays");
+                List<entity.Pays> listePays = (List<entity.Pays>)getServletContext().getAttribute("paysAlphabet");
                 if (listePays != null){
                     for (int i = 0; i < listePays.size(); i++){
                         entity.Pays p = listePays.get(i);

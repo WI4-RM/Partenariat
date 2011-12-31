@@ -27,7 +27,7 @@ import validator.InputValidator;
 @WebServlet(name = "ControllerServlet",
         loadOnStartup = 1,
         urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", "/pays",
-        "/paysAlphabet","/afficherRecherche", "/recherche"})
+        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations"})
 public class ControllerServlet extends HttpServlet {
 
     @EJB
@@ -63,7 +63,7 @@ public class ControllerServlet extends HttpServlet {
         if (request.getAttribute("connecte") == null) // default : not connected
             request.setAttribute("connecte", "false");
 
-        
+        getServletContext().setAttribute("derniersPays", paysFacade.findAllOrderedById());
   /*     
         if (request.getSession(false) == null){ //connexion check
             request.setAttribute("connecte", "false");
@@ -111,7 +111,7 @@ public class ControllerServlet extends HttpServlet {
             
             if (lg == 1) {
                 String lettrePourcent = lettre + '%';
-                getServletContext().setAttribute("pays", paysFacade.findByFirstLetter(lettrePourcent));
+                getServletContext().setAttribute("paysAlphabet", paysFacade.findByFirstLetter(lettrePourcent));
                 request.setAttribute("lettre",lettre);
             }
             else
@@ -126,7 +126,7 @@ public class ControllerServlet extends HttpServlet {
                         }
                     }
                     request.setAttribute("lettre",lettre);
-                    getServletContext().setAttribute("pays", liste);
+                    getServletContext().setAttribute("paysAlphabet", liste);
                 }
             url = "WEB-INF/fonctions/cataloguePays.jsp";
         }
@@ -141,7 +141,13 @@ public class ControllerServlet extends HttpServlet {
         }
         else if (userPath.equals("/afficherRecherche")) {
             url = "/WEB-INF/compte_view/recherche.jsp";
-         }
+        }
+
+        else if (userPath.equals("/listePays")){
+            getServletContext().setAttribute("tousPays", paysFacade.findAllOrderedByName());
+            url = "/WEB-INF/compte_view/listePays.jsp";
+        }
+
         else if (userPath.equals("/deconnect")){ //deconnexion
             request.getSession().invalidate();
             userPath = "/pagePrincipale";
