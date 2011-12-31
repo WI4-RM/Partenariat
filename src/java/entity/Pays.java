@@ -35,8 +35,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pays.findByNom", query = "SELECT p FROM Pays p WHERE p.nom = :nom"),
     @NamedQuery(name = "Pays.findAllOrderedByName", query = "SELECT p FROM Pays p ORDER BY p.nom"),
     @NamedQuery(name = "Pays.findAllOrderedById", query = "SELECT p FROM Pays p ORDER BY p.idpays DESC"),
-    @NamedQuery(name = "Pays.findByFirstLetter", query = "SELECT p FROM Pays p WHERE p.nom LIKE :lettre ORDER BY p.nom")
-})
+    @NamedQuery(name = "Pays.findByFirstLetter", query = "SELECT p FROM Pays p WHERE p.nom LIKE :lettre ORDER BY p.nom"),
+    @NamedQuery(name = "Pays.findMaxId", query = "SELECT MAX(p.idpays) FROM Pays p")//,
+    //@NamedQuery(name = "Pays.insertNewPays", query = "INSERT INTO Pays VALUES (:idPays, :nom)")
+    })
 
 public class Pays implements Serializable {
     private static final long serialVersionUID = 1L;

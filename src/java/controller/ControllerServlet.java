@@ -27,7 +27,7 @@ import validator.InputValidator;
 @WebServlet(name = "ControllerServlet",
         loadOnStartup = 1,
         urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", "/pays",
-        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations"})
+        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays"})
 public class ControllerServlet extends HttpServlet {
 
     @EJB
@@ -146,6 +146,37 @@ public class ControllerServlet extends HttpServlet {
         else if (userPath.equals("/listePays")){
             getServletContext().setAttribute("tousPays", paysFacade.findAllOrderedByName());
             url = "/WEB-INF/compte_view/listePays.jsp";
+        }
+
+        else if (userPath.equals("/nouveauPays")){
+            String nom = request.getParameter("nouveauPays");
+            List<Pays> pays = paysFacade.findByNom(nom);
+
+            if (pays == null || pays.size()==0){
+                 Integer paysMaxId = paysFacade.findMaxId();
+                int idPays = paysMaxId++;
+                Pays newPays = new entity.Pays(idPays, nom);
+
+                url = "/WEB-INF/compte_view/nouveauPays.jsp";
+            }
+            else {
+                int idPays = pays.get(0).getIdpays();
+                List listeRubriques = rubriqueFacade.findByIdPays(idPays);
+                ArrayList<String> titresRubriques = new ArrayList<String>();
+                ArrayList<entity.Rubrique> rubriquesPubliees = new ArrayList<entity.Rubrique>();
+
+                for (int i = 0; i < listeRubriques.size(); i++){
+                    entity.Rubrique curRub = (Rubrique)listeRubriques.get(i);
+                    String titre = curRub.getNom();
+                    if (!titresRubriques.contains(titre)){
+                        titresRubriques.add(titre);
+                        rubriquesPubliees.add(curRub);
+                    }
+                }
+                request.setAttribute("nom",nom);
+                getServletContext().setAttribute("rubriques", rubriquesPubliees);
+                url = "/WEB-INF/compte_view/pays.jsp";
+            }
         }
 
         else if (userPath.equals("/deconnect")){ //deconnexion
