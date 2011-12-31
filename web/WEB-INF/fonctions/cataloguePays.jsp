@@ -52,8 +52,6 @@
     </tr>
     <tr>
         <td colspan="17">
-            <p>Pays commençant par <%= lettreOpen%></p>
-            <!-- Aller chercher les pays -->
             <%
                 List<entity.Pays> listePays = (List<entity.Pays>)getServletContext().getAttribute("pays");
                 if (listePays != null){

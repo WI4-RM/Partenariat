@@ -4,8 +4,10 @@
 */
 package controller;
 
+import entity.Pays;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -79,9 +81,29 @@ public class ControllerServlet extends HttpServlet {
         }
         else if (userPath.equals("/paysAlphabet")) {
             String lettre = request.getParameter("lettre");
-            List<entity.Pays> liste = paysFacade.findByFirstLetter(lettre);
-            getServletContext().setAttribute("pays", paysFacade.findByFirstLetter(lettre));
-            request.setAttribute("lettre",lettre);
+            
+            int lg = lettre.length();
+            
+            if (lg == 1) {
+                String lettrePourcent = lettre + '%';
+                getServletContext().setAttribute("pays", paysFacade.findByFirstLetter(lettrePourcent));
+                request.setAttribute("lettre",lettre);;
+            }
+            else
+                if (lg > 1){
+                    ArrayList<Pays> liste = new ArrayList<Pays>();
+                    for (int i = 0; i < lg ; i++){
+                        char c = lettre.charAt(i);
+                        if (c != '-'){
+                            String lettrePourcent = String.valueOf(c) + '%';
+                            System.out.println(lettrePourcent);
+                            List listeLettre = paysFacade.findByFirstLetter(lettrePourcent);
+                            liste.addAll(listeLettre);
+                        }
+                    }
+                    request.setAttribute("lettre",lettre);
+                    getServletContext().setAttribute("pays", liste);
+                }
             url = "WEB-INF/fonctions/cataloguePays.jsp";
         }
         else if (userPath.equals("/recherche")) {
