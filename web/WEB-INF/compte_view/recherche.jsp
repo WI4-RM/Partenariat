@@ -11,16 +11,16 @@
    "http://www.w3.org/TR/html4/loose.dtd">
 
 <div class="divBody">
-    <form>
-        <input type="hidden"name="type" value="avancee">
+    <form action="recherche">
+        <input type="hidden" name="type" value="avancee">
         <p>Rechercher un profil</p>
         <input type="text" name="profil"/>
         <p>Rechercher un pays</p>
         <input type="text" name="pays"/>
         <p>Rechercher une ville</p>
         <input type="text" name="ville"/>
+        <br/>
         <input type="submit" value="Recherche">
     </form>
-    <p>Poutou</p>
 </div>
 

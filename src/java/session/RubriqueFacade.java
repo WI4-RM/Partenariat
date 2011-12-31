@@ -5,6 +5,7 @@
 package session;
 
 import entity.Rubrique;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,4 +27,7 @@ public class RubriqueFacade extends AbstractFacade<Rubrique> {
         super(Rubrique.class);
     }
     
+    public List<Rubrique> findByIdPays(String idPays){
+        return em.createNamedQuery("Rubrique.findByIdPays").setParameter("idPays", idPays).getResultList();
+    }
 }

@@ -3,16 +3,10 @@
 <table>
     <tr class="alphabet">
         <%
-            String attrInit = (String)request.getParameter("lettre");
             String attrDemande = (String)request.getAttribute("lettre");
             String lettreOpen = "";
-            if (attrInit == null || attrInit.equals("")){
-                if (attrDemande != null && (!attrDemande.equals(""))){
+            if (attrDemande != null && (!attrDemande.equals(""))){
                     lettreOpen = attrDemande;
-                }
-            }
-            else {
-                lettreOpen = attrInit;
             }
         %>
     <%
@@ -60,8 +54,8 @@
                         String nom = p.getNom();
                         int id = p.getIdpays();
                         %>
-                        <a href="pays?id=<%= id%>"><%= nom%></a>
-
+                        <a href="pays?idPays=<%= id%>&nom=<%= nom%>"><%= nom%></a>
+                        <br/>
                         <%
                     }
                 }

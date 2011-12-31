@@ -4,7 +4,7 @@
     Author     : lolo
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -14,12 +14,13 @@
         <title>Pays</title>
     </head>
     <body>
+        <%
+        //String nom =
+        //ArrayList<entity.Rubrique> listeRub = (ArrayList<entity.Rubrique>)getServletContext().getAttribute("rubriques");
+        %>
         <h1>Hello world !</h1>
         <%
-            String poutou = (String)request.getAttribute("poutou");
-            String poutou2 = (String)session.getAttribute("poutou");
+            
         %>
-        <p><%= poutou%></p>
-        <%= poutou2%>
     </body>
 </html>

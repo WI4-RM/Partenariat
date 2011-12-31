@@ -5,6 +5,7 @@
 package controller;
 
 import entity.Pays;
+import entity.Rubrique;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -34,6 +35,15 @@ public class ControllerServlet extends HttpServlet {
 
     @EJB
     private session.PaysFacade paysFacade;
+
+    @EJB
+    private session.RubriqueFacade rubriqueFacade ;
+
+    @EJB
+    private session.DestinationFacade destinationFacade ;
+
+    @EJB
+    private session.FichierUploadeFacade FichierUploadeFacade ;
 
 
     /**
@@ -75,9 +85,24 @@ public class ControllerServlet extends HttpServlet {
             url = "/WEB-INF/compte_view/pagePrincipale.jsp";
         }
         else if (userPath.equals("/pays")) {
-            //request.setAttribute("poutou", "poutou");
-            //request.getSession().setAttribute("poutou","poutou");
-            url = "/WEB-INF/compte_view" + userPath + ".jsp";
+            String idPays = request.getParameter("idPays");
+            String nom = request.getParameter("nom");
+            List listeRubriques = rubriqueFacade.findByIdPays(idPays);
+            ArrayList<String> titresRubriques = new ArrayList<String>();
+            ArrayList<entity.Rubrique> rubriquesPubliees = new ArrayList<entity.Rubrique>();
+
+            for (int i = 0; i < listeRubriques.size(); i++){
+                entity.Rubrique curRub = (Rubrique)listeRubriques.get(i);
+                String titre = curRub.getNom();
+                if (!titresRubriques.contains(titre)){
+                    titresRubriques.add(titre);
+                    rubriquesPubliees.add(curRub);
+                }
+            }
+
+            request.getSession().setAttribute("nom",nom);
+            getServletContext().setAttribute("rubriques", rubriquesPubliees);
+            url = "/WEB-INF/compte_view/pays.jsp";
         }
         else if (userPath.equals("/paysAlphabet")) {
             String lettre = request.getParameter("lettre");
@@ -87,7 +112,7 @@ public class ControllerServlet extends HttpServlet {
             if (lg == 1) {
                 String lettrePourcent = lettre + '%';
                 getServletContext().setAttribute("pays", paysFacade.findByFirstLetter(lettrePourcent));
-                request.setAttribute("lettre",lettre);;
+                request.setAttribute("lettre",lettre);
             }
             else
                 if (lg > 1){
@@ -96,7 +121,6 @@ public class ControllerServlet extends HttpServlet {
                         char c = lettre.charAt(i);
                         if (c != '-'){
                             String lettrePourcent = String.valueOf(c) + '%';
-                            System.out.println(lettrePourcent);
                             List listeLettre = paysFacade.findByFirstLetter(lettrePourcent);
                             liste.addAll(listeLettre);
                         }

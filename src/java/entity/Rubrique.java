@@ -39,7 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Rubrique.findAll", query = "SELECT r FROM Rubrique r"),
     @NamedQuery(name = "Rubrique.findByIdrubrique", query = "SELECT r FROM Rubrique r WHERE r.idrubrique = :idrubrique"),
     @NamedQuery(name = "Rubrique.findByNom", query = "SELECT r FROM Rubrique r WHERE r.nom = :nom"),
-    @NamedQuery(name = "Rubrique.findByDate", query = "SELECT r FROM Rubrique r WHERE r.date = :date")})
+    @NamedQuery(name = "Rubrique.findByDate", query = "SELECT r FROM Rubrique r WHERE r.date = :date"),
+    //@NamedQuery(name = "Rubrique.findByIdPays", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays = :idPays ORDER BY r.serialVersionUID DESC")})
+    @NamedQuery(name = "Rubrique.findByIdPays", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays = :idPays")})
 public class Rubrique implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
