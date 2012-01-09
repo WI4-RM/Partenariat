@@ -8,16 +8,54 @@
 <div class="divBody">
     <%
     String nom = (String)request.getAttribute("nom");
+    String idPays = (String)request.getAttribute("idPays");
     ArrayList<entity.Rubrique> listeRub = (ArrayList<entity.Rubrique>)getServletContext().getAttribute("rubriques");
     %>
-    <h1><%= nom%></h1>
+    <table width="100%" bgcolor="#b9c5d2">
+        <tr>
+            <td><h1><%= nom%></h1></td>
+            <%
+            //if (request.getAttribute("connecte").equals("true")){
+                %>
+                <td align="right"><span class="alignementDroite"><a href="modifierPays?action=modifierPays&idPays=<%= idPays%>">Modifier</a></span></td>
+                <%-- TODO <td><a href="modifierPays?action=supprimerPays&idPays=<%= idPays%>">Supprimer</a></td>--%>
+                <%
+            //}
+            %>
+        </tr>
+    </table>
+    <br/>
     <%
     for (int i = 0; i < listeRub.size(); i++){
         entity.Rubrique curRub = listeRub.get(i);
+        String nomRub = curRub.getNom();
         %>
-        <h2><%= curRub.getNom()%></h2>
-        <p><%= curRub.getTexte()%></p>
+        <table width="100%" bgcolor="#cae3ff"><div id="<%= nomRub%>">
+            <tr>
+                <td><h2><%= nomRub%></h2></td>
+                <%
+                //if (request.getAttribute("connecte").equals("true")){
+                    %>
+                    <td align="right">
+                        <span class="alignementDroite"><a href="modifierPays?action=modifierRubrique&nomPays=<%= nom%>&idRubrique=<%= curRub.getIdrubrique()%>">Modifier</a></span>
+                    </td>
+                    <%-- TODO <td><a href="modifierPays?action=supprimerRubrique&nomPays=<%= nom%>&idRubrique=<%= curRub.getIdrubrique()%>">Supprimer</a></td>--%>
+                    <%
+                //}
+                %>
+            </tr>
+        </div></table>
+            <p><%= curRub.getTexte()%></p>
         <%
     }
     %>
+    
+    <%
+    //if (request.getAttribute("connecte").equals("true")){
+        %>
+        <a href="modifierPays?action=ajouterCategorie&nomPays=<%= nom%>">Ajouter une categorie</a>
+        <%
+    //}
+    %>
+    <%-- TODO Liste des fichiers uploadés--%>
 </div>

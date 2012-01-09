@@ -27,7 +27,7 @@ import validator.InputValidator;
 @WebServlet(name = "ControllerServlet",
         loadOnStartup = 1,
         urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", "/pays",
-        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays"})
+        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays", "/modifierPays"})
 public class ControllerServlet extends HttpServlet {
 
     @EJB
@@ -78,7 +78,7 @@ public class ControllerServlet extends HttpServlet {
         if (userPath.equals("/inscription")) { //inscription request
 
            // userPath = "inscription";
-            url = "/WEB-INF/compte_view" + userPath + ".jsp";
+            url = "/WEB-INF/compte_view/inscription.jsp";
         }
 
         else if (userPath.equals("/index.html") || userPath.equals("/index") || userPath.equals("")) {
@@ -101,6 +101,7 @@ public class ControllerServlet extends HttpServlet {
                 }
             }
             request.setAttribute("nom",nom);
+            request.setAttribute("idPays", request.getParameter("idPays"));
             getServletContext().setAttribute("rubriques", rubriquesPubliees);
             url = "/WEB-INF/compte_view/pays.jsp";
         }
@@ -153,7 +154,7 @@ public class ControllerServlet extends HttpServlet {
             List<Pays> pays = paysFacade.findByNom(nom);
 
             if (pays == null || pays.size()==0){
-                 Integer paysMaxId = paysFacade.findMaxId();
+                Integer paysMaxId = paysFacade.findMaxId();
                 int idPays = paysMaxId++;
                 Pays newPays = new entity.Pays(idPays, nom);
 
@@ -177,6 +178,27 @@ public class ControllerServlet extends HttpServlet {
                 getServletContext().setAttribute("rubriques", rubriquesPubliees);
                 url = "/WEB-INF/compte_view/pays.jsp";
             }
+        }
+
+        else if (userPath.equals("/modifierPays")){
+            String action = request.getParameter("action");
+
+            if (action.equals("modifierPays")){
+                int idPays = Integer.parseInt(request.getParameter("idPays"));
+                
+                
+            }
+            else if (action.equals("ajouterCategorie")){
+                String nomPays = request.getParameter("nomPays");
+            }
+
+            else if (action.equals("modifierRubrique")){
+                String nomPays = request.getParameter("nomPays");
+                int idRubrique = Integer.parseInt(request.getParameter("idRubrique"));
+                
+            }
+            
+            url = "index.html";
         }
 
         else if (userPath.equals("/deconnect")){ //deconnexion

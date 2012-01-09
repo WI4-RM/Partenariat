@@ -7,6 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
         <link rel="stylesheet" type="text/css" media="screen, projection, print" href="css/pagePrincipale.css" />
+        <script type="javascript" src="javascript/cataloguePays.js" ></script>
         <title>Accueil</title>
     </head>
     <body class="body" onload="cataloguePays('A');">

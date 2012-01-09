@@ -134,52 +134,56 @@ img.logo {
 }
 
 div.intro{
-	position : absolute ;
-	padding-left : 40px ;
-	padding-top : 20px ;
-	top : 0120px ;
-	height : 40px ;
-	left : 300px ;
-	right : 0px ;
-	font-size : 1.2em;
-	color : #003478 ;
+    position : absolute ;
+    padding-left : 40px ;
+    padding-top : 20px ;
+    top : 0120px ;
+    height : 40px ;
+    left : 300px ;
+    right : 0px ;
+    font-size : 1.2em;
+    color : #003478 ;
 }
 
 div.carte{
-	position : absolute ;
-	top : 160px ;
-	bottom : 0px ;
-	left : 300px ;
-	right : 350px ;
-	padding-left : 50px ;
-	padding-top : 60px ;
+    position : absolute ;
+    top : 160px ;
+    bottom : 0px ;
+    left : 300px ;
+    right : 350px ;
+    padding-left : 50px ;
+    padding-top : 60px ;
 }
 
 div.instructions{
-	position : absolute ;
-	line-height : 1.5em ;
-	padding-top : 30px ;
-	padding-left : 30px ;
-	top : 160px ;
-	height : 200px ;
-	right : 0px ;
-	width : 350px ;
+    position : absolute ;
+    line-height : 1.5em ;
+    padding-top : 30px ;
+    padding-left : 30px ;
+    top : 160px ;
+    height : 200px ;
+    right : 0px ;
+    width : 350px ;
 }
 
 div.paysConnus{
-	position : absolute ;
-	padding-left : 30px ;
-	top : 360px ;
-	bottom : 40px ;
-	right : 0px ;
-	width : 350px ;
+    position : absolute ;
+    padding-left : 30px ;
+    top : 360px ;
+    bottom : 40px ;
+    right : 0px ;
+    width : 350px ;
 }
 
 td.ouvert{
-	background-color : #003478 ;
-	color : grey ;
+    background-color : #003478 ;
+    color : grey ;
 }
 
 tr.alphabet{
-	font-size : 0.8em ;
+    font-size : 0.8em ;
+}
+
+span.alignementDroite{
+    text-align: right;
 }

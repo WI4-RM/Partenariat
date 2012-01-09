@@ -48,10 +48,9 @@ public class PaysFacade extends AbstractFacade<Pays> {
     }
 
     /*public void insertNewPays(String nom){
-        Pays paysMaxId = findMaxId().get(0);
-        int idPays = paysMaxId.getIdpays();
+        Integer idPays = findMaxId();
         idPays++;
-        em.createNamedQuery("Pays.insertNewPays").setParameter("idPays", idPays).setParameter("nom", nom).getResultList();
+        em.createNativeQuery("Pays.insertNewPays", Class<session.PaysFacade>).setParameter("idPays", idPays).setParameter("nom", nom).getResultList();
     }*/
     
 }
