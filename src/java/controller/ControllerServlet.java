@@ -100,7 +100,7 @@ public class ControllerServlet extends HttpServlet {
 
         else if (userPath.equals("/pays")) {    //Page d'un pays
             int idPays = Integer.parseInt(request.getParameter("idPays"));
-            String nom = request.getParameter("nom");
+            String nom = paysFacade.findByIdpays(idPays).get(0).getNom();
             List listeRubriques = rubriqueFacade.findByIdPays(idPays);
             ArrayList<String> titresRubriques = new ArrayList<String>();
             ArrayList<entity.Rubrique> rubriquesPubliees = new ArrayList<entity.Rubrique>();
@@ -164,6 +164,7 @@ public class ControllerServlet extends HttpServlet {
 
         else if (userPath.equals("/nouveauPays")){  //Créer un nouveau pays
             String nom = request.getParameter("nouveauPays");
+            nom = partenariat.Util.InitialeMajuscule(nom);
             List<Pays> pays = paysFacade.findByNom(nom);
 
             if (pays == null || pays.size()==0){
@@ -202,19 +203,32 @@ public class ControllerServlet extends HttpServlet {
             int idPays = Integer.parseInt(request.getParameter("idPays"));
             String nomPays = paysFacade.findByIdpays(idPays).get(0).getNom();
 
-            if (action.equals("modifierPays")){
+            if (action.equals("modirubriqueFacade.findByNom(nouveauTitre)fierPays")){
                 
                 url = "index.html";
             }
             else if (action.equals("ajouterRubrique")){
                 String nouveauTitre = request.getParameter("titreNouvelleRubrique");
-                String nouveauContenu = request.getParameter("contenuNouvelleRubrique");
-                rubriqueManager.createRubrique(nouveauTitre, nouveauContenu, idPays);
+                nouveauTitre = partenariat.Util.InitialeMajuscule(nouveauTitre);
+
+                if ((rubriqueFacade.findByNom(nouveauTitre) == null) || (rubriqueFacade.findByNom(nouveauTitre).size() == 0)){
+                    if (nouveauTitre.equals("")){
+                        request.setAttribute("messageErreur","Le titre de la rubrique que vous voulez créer est vide");
+                    }
+                    else {
+                        String nouveauContenu = request.getParameter("contenuNouvelleRubrique");
+                        rubriqueManager.createRubrique(nouveauTitre, nouveauContenu, idPays);
+                    }
+                }
+                else {
+                    request.setAttribute("messageErreur","La catégorie " + nouveauTitre + " existe déjà !");
+                }
             }
 
             else if (action.equals("modifierRubrique")){
                 int idRubrique = Integer.parseInt(request.getParameter("idRubrique"));
-
+                String nouveauContenu = request.getParameter("nouveauContenuRubrique");
+                rubriqueManager.updateText(idRubrique, nouveauContenu, idPays);
             }
             
             request.setAttribute("nom",nomPays);

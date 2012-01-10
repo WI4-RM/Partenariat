@@ -8,7 +8,7 @@
         <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
         <link rel="stylesheet" type="text/css" media="screen, projection, print" href="css/pagePrincipale.css" />
         <script type="text/javascript" src="javascript/cataloguePays.js"></script>
-        <script type="text/javascript" src="javascript/fonctionsAjouts.js"></script>
+        <script type="text/javascript" src="javascript/fonctionsAjoutsModificationPays.js"></script>
         <title>Accueil</title>
     </head>
     <body class="body" onload="cataloguePays('A');">

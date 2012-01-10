@@ -60,4 +60,13 @@ public class Util {
     static public boolean isAdmin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         return false;
     }
+
+    static public String InitialeMajuscule(String mot){
+        if ((mot != null) && (mot.length() > 0)){
+            String premiereLettre = mot.substring(0, 1);
+            String leReste = mot.substring(1);
+            return premiereLettre.toUpperCase() + leReste.toLowerCase();
+        }
+        return mot;
+    }
 }
