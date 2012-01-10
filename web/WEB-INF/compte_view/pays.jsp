@@ -39,6 +39,7 @@
         String texteRub = curRub.getTexte();
         int idRub = curRub.getIdrubrique();
         String idDivTexte = "idDiv" + nomRub;
+        String idParaRub = "paragrapheRub" + nomRub;
         %>
         <table width="100%" bgcolor="#cae3ff"><div id="<%= nomRub%>">
             <tr>
@@ -48,7 +49,7 @@
                     %>
                     <td align="right">
                         <%--<span class="alignementDroite"><a href="modifierPays?action=modifierRubrique&idPays=<%= idPays%>&idRubrique=<%= curRub.getIdrubrique()%>">Modifier</a></span>--%>
-                        <span class="alignementDroite"><a href="javascript:modifierRubrique('<%= idPays%>','<%= idRub%>','<%= texteRub%>', '<%= idDivTexte%>')">Modifier</a></span>
+                        <span class="alignementDroite"><a href='javascript:modifierRubrique("<%= idPays%>","<%= idRub%>","<%= idParaRub%>", "<%= idDivTexte%>")'>Modifier</a></span>
                     </td>
                     <%-- TODO <td><a href="modifierPays?action=supprimerRubrique&nomPays=<%= nom%>&idRubrique=<%= curRub.getIdrubrique()%>">Supprimer</a></td>--%>
                     <%
@@ -56,7 +57,7 @@
                 %>
             </tr>
         </div></table>
-                <div id='<%= idDivTexte%>'><p> <%= texteRub%></p></div>
+                <div id='<%= idDivTexte%>'><p id="<%= idParaRub%>"> <%= texteRub%></p></div>
         <%
     }
     %>
