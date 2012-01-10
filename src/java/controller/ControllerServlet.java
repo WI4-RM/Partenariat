@@ -104,18 +104,38 @@ public class ControllerServlet extends HttpServlet {
             List listeRubriques = rubriqueFacade.findByIdPays(idPays);
             ArrayList<String> titresRubriques = new ArrayList<String>();
             ArrayList<entity.Rubrique> rubriquesPubliees = new ArrayList<entity.Rubrique>();
-
-            for (int i = 0; i < listeRubriques.size(); i++){
-                entity.Rubrique curRub = (Rubrique)listeRubriques.get(i);
-                String titre = curRub.getNom();
-                if (!titresRubriques.contains(titre)){
-                    titresRubriques.add(titre);
-                    rubriquesPubliees.add(curRub);
+            ArrayList<String> titresRubriquesTriees = new ArrayList<String>();
+            ArrayList<entity.Rubrique> rubriquesPublieesTriees = new ArrayList<entity.Rubrique>();
+            int tailleListe = listeRubriques.size();
+            
+            for (int i = 0; i < tailleListe; i++){ //On parcourt la liste de toutes les rubriques qui sont ordonnées par ordre décroissant de date de création
+                entity.Rubrique curRub = (Rubrique)listeRubriques.get(i);   //On choisit l'élément rubrique de la liste
+                String titre = curRub.getNom(); //On en extrait son titre
+                if (!titresRubriques.contains(titre)){  //Si on n'a pas déjà eu une rubrique avec ce titre, ie c'est la plus récente version de cette rubrique
+                    titresRubriques.add(titre); //On ajoute le titre de la rubrique à la liste des rubriques déjà traitees
+                    rubriquesPubliees.add(curRub);  //On ajoute la rubrique à la liste de rubriques à afficher
                 }
             }
+
+            for (int i = 1; i <= tailleListe; i++){
+                entity.Rubrique curRub = (Rubrique)listeRubriques.get(tailleListe - i); //On parcourt la liste dans l'autre sens, ie on s'intéresse à la première
+                                                                                        //fois que la rubrique a été créée
+                String titre = curRub.getNom();
+                if (!titresRubriquesTriees.contains(titre)){
+                    titresRubriquesTriees.add(titre);
+                    for (int j = 0; j < rubriquesPubliees.size(); j++){
+                        entity.Rubrique tempRub = (Rubrique)rubriquesPubliees.get(j);
+                        if (tempRub.getNom().equals(titre)){
+                            rubriquesPublieesTriees.add(tempRub);
+                            break;
+                        }
+                    }
+                }
+            }
+
             request.setAttribute("nom",nom);
             request.setAttribute("idPays", request.getParameter("idPays"));
-            getServletContext().setAttribute("rubriques", rubriquesPubliees);
+            getServletContext().setAttribute("rubriques", rubriquesPublieesTriees);
             url = "/WEB-INF/compte_view/pays.jsp";
         }
         else if (userPath.equals("/paysAlphabet")) {    //Fenetre de la page ppale qui donne les pays existants classés par initiale
