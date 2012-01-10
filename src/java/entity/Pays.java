@@ -69,6 +69,8 @@ public class Pays implements Serializable {
     public Pays(Integer idpays, String nom) {
         this.idpays = idpays;
         this.nom = nom;
+        this.destinationList = null;
+        this.rubriqueList = null;
     }
 
     public Integer getIdpays() {

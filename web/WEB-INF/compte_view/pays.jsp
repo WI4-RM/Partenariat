@@ -24,6 +24,7 @@
             %>
         </tr>
     </table>
+    <div id="map"></div>
     <br/>
     <%
     for (int i = 0; i < listeRub.size(); i++){
@@ -37,7 +38,7 @@
                 //if (request.getAttribute("connecte").equals("true")){
                     %>
                     <td align="right">
-                        <span class="alignementDroite"><a href="modifierPays?action=modifierRubrique&nomPays=<%= nom%>&idRubrique=<%= curRub.getIdrubrique()%>">Modifier</a></span>
+                        <span class="alignementDroite"><a href="modifierPays?action=modifierRubrique&idPays=<%= idPays%>&idRubrique=<%= curRub.getIdrubrique()%>">Modifier</a></span>
                     </td>
                     <%-- TODO <td><a href="modifierPays?action=supprimerRubrique&nomPays=<%= nom%>&idRubrique=<%= curRub.getIdrubrique()%>">Supprimer</a></td>--%>
                     <%
@@ -53,7 +54,7 @@
     <%
     //if (request.getAttribute("connecte").equals("true")){
         %>
-        <a href="modifierPays?action=ajouterCategorie&nomPays=<%= nom%>">Ajouter une categorie</a>
+        <div id="idNouvelleRubrique"><a href="javascript:nouvelleCategorie(<%= idPays%>)">Ajouter une categorie</a></div>
         <%
     //}
     %>

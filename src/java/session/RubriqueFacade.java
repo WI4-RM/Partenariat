@@ -30,4 +30,8 @@ public class RubriqueFacade extends AbstractFacade<Rubrique> {
     public List<Rubrique> findByIdPays(int idPays){
         return em.createNamedQuery("Rubrique.findByIdPays").setParameter("idPays", idPays).getResultList();
     }
+
+    public Integer findMaxId(){
+        return (Integer)em.createNamedQuery("Rubrique.findMaxId").getResultList().get(0);
+    }
 }

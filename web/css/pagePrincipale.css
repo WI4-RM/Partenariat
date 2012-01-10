@@ -60,7 +60,7 @@ div.divBody {
 	border-width : 2px ;
 	border-color : lightgrey ;
 	position : absolute ;
-        /* overflow: scroll ;*/
+        overflow: auto ;
 }
 
 div.bodyDiv a{

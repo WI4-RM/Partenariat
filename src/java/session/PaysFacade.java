@@ -31,6 +31,10 @@ public class PaysFacade extends AbstractFacade<Pays> {
         return em.createNamedQuery("Pays.findByFirstLetter").setParameter("lettre", lettre).getResultList();
     }
 
+    public List<Pays> findByIdpays(int id){
+        return em.createNamedQuery("Pays.findByIdpays").setParameter("idpays", id).getResultList();
+    }
+
     public List<Pays> findAllOrderedByName(){
         return em.createNamedQuery("Pays.findAllOrderedByName").getResultList();
     }

@@ -11,11 +11,15 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import partenariat.PaysManager;
+import partenariat.RubriqueManager;
 
 import session.InscriptionManager;
 import validator.InputValidator;
@@ -30,8 +34,17 @@ import validator.InputValidator;
         "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays", "/modifierPays"})
 public class ControllerServlet extends HttpServlet {
 
+    @PersistenceContext(unitName = "ProjetPartenariatsPU")
+    private EntityManager em;
+
     @EJB
     private InscriptionManager inscriptionManager;
+
+    @EJB
+    private PaysManager paysManager;
+
+    @EJB
+    private RubriqueManager rubriqueManager;
 
     @EJB
     private session.PaysFacade paysFacade;
@@ -45,7 +58,7 @@ public class ControllerServlet extends HttpServlet {
     @EJB
     private session.FichierUploadeFacade FichierUploadeFacade ;
 
-
+    
     /**
 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
 * @param request servlet request
@@ -81,11 +94,11 @@ public class ControllerServlet extends HttpServlet {
             url = "/WEB-INF/compte_view/inscription.jsp";
         }
 
-        else if (userPath.equals("/index.html") || userPath.equals("/index") || userPath.equals("")) {
+        else if (userPath.equals("/index.html") || userPath.equals("/index") || userPath.equals("")) {  //Page d'accueil
             url = "/WEB-INF/compte_view/pagePrincipale.jsp";
         }
 
-        else if (userPath.equals("/pays")) {
+        else if (userPath.equals("/pays")) {    //Page d'un pays
             int idPays = Integer.parseInt(request.getParameter("idPays"));
             String nom = request.getParameter("nom");
             List listeRubriques = rubriqueFacade.findByIdPays(idPays);
@@ -105,7 +118,7 @@ public class ControllerServlet extends HttpServlet {
             getServletContext().setAttribute("rubriques", rubriquesPubliees);
             url = "/WEB-INF/compte_view/pays.jsp";
         }
-        else if (userPath.equals("/paysAlphabet")) {
+        else if (userPath.equals("/paysAlphabet")) {    //Fenetre de la page ppale qui donne les pays existants classés par initiale
             String lettre = request.getParameter("lettre");
             
             int lg = lettre.length();
@@ -131,7 +144,7 @@ public class ControllerServlet extends HttpServlet {
                 }
             url = "WEB-INF/fonctions/cataloguePays.jsp";
         }
-        else if (userPath.equals("/recherche")) {
+        else if (userPath.equals("/recherche")) {   //TODO
             String type = (String)request.getAttribute("type");
             if (type.equals("rapide")){
                 ;
@@ -140,25 +153,29 @@ public class ControllerServlet extends HttpServlet {
                 ;
             }
         }
-        else if (userPath.equals("/afficherRecherche")) {
+        else if (userPath.equals("/afficherRecherche")) {   //Affiche la page de recherche
             url = "/WEB-INF/compte_view/recherche.jsp";
         }
 
-        else if (userPath.equals("/listePays")){
+        else if (userPath.equals("/listePays")){    //Affiche la page de tous les pays créés
             getServletContext().setAttribute("tousPays", paysFacade.findAllOrderedByName());
             url = "/WEB-INF/compte_view/listePays.jsp";
         }
 
-        else if (userPath.equals("/nouveauPays")){
+        else if (userPath.equals("/nouveauPays")){  //Créer un nouveau pays
             String nom = request.getParameter("nouveauPays");
             List<Pays> pays = paysFacade.findByNom(nom);
 
             if (pays == null || pays.size()==0){
                 Integer paysMaxId = paysFacade.findMaxId();
                 int idPays = paysMaxId++;
-                Pays newPays = new entity.Pays(idPays, nom);
+                paysManager.createPays(nom, idPays);
+                //Pays nouveauPays = new entity.Pays(idPays, nom);
+                //em.persist(nouveauPays);
 
-                url = "/WEB-INF/compte_view/nouveauPays.jsp";
+                request.setAttribute("nom",nom);
+                request.setAttribute("idPays", String.valueOf(idPays));
+                url = "/WEB-INF/compte_view/pays.jsp";
             }
             else {
                 int idPays = pays.get(0).getIdpays();
@@ -180,25 +197,30 @@ public class ControllerServlet extends HttpServlet {
             }
         }
 
-        else if (userPath.equals("/modifierPays")){
+        else if (userPath.equals("/modifierPays")){//TODO
             String action = request.getParameter("action");
+            int idPays = Integer.parseInt(request.getParameter("idPays"));
+            String nomPays = paysFacade.findByIdpays(idPays).get(0).getNom();
 
             if (action.equals("modifierPays")){
-                int idPays = Integer.parseInt(request.getParameter("idPays"));
                 
-                
+                url = "index.html";
             }
-            else if (action.equals("ajouterCategorie")){
-                String nomPays = request.getParameter("nomPays");
+            else if (action.equals("ajouterRubrique")){
+                String nouveauTitre = request.getParameter("titreNouvelleRubrique");
+                String nouveauContenu = request.getParameter("contenuNouvelleRubrique");
+                rubriqueManager.createRubrique(nouveauTitre, nouveauContenu, idPays);
             }
 
             else if (action.equals("modifierRubrique")){
-                String nomPays = request.getParameter("nomPays");
                 int idRubrique = Integer.parseInt(request.getParameter("idRubrique"));
-                
+
             }
             
-            url = "index.html";
+            request.setAttribute("nom",nomPays);
+            request.setAttribute("idPays", request.getParameter("idPays"));
+            url= "/pays";
+
         }
 
         else if (userPath.equals("/deconnect")){ //deconnexion
