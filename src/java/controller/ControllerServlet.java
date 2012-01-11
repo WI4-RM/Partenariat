@@ -57,7 +57,7 @@ public class ControllerServlet extends HttpServlet {
     private session.DestinationFacade destinationFacade ;
 
     @EJB
-    private session.FichierUploadeFacade FichierUploadeFacade ;
+    private session.FichierUploadeFacade fichierUploadeFacade ;
 
     @EJB
     private session.ProfilFacade profilFacade ;
@@ -154,9 +154,12 @@ public class ControllerServlet extends HttpServlet {
                 }
             }
 
+
+            fichierUploadeFacade.findByIdrubrique(15);
             request.setAttribute("nom",nomPays);
             request.setAttribute("idPays", request.getParameter("idPays"));
             getServletContext().setAttribute("rubriques", rubriquesPublieesTriees);
+            getServletContext().setAttribute("fichierUploadeFacade", fichierUploadeFacade);
             url = "/WEB-INF/compte_view/pays.jsp";
         }
         else if (userPath.equals("/paysAlphabet")) {    //Fenetre de la page ppale qui donne les pays existants classés par initiale

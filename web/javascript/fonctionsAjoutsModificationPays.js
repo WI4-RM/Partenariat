@@ -46,7 +46,6 @@ function modifierRubrique(idPays, idRubrique, idPara, idDivContenu){
     <br/><input type=\"submit\" value=\"Valider la modification\" />\n\
     <input type=\"button\" value=\"Annuler\" onClick=\"annulerModifierRubrique(\'"+ contenu +"\',\'"+ idDivContenu +"\',\'"+ idPara +"\');\"/>\n\
     </form>";
-    alert();
 }
 
 function annulerModifierRubrique(contenu, idDivContenu, idPara){
@@ -63,4 +62,22 @@ function visibilite(idDiv){
     } else {
         divAModifier.style.display = "none" ;
     }
+}
+
+function nouveauFichier(idDiv, idRub){
+    document.getElementById(idDiv).innerHTML = "";
+    document.getElementById(idDiv).innerHTML += "\
+    <p>Entrez le chemin vers le fichier :</p>\n\
+    <form action=\"nouveauFichier\">\n\
+    <input type=\"hidden\" name=\"idRubrique\" value=\""+ idRub +"\">\n\
+    <input type=\"text\" />\n\
+    <br/><input type=\"submit\" value=\"Envoyer\" />\n\
+    <input type=\"button\" value=\"Annuler\" onClick=\"annulerEnvoiFichier(\'"+ idDiv +"\',\'"+ idRub +"\');\"/>\n\
+    </form>";
+}
+
+function annulerEnvoiFichier(idDiv, idRub){
+    document.getElementById(idDiv).innerHTML = "";
+    document.getElementById(idDiv).innerHTML += "\n\
+    <input type=\"button\" onclick=\"javascript:nouveauFichier('"+ idDiv + "','"+ idRub + "')\" value=\"Uploader un fichier\">";
 }

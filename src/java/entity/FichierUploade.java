@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "FichierUploade.findByIdfichierUploade", query = "SELECT f FROM FichierUploade f WHERE f.idfichierUploade = :idfichierUploade"),
     @NamedQuery(name = "FichierUploade.findByNom", query = "SELECT f FROM FichierUploade f WHERE f.nom = :nom"),
     @NamedQuery(name = "FichierUploade.findByTaille", query = "SELECT f FROM FichierUploade f WHERE f.taille = :taille"),
+    @NamedQuery(name = "FichierUploade.findByIdrubrique", query = "SELECT f FROM FichierUploade f WHERE f.rubriqueIdrubrique.idrubrique = :idRubrique"),
     @NamedQuery(name = "FichierUploade.findByDate", query = "SELECT f FROM FichierUploade f WHERE f.date = :date")})
 public class FichierUploade implements Serializable {
     @Column(name = "date")
