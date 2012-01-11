@@ -37,7 +37,7 @@ div.header {
 
 div.menuGauche{
 	padding-top : 60px ;
-	padding-left : 20px ;
+	/*padding-left : 10px ;*/
 	top : 120px ;
 	bottom : 40px ;
 	left : 0px ;
@@ -51,11 +51,11 @@ div.menuGauche{
 }
 
 div.divBody {
-	padding-left : 50px ;
-	left : 300px;
+	padding-left : 30px ;
+	left : 280px;
 	right : 0px ;
 	top : 120px ;
-	bottom : 40px;
+	bottom : 0px;
 	border-style : solid ;
 	border-width : 2px ;
 	border-color : lightgrey ;
@@ -63,7 +63,7 @@ div.divBody {
         overflow: auto ;
 }
 
-div.bodyDiv a{
+div.divBody a{
 	color : black;
 }
 
@@ -71,17 +71,18 @@ div.footer{
 	height : 40px ;
 	bottom : 0px ;
 	left : 0px ;
-	right : 0px ;
+	width : 280px ;
 	border-style : solid ;
 	border-width : 2px ;
 	border-color : lightgrey ;
 	background-color : #003478 ;
 	color : white ;
 	position : absolute ;
+        font-size: 0.8em;
 }
 
 div.logoEMSE{
-	padding-top : 20px ;
+	/*padding-top : 20px ;*/
 	padding-left : 20px ;
 	width : 200px ;
 	left : 0px ;
@@ -124,35 +125,14 @@ span.titreInscription {
 	padding-left : 100px ;
 }
 
-.boutons td {
-	text-align : center ;
-}
-
-img.logo {
-	position : absolute ;
-	border : none ;
-}
-
-div.intro{
-    position : absolute ;
-    padding-left : 40px ;
-    padding-top : 20px ;
-    top : 0120px ;
-    height : 40px ;
-    left : 300px ;
-    right : 0px ;
-    font-size : 1.2em;
-    color : #003478 ;
-}
-
 div.carte{
     position : absolute ;
-    top : 160px ;
+    top : 120px ;
     bottom : 0px ;
     left : 300px ;
     right : 350px ;
-    padding-left : 50px ;
-    padding-top : 60px ;
+    padding-left : 20px ;
+    /*padding-top : 60px ;*/
 }
 
 div.instructions{

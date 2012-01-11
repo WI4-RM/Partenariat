@@ -44,14 +44,14 @@ function modifierRubrique(idPays, idRubrique, idPara, idDivContenu){
     <input type=\"hidden\" name=\"idRubrique\" value=\""+ idRubrique +"\">\n\
     <input type=\"text\" name=\"nouveauContenuRubrique\" style=\"width:600px; height:200px;\" value=\""+ contenu +"\"/>\n\
     <br/><input type=\"submit\" value=\"Valider la modification\" />\n\
-    </form>\n\
-    <input type=\"button\" value=\"Annuler\" onClick=\"annulerModifierRubrique(\'"+ contenu +"\',\'"+ idDivContenu +"\');\"/>";
+    <input type=\"button\" value=\"Annuler\" onClick=\"annulerModifierRubrique(\'"+ contenu +"\',\'"+ idDivContenu +"\',\'"+ idPara +"\');\"/>\n\
+    </form>";
     alert();
 }
 
-function annulerModifierRubrique(contenu, idDivContenu){
+function annulerModifierRubrique(contenu, idDivContenu, idPara){
     document.getElementById(idDivContenu).innerHTML = "";
-    document.getElementById(idDivContenu).innerHTML += "<p>"+contenu+"</p>";
+    document.getElementById(idDivContenu).innerHTML += "<p id='"+ idPara+"'>"+contenu+"</p>";
 }
 
 function visibilite(idDiv){

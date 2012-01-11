@@ -63,8 +63,8 @@
     <%
     //if (request.getAttribute("connecte").equals("true")){
         %>
-        <div id="idNouvelleRubrique"><a href="javascript:nouvelleCategorie(<%= idPays%>)">Ajouter une categorie</a></div>
-        <%
+        <div id="idNouvelleRubrique"><input type="button" onclick="javascript:nouvelleCategorie('<%= idPays%>')" value="Ajouter une categorie"></div>
+         <%
     //}
     %>
     <%-- TODO Liste des fichiers uploadés--%>

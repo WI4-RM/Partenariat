@@ -8,20 +8,26 @@
 --%>
  
 <div id="divBody">
-    <span class="light"><div class="intro">
-            <p>Cliquez sur la carte pour visiter une destination</p>
-    </div></span>
-    <span class="light"><div class="carte" id="map">
+    <span class="light">
+        <div class="carte" id="map">
+            <p style="font-size: 1.6em;">Choisissez sur la carte un lieu à visiter :</p>
             <a href=""><img alt="carte du monde" src="img/carte.jpg" height="350"/></a>
-    </div></span>
-    <span class="light"><div class="instructions">
-            <div id="idNouveauPays"><p><a href="javascript:nouveauPays();">Ajouter un nouveau pays</a></p></div>
-            <p><a href="">Ajouter un lieu</a></p>
-    </div>	</span>
-    <span class="light"><div class="paysConnus">
-        <p>Les pays déjà répertoriés sont :</p>
-        <div id="idPaysConnus">
         </div>
-    </div></span>
+    </span>
+    <span class="light">
+        <div class="instructions">
+            <div id="idNouveauPays">
+                <p><a href="javascript:nouveauPays();">Ajouter un nouveau pays</a></p>
+            </div>
+            <p><a href="">Ajouter un lieu</a></p>
+        </div>
+    </span>
+    <span class="light">
+        <div class="paysConnus">
+            <p>Les pays déjà répertoriés sont :</p>
+            <div id="idPaysConnus">
+            </div>
+        </div>
+    </span>
 </div>
 	

@@ -2,9 +2,8 @@
 <%@ page pageEncoding="UTF-8" %>
         <span class="dark"><div class="footer" name='footer' id='footer'>
 		<table><tr>
-			<td><a href="http://www.emse.fr">Site de l'école des Mines</a></td>
-			<td><blockquote><a href="http://webeleves.emse.fr">Site des élèves</a></blockquote></td>
-			<td><blockquote><a href="">Contacter l'administrateur</a></blockquote></td>
+                        <td><a href="http://www.emse.fr">Site de l'école des Mines</a></td>
+                        <td style="padding-left: 10px;"><a href="http://webeleves.emse.fr">Site des élèves</a></td>
 		</tr></table>
 	</div></span>
     </body>

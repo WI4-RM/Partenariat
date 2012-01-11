@@ -13,7 +13,10 @@
     </head>
     <body class="body" onload="cataloguePays('A');">
         <span class="dark"><div class="header" id="header">
-            <div class="logoEMSE"><img class="logo" src="img/logoENSMSE.gif"/></div>
+            <div class="logoEMSE">
+                <p><a href="">Contacter l'administrateur</a></p>
+                <img class="logo" alt="logo EMSE" src="img/logoENSMSE.gif"/>
+            </div>
             <div class = "titreBienvenue"><h1>Bienvenue sur le projet MineWorld !</h1></div>
             <div class="inscription"><table class="inscriptionTable">
                 <%
