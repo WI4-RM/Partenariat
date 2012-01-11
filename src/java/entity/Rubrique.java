@@ -40,9 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Rubrique.findByIdrubrique", query = "SELECT r FROM Rubrique r WHERE r.idrubrique = :idrubrique"),
     @NamedQuery(name = "Rubrique.findByNom", query = "SELECT r FROM Rubrique r WHERE r.nom = :nom"),
     @NamedQuery(name = "Rubrique.findByDate", query = "SELECT r FROM Rubrique r WHERE r.date = :date"),
-    @NamedQuery(name = "Rubrique.findMaxId", query = "SELECT MAX(r.idrubrique) FROM Rubrique r"),
+    @NamedQuery(name = "Rubrique.findOrderedByNameThenDate", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays.idpays = :idPays ORDER BY r.nom, r.date DESC"),
+    @NamedQuery(name = "Rubrique.findByNomEtIdpays", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays.idpays = :idPays AND r.nom = :nom"),
     @NamedQuery(name = "Rubrique.findByIdPays", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays.idpays = :idPays ORDER BY r.date DESC")})
-    //@NamedQuery(name = "Rubrique.findByIdPays", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays.idpays = :idPays")})
 public class Rubrique implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)

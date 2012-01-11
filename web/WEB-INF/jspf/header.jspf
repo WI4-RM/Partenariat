@@ -15,7 +15,7 @@
         <span class="dark"><div class="header" id="header">
             <div class="logoEMSE"><img class="logo" src="img/logoENSMSE.gif"/></div>
             <div class = "titreBienvenue"><h1>Bienvenue sur le projet MineWorld !</h1></div>
-            <div class="inscription"><table classe="inscriptionTable">
+            <div class="inscription"><table class="inscriptionTable">
                 <%
                 if (request.getAttribute("connecte").equals("true")){
                 %>

@@ -11,6 +11,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import session.PaysFacade;
 
 /**
  *
@@ -22,12 +23,14 @@ public class PaysManager {
     @PersistenceContext(unitName = "ProjetPartenariatsPU")
     private EntityManager em;
 
-     public boolean createPays(String name, int idPays){
+    @EJB
+    private PaysFacade paysFacade;
+
+     public boolean createPays(String name){
         try {
-            //create profile
+            //create pays
             Pays pays = new Pays();
             pays.setNom(name);
-            pays.setIdpays(idPays);
 
             em.persist(pays);
 

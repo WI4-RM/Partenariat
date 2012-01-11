@@ -187,3 +187,13 @@ tr.alphabet{
 span.alignementDroite{
     text-align: right;
 }
+
+div.listePaysInitiale{
+    overflow: auto ;
+    position : absolute ;
+    padding-left : 30px ;
+    height : 170px ;
+    bottom : 40px ;
+    right : 0px ;
+    width : 350px ;
+}

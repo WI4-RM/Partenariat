@@ -46,6 +46,8 @@
     </tr>
     <tr>
         <td colspan="17">
+            <div class="listePaysInitiale">
+                <div class="listePaysInitialeGauche">
             <%
                 List<entity.Pays> listePays = (List<entity.Pays>)getServletContext().getAttribute("paysAlphabet");
                 if (listePays != null){
@@ -54,13 +56,14 @@
                         String nom = p.getNom();
                         int id = p.getIdpays();
                         %>
-                        <a href="pays?idPays=<%= id%>&nom=<%= nom%>"><%= nom%></a>
-                        <br/>
+                <a href="pays?idPays=<%= id%>&nom=<%= nom%>"><%= nom%></a>
+                <br/>
                         <%
                     }
                 }
             %>
-            
+                </div>
+            </div>
         </td>
     </tr>
 </table>

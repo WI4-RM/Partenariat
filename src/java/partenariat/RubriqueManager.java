@@ -35,12 +35,11 @@ public class RubriqueManager {
             //create rubrique
             Rubrique rubrique = new Rubrique();
             rubrique.setNom(titre);
-            int idRub = rubriqueFacade.findMaxId();
-            idRub++;
-            rubrique.setIdrubrique(idRub);
             rubrique.setTexte(contenu);
             rubrique.setProfilIdprofil(profilFacade.findAll().get(0));    //FIXME mettre l'id de l'utilisateur connecte
-            rubrique.setDate(new Date());
+            Date date = new Date();
+            date.getTime();
+            rubrique.setDate(date);
             rubrique.setPaysIdpays(paysFacade.findByIdpays(idPays).get(0));
 
             em.persist(rubrique);

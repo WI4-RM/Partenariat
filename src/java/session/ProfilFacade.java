@@ -5,6 +5,7 @@
 package session;
 
 import entity.Profil;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,6 +25,10 @@ public class ProfilFacade extends AbstractFacade<Profil> {
 
     public ProfilFacade() {
         super(Profil.class);
+    }
+
+    public List<Profil> findByIdprofil(int id){
+        return em.createNamedQuery("Profil.findByIdprofil").setParameter("idprofil", id).getResultList();
     }
     
 }

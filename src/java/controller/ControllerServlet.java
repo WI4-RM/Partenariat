@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import partenariat.Historique;
 import partenariat.PaysManager;
 import partenariat.RubriqueManager;
 
@@ -58,6 +59,8 @@ public class ControllerServlet extends HttpServlet {
     @EJB
     private session.FichierUploadeFacade FichierUploadeFacade ;
 
+    @EJB
+    private session.ProfilFacade profilFacade ;
     
     /**
 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -98,9 +101,25 @@ public class ControllerServlet extends HttpServlet {
             url = "/WEB-INF/compte_view/pagePrincipale.jsp";
         }
 
+        else if (userPath.equals("/nouveauPays")){  //Créer un nouveau pays
+            String nomPays = request.getParameter("nouveauPays");
+            nomPays = partenariat.Util.InitialeMajuscule(nomPays);
+            List<Pays> pays = paysFacade.findByNom(nomPays);
+            int idPays;
+
+            if ((pays == null) || (pays.size() == 0) || (pays.get(0) == null)){
+                paysManager.createPays(nomPays);
+                idPays = paysFacade.findByNom(nomPays).get(0).getIdpays();
+            }
+            else {
+                idPays = pays.get(0).getIdpays();
+            }
+            url = "/pays?idPays=" + idPays;
+        }
+
         else if (userPath.equals("/pays")) {    //Page d'un pays
             int idPays = Integer.parseInt(request.getParameter("idPays"));
-            String nom = paysFacade.findByIdpays(idPays).get(0).getNom();
+            String nomPays = paysFacade.findByIdpays(idPays).get(0).getNom();
             List listeRubriques = rubriqueFacade.findByIdPays(idPays);
             ArrayList<String> titresRubriques = new ArrayList<String>();
             ArrayList<entity.Rubrique> rubriquesPubliees = new ArrayList<entity.Rubrique>();
@@ -113,7 +132,7 @@ public class ControllerServlet extends HttpServlet {
                 String titre = curRub.getNom(); //On en extrait son titre
                 if (!titresRubriques.contains(titre)){  //Si on n'a pas déjà eu une rubrique avec ce titre, ie c'est la plus récente version de cette rubrique
                     titresRubriques.add(titre); //On ajoute le titre de la rubrique à la liste des rubriques déjà traitees
-                    if (!curRub.getTexte().equals("null")){ //On vérifie que la rubrique n'a pas été supprimée
+                    if (!curRub.getTexte().equals("--null--")){ //On vérifie que la rubrique n'a pas été supprimée
                         rubriquesPubliees.add(curRub);  //On ajoute la rubrique à la liste de rubriques à afficher
                     }
                 }
@@ -135,7 +154,7 @@ public class ControllerServlet extends HttpServlet {
                 }
             }
 
-            request.setAttribute("nom",nom);
+            request.setAttribute("nom",nomPays);
             request.setAttribute("idPays", request.getParameter("idPays"));
             getServletContext().setAttribute("rubriques", rubriquesPublieesTriees);
             url = "/WEB-INF/compte_view/pays.jsp";
@@ -184,42 +203,6 @@ public class ControllerServlet extends HttpServlet {
             url = "/WEB-INF/compte_view/listePays.jsp";
         }
 
-        else if (userPath.equals("/nouveauPays")){  //Créer un nouveau pays
-            String nom = request.getParameter("nouveauPays");
-            nom = partenariat.Util.InitialeMajuscule(nom);
-            List<Pays> pays = paysFacade.findByNom(nom);
-
-            if (pays == null || pays.size()==0){
-                Integer paysMaxId = paysFacade.findMaxId();
-                int idPays = paysMaxId++;
-                paysManager.createPays(nom, idPays);
-                //Pays nouveauPays = new entity.Pays(idPays, nom);
-                //em.persist(nouveauPays);
-
-                request.setAttribute("nom",nom);
-                request.setAttribute("idPays", String.valueOf(idPays));
-                url = "/WEB-INF/compte_view/pays.jsp";
-            }
-            else {
-                int idPays = pays.get(0).getIdpays();
-                List listeRubriques = rubriqueFacade.findByIdPays(idPays);
-                ArrayList<String> titresRubriques = new ArrayList<String>();
-                ArrayList<entity.Rubrique> rubriquesPubliees = new ArrayList<entity.Rubrique>();
-
-                for (int i = 0; i < listeRubriques.size(); i++){
-                    entity.Rubrique curRub = (Rubrique)listeRubriques.get(i);
-                    String titre = curRub.getNom();
-                    if (!titresRubriques.contains(titre)){
-                        titresRubriques.add(titre);
-                        rubriquesPubliees.add(curRub);
-                    }
-                }
-                request.setAttribute("nom",nom);
-                getServletContext().setAttribute("rubriques", rubriquesPubliees);
-                url = "/WEB-INF/compte_view/pays.jsp";
-            }
-        }
-        
         else if (userPath.equals("/modifierPays")){ //Modification des rubriques d'un pays
             String action = request.getParameter("action");
             int idPays = Integer.parseInt(request.getParameter("idPays"));
@@ -228,8 +211,9 @@ public class ControllerServlet extends HttpServlet {
             if (action.equals("ajouterRubrique")){
                 String nouveauTitre = request.getParameter("titreNouvelleRubrique");
                 nouveauTitre = partenariat.Util.InitialeMajuscule(nouveauTitre);
+                List<Rubrique> liste = rubriqueFacade.findByNomEtIdpays(nouveauTitre,idPays);
 
-                if ((rubriqueFacade.findByNom(nouveauTitre) == null) || (rubriqueFacade.findByNom(nouveauTitre).size() == 0)){
+                if ((liste == null) || (liste.size() == 0) || (liste.get(0) == null)){
                     if (nouveauTitre.equals("")){
                         request.setAttribute("messageErreur","Le titre de la rubrique que vous voulez créer est vide");
                     }
@@ -251,7 +235,7 @@ public class ControllerServlet extends HttpServlet {
 
             else if (action.equals("supprimerRubrique")){
                 int idRubrique = Integer.parseInt(request.getParameter("idRubrique"));
-                rubriqueManager.updateText(idRubrique, "null", idPays);
+                rubriqueManager.updateText(idRubrique, "--null--", idPays);
             }
             
             request.setAttribute("nom",nomPays);
@@ -262,8 +246,25 @@ public class ControllerServlet extends HttpServlet {
 
         else if (userPath.equals("/historique")){
             int idPays = Integer.parseInt(request.getParameter("idPays"));
-            // TODO
+            String nomPays = paysFacade.findByIdpays(idPays).get(0).getNom();
+            ArrayList<Historique> listeHist = new ArrayList<Historique>();
+            List<Rubrique> listeRub = rubriqueFacade.findOrderedByNameThenDate(idPays);
 
+            for (int i = 0; i < listeRub.size(); i++){
+                Historique hist = new Historique();
+                Rubrique rub = listeRub.get(i);
+                int idProfil = rub.getProfilIdprofil().getIdprofil();
+                String nomProfil = profilFacade.findByIdprofil(idProfil).get(0).getNom();
+                String prenomProfil = profilFacade.findByIdprofil(idProfil).get(0).getPrenom();
+                hist.setRubrique(rub);
+                hist.setNomProfil(nomProfil);
+                hist.setPrenomProfil(prenomProfil);
+                listeHist.add(hist);
+            }
+
+            request.setAttribute("nom",nomPays);
+            request.setAttribute("idPays", request.getParameter("idPays"));
+            getServletContext().setAttribute("historique", listeHist);
             url = "/WEB-INF/compte_view/historique.jsp";
         }
 
