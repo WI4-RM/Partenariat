@@ -30,7 +30,7 @@ import validator.InputValidator;
 */
 @WebServlet(name = "ControllerServlet",
         loadOnStartup = 1,
-        urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", "/pays",
+        urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", "/pays", "/historique",
         "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays", "/modifierPays"})
 public class ControllerServlet extends HttpServlet {
 
@@ -113,7 +113,9 @@ public class ControllerServlet extends HttpServlet {
                 String titre = curRub.getNom(); //On en extrait son titre
                 if (!titresRubriques.contains(titre)){  //Si on n'a pas déjà eu une rubrique avec ce titre, ie c'est la plus récente version de cette rubrique
                     titresRubriques.add(titre); //On ajoute le titre de la rubrique à la liste des rubriques déjà traitees
-                    rubriquesPubliees.add(curRub);  //On ajoute la rubrique à la liste de rubriques à afficher
+                    if (!curRub.getTexte().equals("null")){ //On vérifie que la rubrique n'a pas été supprimée
+                        rubriquesPubliees.add(curRub);  //On ajoute la rubrique à la liste de rubriques à afficher
+                    }
                 }
             }
 
@@ -217,17 +219,13 @@ public class ControllerServlet extends HttpServlet {
                 url = "/WEB-INF/compte_view/pays.jsp";
             }
         }
-
-        else if (userPath.equals("/modifierPays")){//TODO
+        
+        else if (userPath.equals("/modifierPays")){ //Modification des rubriques d'un pays
             String action = request.getParameter("action");
             int idPays = Integer.parseInt(request.getParameter("idPays"));
             String nomPays = paysFacade.findByIdpays(idPays).get(0).getNom();
 
-            if (action.equals("modirubriqueFacade.findByNom(nouveauTitre)fierPays")){
-                
-                url = "index.html";
-            }
-            else if (action.equals("ajouterRubrique")){
+            if (action.equals("ajouterRubrique")){
                 String nouveauTitre = request.getParameter("titreNouvelleRubrique");
                 nouveauTitre = partenariat.Util.InitialeMajuscule(nouveauTitre);
 
@@ -250,11 +248,23 @@ public class ControllerServlet extends HttpServlet {
                 String nouveauContenu = request.getParameter("nouveauContenuRubrique");
                 rubriqueManager.updateText(idRubrique, nouveauContenu, idPays);
             }
+
+            else if (action.equals("supprimerRubrique")){
+                int idRubrique = Integer.parseInt(request.getParameter("idRubrique"));
+                rubriqueManager.updateText(idRubrique, "null", idPays);
+            }
             
             request.setAttribute("nom",nomPays);
             request.setAttribute("idPays", request.getParameter("idPays"));
             url= "/pays";
 
+        }
+
+        else if (userPath.equals("/historique")){
+            int idPays = Integer.parseInt(request.getParameter("idPays"));
+            // TODO
+
+            url = "/WEB-INF/compte_view/historique.jsp";
         }
 
         else if (userPath.equals("/deconnect")){ //deconnexion

@@ -17,14 +17,13 @@
     String idPays = (String)request.getAttribute("idPays");
     ArrayList<entity.Rubrique> listeRub = (ArrayList<entity.Rubrique>)getServletContext().getAttribute("rubriques");
     %>
-    <table width="100%" bgcolor="#b9c5d2">
+    <table width="100%" bgcolor="#b9c5d2" cellpadding="">
         <tr>
             <td><h1><%= nom%></h1></td>
             <%
             //if (request.getAttribute("connecte").equals("true")){
                 %>
-                <td align="right"><span class="alignementDroite"><a href="modifierPays?action=modifierPays&idPays=<%= idPays%>">Modifier</a></span></td>
-                <%-- TODO <td><a href="modifierPays?action=supprimerPays&idPays=<%= idPays%>">Supprimer</a></td>--%>
+                <td align="right"><span class="alignementDroite"><a href="historique?idPays=<%= idPays%>">Historique</a></span></td>
                 <%
             //}
             %>
@@ -48,10 +47,9 @@
                 //if (request.getAttribute("connecte").equals("true")){
                     %>
                     <td align="right">
-                        <%--<span class="alignementDroite"><a href="modifierPays?action=modifierRubrique&idPays=<%= idPays%>&idRubrique=<%= curRub.getIdrubrique()%>">Modifier</a></span>--%>
-                        <span class="alignementDroite"><a href='javascript:modifierRubrique("<%= idPays%>","<%= idRub%>","<%= idParaRub%>", "<%= idDivTexte%>")'>Modifier</a></span>
+                        <span class="alignementDroite"><a href='javascript:modifierRubrique("<%= idPays%>","<%= idRub%>","<%= idParaRub%>", "<%= idDivTexte%>")'>Modifier</a>
+                        <br/><a href="modifierPays?action=supprimerRubrique&idPays=<%= idPays%>&idRubrique=<%= curRub.getIdrubrique()%>">Supprimer</a></span>
                     </td>
-                    <%-- TODO <td><a href="modifierPays?action=supprimerRubrique&nomPays=<%= nom%>&idRubrique=<%= curRub.getIdrubrique()%>">Supprimer</a></td>--%>
                     <%
                 //}
                 %>
