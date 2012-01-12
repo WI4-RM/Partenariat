@@ -4,6 +4,7 @@
 */
 package controller;
 
+import entity.FichierUploade;
 import entity.Pays;
 import entity.Rubrique;
 import java.io.IOException;
@@ -103,18 +104,24 @@ public class ControllerServlet extends HttpServlet {
 
         else if (userPath.equals("/nouveauPays")){  //Créer un nouveau pays
             String nomPays = request.getParameter("nouveauPays");
-            nomPays = partenariat.Util.InitialeMajuscule(nomPays);
-            List<Pays> pays = paysFacade.findByNom(nomPays);
-            int idPays;
+            if (!nomPays.equals("")){
+                nomPays = partenariat.Util.InitialeMajuscule(nomPays);
+                List<Pays> pays = paysFacade.findByNom(nomPays);
+                int idPays;
 
-            if ((pays == null) || (pays.size() == 0) || (pays.get(0) == null)){
-                paysManager.createPays(nomPays);
-                idPays = paysFacade.findByNom(nomPays).get(0).getIdpays();
+                if ((pays == null) || (pays.size() == 0) || (pays.get(0) == null)){
+                    paysManager.createPays(nomPays);
+                    idPays = paysFacade.findByNom(nomPays).get(0).getIdpays();
+                }
+                else {
+                    idPays = pays.get(0).getIdpays();
+                }
+                url = "/pays?idPays=" + idPays;
             }
             else {
-                idPays = pays.get(0).getIdpays();
+                request.setAttribute("erreurCreationPays","Le nom du pays entré est vide");
+                url = "";
             }
-            url = "/pays?idPays=" + idPays;
         }
 
         else if (userPath.equals("/pays")) {    //Page d'un pays
@@ -155,9 +162,10 @@ public class ControllerServlet extends HttpServlet {
             }
 
 
-            fichierUploadeFacade.findByIdrubrique(15);
+            List<FichierUploade> liste = fichierUploadeFacade.findByIdrubrique(15);
             request.setAttribute("nom",nomPays);
             request.setAttribute("idPays", request.getParameter("idPays"));
+            getServletContext().setAttribute("titresRub", titresRubriquesTriees);
             getServletContext().setAttribute("rubriques", rubriquesPublieesTriees);
             getServletContext().setAttribute("fichierUploadeFacade", fichierUploadeFacade);
             url = "/WEB-INF/compte_view/pays.jsp";

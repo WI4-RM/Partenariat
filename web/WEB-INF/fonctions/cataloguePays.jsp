@@ -50,8 +50,24 @@
                 <div class="listePaysInitialeGauche">
             <%
                 List<entity.Pays> listePays = (List<entity.Pays>)getServletContext().getAttribute("paysAlphabet");
+                int milieu = listePays.size()/2;
                 if (listePays != null){
-                    for (int i = 0; i < listePays.size(); i++){
+                    for (int i = 0; i < milieu; i++){
+                        entity.Pays p = listePays.get(i);
+                        String nom = p.getNom();
+                        int id = p.getIdpays();
+                        %>
+                <a href="pays?idPays=<%= id%>&nom=<%= nom%>"><%= nom%></a>
+                <br/>
+                        <%
+                    }
+                }
+            %>
+                </div>
+                <div class="listePaysInitialeDroite">
+            <%
+                if (listePays != null){
+                    for (int i = milieu; i < listePays.size(); i++){
                         entity.Pays p = listePays.get(i);
                         String nom = p.getNom();
                         int id = p.getIdpays();

@@ -30,8 +30,16 @@ function nouvelleCategorie(idPays){
             <td><input type=\"text\" name=\"contenuNouvelleRubrique\" style=\"width:600px; height:200px;\" /></td>\n\
         </tr>\n\
     </table>\n\
-    <input type=\"submit\" value=\"Creer une nouvelle rubrique\">\n\
+    <input type=\"submit\" value=\"Creer une nouvelle rubrique\" onClick=\"javascript:annulerModifierRubrique("+ idPays+ ");\">\n\
+    <input type=\"button\" value=\"Annuler\">\n\
     </form>";
+    window.location.href = "#idNouvelleRubrique";
+}
+
+function annulerModifierRubrique(idPays){
+    document.getElementById('idNouvelleRubrique').innerHTML = "";
+    document.getElementById('idNouvelleRubrique').innerHTML += "\
+        <input type=\"button\" onclick=\"javascript:nouvelleCategorie('"+idPays+"')\" value=\"Ajouter une categorie\">";
 }
 
 function modifierRubrique(idPays, idRubrique, idPara, idDivContenu){
@@ -80,4 +88,9 @@ function annulerEnvoiFichier(idDiv, idRub){
     document.getElementById(idDiv).innerHTML = "";
     document.getElementById(idDiv).innerHTML += "\n\
     <input type=\"button\" onclick=\"javascript:nouveauFichier('"+ idDiv + "','"+ idRub + "')\" value=\"Uploader un fichier\">";
+}
+
+function goToSection(id){
+    var section = "#" + id;
+    window.location.href = section;
 }

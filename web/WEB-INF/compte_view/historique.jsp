@@ -12,6 +12,8 @@
     ArrayList<Historique> listeHist = (ArrayList<Historique>)getServletContext().getAttribute("historique");
     %>
     <h1>Historique - <a href="pays?idPays=<%= idPays%>"><%= nomPays%></a></h1>
+    <br/>
+    <br/>
     <%
     String titreRub = "--init--";
     for (int i = 0; i < listeHist.size(); i++){
@@ -62,4 +64,7 @@
     }
     %>
     </table>
+    <br/>
+    <br/>
+    <a href="pays?idPays=<%= idPays%>">Retour à la page "<%= nomPays%>"</a>
 </div>

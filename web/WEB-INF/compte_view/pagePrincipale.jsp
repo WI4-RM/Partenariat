@@ -17,6 +17,14 @@
     <span class="light">
         <div class="instructions">
             <div id="idNouveauPays">
+                <%
+                String erreur = (String)request.getAttribute("erreurCreationPays");
+                if ((erreur != null) && (!erreur.equals(""))){
+                %>
+                <p style="color: red;"><%= erreur%></p>
+                <%
+                }
+                %>
                 <p><a href="javascript:nouveauPays();">Ajouter un nouveau pays</a></p>
             </div>
             <p><a href="">Ajouter un lieu</a></p>

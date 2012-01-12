@@ -10,25 +10,38 @@
     String msg = (String)request.getAttribute("messageErreur");
     if (msg != null){
         %>
-        <p style="color: red"><%= msg%></p>
+    <p style="color: red"><%= msg%></p>
         <%
     }
-    String nom = (String)request.getAttribute("nom");
+    String nomPays = (String)request.getAttribute("nom");
     String idPays = (String)request.getAttribute("idPays");
     ArrayList<entity.Rubrique> listeRub = (ArrayList<entity.Rubrique>)getServletContext().getAttribute("rubriques");
+    ArrayList<String> listeTitresRub = (ArrayList<String>)getServletContext().getAttribute("titresRub");
     %>
     <table width="100%" bgcolor="#b9c5d2" cellpadding="">
         <tr>
-            <td><h1><%= nom%></h1></td>
+            <td><h1 id="<%= nomPays%>"><%= nomPays%></h1></td>
             <%
             //if (request.getAttribute("connecte").equals("true")){
                 %>
-                <td align="right"><span class="alignementDroite"><a href="historique?idPays=<%= idPays%>">Historique</a></span></td>
+            <td align="right"><span class="alignementDroite"><a href="historique?idPays=<%= idPays%>">Historique</a></span></td>
                 <%
             //}
             %>
         </tr>
     </table>
+        <ul>
+            <li><a href="javascript:goToSection('map')">Carte</a></li>
+            <%
+
+            for (int titreIndex = 0; titreIndex < listeTitresRub.size() ; titreIndex++){
+                String titre = listeTitresRub.get(titreIndex);
+                %>
+                <li><a href="javascript:goToSection('<%= titre%>')"><%= titre%></a></li>
+                <%
+            }
+            %>
+        </ul>
     <div id="map"></div>
     <br/>
     <%
@@ -43,7 +56,7 @@
         <table width="100%" bgcolor="#cae3ff">
             <div id="<%= nomRub%>">
                 <tr>
-                    <td><h2><%= nomRub%></h2></td>
+                    <td><h2 id="<%= nomRub%>"><%= nomRub%></h2></td>
                     <%
                     //if (request.getAttribute("connecte").equals("true")){
                         %>
@@ -80,12 +93,14 @@
         <div id='<%= idDivNouveauFichier%>'>
             <input type="button" onclick="javascript:nouveauFichier('<%= idDivNouveauFichier%>','<%= idRub%>')" value="Uploader un fichier">
         </div>
+            <a href="javascript:goToSection('<%= nomPays%>')">Retourner en haut de la page</a>
         <%
     }
     %>
     <%
     //if (request.getAttribute("connecte").equals("true")){
         %>
+        <br/>
         <div id="idNouvelleRubrique">
             <input type="button" onclick="javascript:nouvelleCategorie('<%= idPays%>')" value="Ajouter une categorie">
         </div>

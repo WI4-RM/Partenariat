@@ -177,3 +177,19 @@ div.listePaysInitiale{
     right : 0px ;
     width : 350px ;
 }
+
+div.listePaysInitialeDroite{
+    position : relative ;
+    top : 0px ;
+    bottom : 0px ;
+    right : 0px ;
+    width : 175px ;
+}
+
+div.listePaysInitialeGauche{
+    position : relative ;
+    top : 0px ;
+    bottom : 0px ;
+    left : 0px ;
+    width : 175px ;
+}
