@@ -29,8 +29,8 @@ public class FichierUploadeFacade extends AbstractFacade<FichierUploade> {
     }
 
     public List<FichierUploade> findByIdpays(int idPays){
-        //FIXME comment mettre à jour les beans entity après modif de la bdd
-        //return em.createNamedQuery("FichierUploade.findByIdpays").setParameter("idPays", idPays).getResultList();
-        return new ArrayList<FichierUploade>();
+        //FIXME
+        return em.createNamedQuery("FichierUploade.findByIdpays").setParameter("idPays", idPays).getResultList();
+        //return new ArrayList<FichierUploade>();
     }
 }

@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -17,19 +18,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fingon
  * @author lolo
  */
-@Entity 
+@Entity
 @Table(name = "pays")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pays.findAll", query = "SELECT p FROM Pays p"),
     @NamedQuery(name = "Pays.findByIdpays", query = "SELECT p FROM Pays p WHERE p.idpays = :idpays"),
@@ -37,22 +32,20 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pays.findAllOrderedByName", query = "SELECT p FROM Pays p ORDER BY p.nom"),
     @NamedQuery(name = "Pays.findAllOrderedById", query = "SELECT p FROM Pays p ORDER BY p.idpays DESC"),
     @NamedQuery(name = "Pays.findByFirstLetter", query = "SELECT p FROM Pays p WHERE p.nom LIKE :lettre ORDER BY p.nom")})
-
 public class Pays implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    //@NotNull
     @Column(name = "idpays")
     private Integer idpays;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
     @Column(name = "nom")
     private String nom;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paysIdpays")
     private List<Rubrique> rubriqueList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paysIdpays")
+    private List<FichierUploade> fichierUploadeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pays")
     private List<Destination> destinationList;
 
@@ -66,8 +59,6 @@ public class Pays implements Serializable {
     public Pays(Integer idpays, String nom) {
         this.idpays = idpays;
         this.nom = nom;
-        this.destinationList = null;
-        this.rubriqueList = null;
     }
 
     public Integer getIdpays() {
@@ -86,7 +77,6 @@ public class Pays implements Serializable {
         this.nom = nom;
     }
 
-    @XmlTransient
     public List<Rubrique> getRubriqueList() {
         return rubriqueList;
     }
@@ -95,7 +85,14 @@ public class Pays implements Serializable {
         this.rubriqueList = rubriqueList;
     }
 
-    @XmlTransient
+    public List<FichierUploade> getFichierUploadeList() {
+        return fichierUploadeList;
+    }
+
+    public void setFichierUploadeList(List<FichierUploade> fichierUploadeList) {
+        this.fichierUploadeList = fichierUploadeList;
+    }
+
     public List<Destination> getDestinationList() {
         return destinationList;
     }
@@ -126,7 +123,7 @@ public class Pays implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Pays[ idpays=" + idpays + " ]";
+        return "entity.Pays[idpays=" + idpays + "]";
     }
-    
+
 }

@@ -2,13 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,22 +18,16 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fingon
+ * @author lolo
  */
 @Entity
 @Table(name = "rubrique")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rubrique.findAll", query = "SELECT r FROM Rubrique r"),
     @NamedQuery(name = "Rubrique.findByIdrubrique", query = "SELECT r FROM Rubrique r WHERE r.idrubrique = :idrubrique"),
@@ -44,31 +37,26 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Rubrique.findByNomEtIdpays", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays.idpays = :idPays AND r.nom = :nom"),
     @NamedQuery(name = "Rubrique.findByIdPays", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays.idpays = :idPays ORDER BY r.date DESC")})
 public class Rubrique implements Serializable {
-    @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    //@NotNull
     @Column(name = "idrubrique")
     private Integer idrubrique;
-    @Size(max = 45)
     @Column(name = "nom")
     private String nom;
     @Lob
-    @Size(max = 2147483647)
     @Column(name = "texte")
     private String texte;
-    @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil")
-    @ManyToOne(optional = false)
-    private Profil profilIdprofil;
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     @JoinColumn(name = "pays_idpays", referencedColumnName = "idpays")
     @ManyToOne(optional = false)
     private Pays paysIdpays;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rubriqueIdrubrique")
-    private List<FichierUploade> fichierUploadeList;
+    @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil")
+    @ManyToOne(optional = false)
+    private Profil profilIdprofil;
 
     public Rubrique() {
     }
@@ -101,12 +89,12 @@ public class Rubrique implements Serializable {
         this.texte = texte;
     }
 
-    public Profil getProfilIdprofil() {
-        return profilIdprofil;
+    public Date getDate() {
+        return date;
     }
 
-    public void setProfilIdprofil(Profil profilIdprofil) {
-        this.profilIdprofil = profilIdprofil;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Pays getPaysIdpays() {
@@ -117,13 +105,12 @@ public class Rubrique implements Serializable {
         this.paysIdpays = paysIdpays;
     }
 
-    @XmlTransient
-    public List<FichierUploade> getFichierUploadeList() {
-        return fichierUploadeList;
+    public Profil getProfilIdprofil() {
+        return profilIdprofil;
     }
 
-    public void setFichierUploadeList(List<FichierUploade> fichierUploadeList) {
-        this.fichierUploadeList = fichierUploadeList;
+    public void setProfilIdprofil(Profil profilIdprofil) {
+        this.profilIdprofil = profilIdprofil;
     }
 
     @Override
@@ -148,15 +135,7 @@ public class Rubrique implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Rubrique[ idrubrique=" + idrubrique + " ]";
+        return "entity.Rubrique[idrubrique=" + idrubrique + "]";
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-    
 }
