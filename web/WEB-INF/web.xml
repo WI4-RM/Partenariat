@@ -10,12 +10,16 @@
             <description>header and footer settings</description>
             <url-pattern>/WEB-INF/compte_view/pagePrincipale.jsp</url-pattern>
             <url-pattern>/WEB-INF/compte_view/recherche.jsp</url-pattern>
+            <url-pattern>/WEB-INF/compte_view/pays.jsp</url-pattern>
+            <url-pattern>/WEB-INF/compte_view/listePays.jsp</url-pattern>
+            <url-pattern>/WEB-INF/compte_view/inscription.jsp</url-pattern>
+            <url-pattern>/WEB-INF/compte_view/historique.jsp</url-pattern>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
     </jsp-config>
     <resource-ref>
-        <res-ref-name>jdbc/mineworld</res-ref-name>
+        <res-ref-name>jdbc/projetPartenariat</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>

@@ -5,6 +5,8 @@
 package session;
 
 import entity.FichierUploade;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,5 +27,10 @@ public class FichierUploadeFacade extends AbstractFacade<FichierUploade> {
     public FichierUploadeFacade() {
         super(FichierUploade.class);
     }
-    
+
+    public List<FichierUploade> findByIdpays(int idPays){
+        //FIXME comment mettre à jour les beans entity après modif de la bdd
+        //return em.createNamedQuery("FichierUploade.findByIdpays").setParameter("idPays", idPays).getResultList();
+        return new ArrayList<FichierUploade>();
+    }
 }

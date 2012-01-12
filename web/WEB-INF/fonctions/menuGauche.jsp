@@ -2,12 +2,8 @@
     <div class="menuGauche" id='menuGauche' class='menuGauche'>
         <ul>
             <li><a href="index.html">Accueil</a></li>
-            <li><a href="">Liste des pays</a></li>
-            <li><a href="">Dernières destinations ajoutées</a></li>
-            <ul>
-                    <li><a href="">Cambodge</a></li>
-                    <li><a href="">Mexique</a></li>
-            </ul>
+            <li><a href="listePays">Liste des pays</a></li>
+            <%@ include file="dernieresDestinations.jsp"%>
             <li><a href="afficherRecherche">Recherche</a></li>
             <%
             if (request.getAttribute("connecte").equals("true")){

@@ -39,7 +39,6 @@ public class CompteFacade extends AbstractFacade<Compte> {
     
     public List<Compte> findByEmail(String email ){
         return em.createNamedQuery("Compte.findByEmail").setParameter("email", email).getResultList();
-       
     }
     
     

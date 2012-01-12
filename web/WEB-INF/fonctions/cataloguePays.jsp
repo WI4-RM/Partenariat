@@ -3,16 +3,10 @@
 <table>
     <tr class="alphabet">
         <%
-            String attrInit = (String)request.getParameter("lettre");
             String attrDemande = (String)request.getAttribute("lettre");
             String lettreOpen = "";
-            if (attrInit == null || attrInit.equals("")){
-                if (attrDemande != null && (!attrDemande.equals(""))){
+            if (attrDemande != null && (!attrDemande.equals(""))){
                     lettreOpen = attrDemande;
-                }
-            }
-            else {
-                lettreOpen = attrInit;
             }
         %>
     <%
@@ -52,8 +46,40 @@
     </tr>
     <tr>
         <td colspan="17">
-            <!-- Aller chercher les pays -->
-            <p>Pays commençant par <%= lettreOpen%></p>
+            <div class="listePaysInitiale">
+                <div class="listePaysInitialeGauche">
+            <%
+                List<entity.Pays> listePays = (List<entity.Pays>)getServletContext().getAttribute("paysAlphabet");
+                int milieu = listePays.size()/2;
+                if (listePays != null){
+                    for (int i = 0; i < milieu; i++){
+                        entity.Pays p = listePays.get(i);
+                        String nom = p.getNom();
+                        int id = p.getIdpays();
+                        %>
+                <a href="pays?idPays=<%= id%>&nom=<%= nom%>"><%= nom%></a>
+                <br/>
+                        <%
+                    }
+                }
+            %>
+                </div>
+                <div class="listePaysInitialeDroite">
+            <%
+                if (listePays != null){
+                    for (int i = milieu; i < listePays.size(); i++){
+                        entity.Pays p = listePays.get(i);
+                        String nom = p.getNom();
+                        int id = p.getIdpays();
+                        %>
+                <a href="pays?idPays=<%= id%>&nom=<%= nom%>"><%= nom%></a>
+                <br/>
+                        <%
+                    }
+                }
+            %>
+                </div>
+            </div>
         </td>
     </tr>
 </table>
