@@ -7,9 +7,11 @@ package controller;
 import entity.FichierUploade;
 import entity.Pays;
 import entity.Rubrique;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
@@ -26,6 +28,11 @@ import partenariat.RubriqueManager;
 import session.InscriptionManager;
 import validator.InputValidator;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import partenariat.FichierManager;
 /**
 *
 * @author fingon
@@ -33,7 +40,7 @@ import validator.InputValidator;
 @WebServlet(name = "ControllerServlet",
         loadOnStartup = 1,
         urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", "/pays", "/historique",
-        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays", "/modifierPays"})
+        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays", "/modifierPays", "/uploadFichier"})
 public class ControllerServlet extends HttpServlet {
 
     @PersistenceContext(unitName = "ProjetPartenariatsPU")
@@ -47,6 +54,9 @@ public class ControllerServlet extends HttpServlet {
 
     @EJB
     private RubriqueManager rubriqueManager;
+
+    @EJB
+    private FichierManager fichierManager;
 
     @EJB
     private session.PaysFacade paysFacade;
@@ -277,6 +287,32 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("idPays", request.getParameter("idPays"));
             getServletContext().setAttribute("historique", listeHist);
             url = "/WEB-INF/compte_view/historique.jsp";
+        }
+
+        else if (userPath.equals("/uploadFichier")){
+            int idPays = Integer.parseInt(request.getParameter("idPays"));
+            int idProfil = profilFacade.findAll().get(0).getIdprofil(); //FIXME l'id de l'utilisateur connecté
+            try {
+                // Create a factory for disk-based file items
+                FileItemFactory factory = new DiskFileItemFactory();
+                // Create a new file upload handler
+                ServletFileUpload upload = new ServletFileUpload(factory);
+                // Parse the request
+                List items;
+                items = upload.parseRequest(request);
+                // Process the uploaded items
+                int idFichier = 0;
+                Iterator iter = items.iterator();
+                FileItem item = (FileItem) iter.next();
+                String urlFichier = "/fichiersUploades/" + idFichier + ".jpg";
+                String context = getServletContext().getRealPath(urlFichier);
+                File uploadedFile = new File(context);
+                item.write(uploadedFile);
+                //On crée la photo
+                //fichierManager.createFichier(urlFichier, idPays, idProfil, uploadedFile.length());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
 
         else if (userPath.equals("/deconnect")){ //deconnexion
