@@ -161,7 +161,6 @@ public class ControllerServlet extends HttpServlet {
                 }
             }
 
-
             List<FichierUploade> liste = fichierUploadeFacade.findByIdpays(idPays);
 
             request.setAttribute("nom",nomPays);

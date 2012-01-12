@@ -4,7 +4,7 @@
     Author     : lolo
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,javax.ejb.EJB,session.FichierUploadeFacade,entity.FichierUploade"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,entity.FichierUploade,entity.FichierUploade"%>
 <div class="divBody">
     <%
     String msg = (String)request.getAttribute("messageErreur");
@@ -17,6 +17,7 @@
     String idPays = (String)request.getAttribute("idPays");
     ArrayList<entity.Rubrique> listeRub = (ArrayList<entity.Rubrique>)getServletContext().getAttribute("rubriques");
     ArrayList<String> listeTitresRub = (ArrayList<String>)getServletContext().getAttribute("titresRub");
+    ArrayList<FichierUploade> listeFichiers = (ArrayList<FichierUploade>)getServletContext().getAttribute("fichiers");
     %>
     <table width="100%" bgcolor="#b9c5d2" cellpadding="">
         <tr>
@@ -33,11 +34,15 @@
         <ul>
             <li><a href="javascript:goToSection('map')">Carte</a></li>
             <%
-
             for (int titreIndex = 0; titreIndex < listeTitresRub.size() ; titreIndex++){
                 String titre = listeTitresRub.get(titreIndex);
                 %>
-                <li><a href="javascript:goToSection('<%= titre%>')"><%= titre%></a></li>
+            <li><a href="javascript:goToSection('<%= titre%>')"><%= titre%></a></li>
+                <%
+            }
+            if (listeFichiers.size() > 0){
+                %>
+            <li><a href="javascript:goToSection('fichiersUpload')">Carte</a></li>
                 <%
             }
             %>
@@ -45,7 +50,7 @@
     <div id="map"></div>
     <br/>
     <%
-    for (int i = 0; i < listeRub.size(); i++){
+    for (int i = 0; i < listeRub.size(); i++){  //On parcout la liste des rubriques
         entity.Rubrique curRub = listeRub.get(i);
         String nomRub = curRub.getNom();
         String texteRub = curRub.getTexte();
@@ -73,10 +78,22 @@
         <div id='<%= idDivTexte%>'>
             <p id="<%= idParaRub%>"> <%= texteRub%></p>
         </div>
-        <h2>Fichiers uploadés :</h2>
         <%
-        FichierUploadeFacade fichierUploadeFacade = (FichierUploadeFacade)getServletContext().getAttribute("fichierUploadeFacade");
-        List<FichierUploade> listeFichiers = fichierUploadeFacade.findByIdrubrique(idRub);
+    }
+
+     //if (request.getAttribute("connecte").equals("true")){
+        %>
+    <br/>
+    <div id="idNouvelleRubrique">
+        <input type="button" onclick="javascript:nouvelleCategorie('<%= idPays%>')" value="Ajouter une categorie">
+    </div>
+         <%
+    //}
+
+    if (listeFichiers.size() > 0){
+        %>
+    <h2 id="fichiersUpload">Fichiers uploadés :</h2>
+        <%
         for (int j = 0; j < listeFichiers.size(); j++) {
             FichierUploade fichier = listeFichiers.get(j);
             String nomFichier = fichier.getNom();
@@ -87,25 +104,12 @@
             <p><a href="<%= nomFichier%>"><%= nomFichier%></a> (<%= tailleFichier%>), mis en ligne par <a href=""><%= prenomProfil%><%= nomProfil%></a></p>
             <%
         }
-        
-        String idDivNouveauFichier = "idNouveauFichier" + nomRub;
-        %>
-        <div id='<%= idDivNouveauFichier%>'>
-            <input type="button" onclick="javascript:nouveauFichier('<%= idDivNouveauFichier%>','<%= idRub%>')" value="Uploader un fichier">
-        </div>
-            <a href="javascript:goToSection('<%= nomPays%>')">Retourner en haut de la page</a>
-        <%
     }
-    %>
-    <%
-    //if (request.getAttribute("connecte").equals("true")){
         %>
-        <br/>
-        <div id="idNouvelleRubrique">
-            <input type="button" onclick="javascript:nouvelleCategorie('<%= idPays%>')" value="Ajouter une categorie">
-        </div>
-         <%
-    //}
-    %>
+    <div id='idDivNouveauFichier'>
+        <input type="button" onclick="javascript:nouveauFichier('idDivNouveauFichier','<%= idPays%>')" value="Uploader un fichier">
+    </div>
+        <span class="alignementDroite"><a href="javascript:goToSection('<%= nomPays%>')">Retourner en haut de la page</a></span>
+        
     <%-- TODO Liste des fichiers uploadés--%>
 </div>

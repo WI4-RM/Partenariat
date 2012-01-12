@@ -4,7 +4,7 @@
     Author     : lolo
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,partenariat.Historique,entity.Rubrique"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,java.text.SimpleDateFormat,partenariat.Historique,entity.Rubrique"%>
 <div class="divBody">
     <%
     String nomPays = (String)request.getAttribute("nom");
@@ -22,10 +22,12 @@
         int idRub = curRub.getIdrubrique();
         String curTitreRub = curRub.getNom();
         String contenu = curRub.getTexte();
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.setTime(curRub.getDate());
-        String date = String.valueOf(cal.DAY_OF_MONTH) + "/" +  String.valueOf(cal.MONTH) + "/" + String.valueOf(cal.YEAR);
-        String heure = String.valueOf(cal.HOUR) + ":" + String.valueOf(cal.MINUTE) + ":" + String.valueOf(cal.SECOND);
+        //GregorianCalendar cal = new GregorianCalendar();
+        //cal.setTime(curRub.getDate());
+        SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yy" );
+        String date = dateFormat.format(curRub.getDate());
+        SimpleDateFormat heureFormat= new SimpleDateFormat("hh:mm:ss" );
+        String heure = heureFormat.format(curRub.getDate());
         String nom = hist.getNomProfil();
         String prenom = hist.getPrenomProfil();
         String idTabRub = "idTab" + curTitreRub;
@@ -57,7 +59,7 @@
             <%
             }
             %>
-            <td width="15%">Par <a href="" ><%= nom%> <%= prenom%></a></td>
+            <td width="15%">Par <a href="" ><%= prenom%> <%= nom%></a></td>
             <td width="15%"><a href="modifierPays?action=modifierRubrique&idPays=<%= idPays%>&idRubrique=<%= idRub%>&nouveauContenuRubrique=<%= contenu%>">Restaurer</a></td>
         </tr>
         <%

@@ -72,15 +72,15 @@ function visibilite(idDiv){
     }
 }
 
-function nouveauFichier(idDiv, idRub){
+function nouveauFichier(idDiv, idPays){
     document.getElementById(idDiv).innerHTML = "";
     document.getElementById(idDiv).innerHTML += "\
     <p>Entrez le chemin vers le fichier :</p>\n\
     <form action=\"nouveauFichier\">\n\
-    <input type=\"hidden\" name=\"idRubrique\" value=\""+ idRub +"\">\n\
+    <input type=\"hidden\" name=\"idPays\" value=\""+ idPays+"\">\n\
     <input type=\"text\" />\n\
     <br/><input type=\"submit\" value=\"Envoyer\" />\n\
-    <input type=\"button\" value=\"Annuler\" onClick=\"annulerEnvoiFichier(\'"+ idDiv +"\',\'"+ idRub +"\');\"/>\n\
+    <input type=\"button\" value=\"Annuler\" onClick=\"annulerEnvoiFichier(\'"+ idDiv +"\',\'"+ idPays +"\');\"/>\n\
     </form>";
 }
 
