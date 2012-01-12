@@ -33,7 +33,7 @@ import validator.InputValidator;
 @WebServlet(name = "ControllerServlet",
         loadOnStartup = 1,
         urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", "/pays", "/historique",
-        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays", "/modifierPays"})
+        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays", "/modifierPays","/profil"})
 public class ControllerServlet extends HttpServlet {
 
     @PersistenceContext(unitName = "ProjetPartenariatsPU")
@@ -284,6 +284,10 @@ public class ControllerServlet extends HttpServlet {
             request.getSession().invalidate();
             userPath = "/pagePrincipale";
             url = "/WEB-INF/compte_view" +userPath + ".jsp";
+        }
+        
+         else if (userPath.equals("/profil")) {  //Page d'accueil
+            url = "/WEB-INF/compte_view/profile.jsp";
         }
 
 

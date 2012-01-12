@@ -3,10 +3,17 @@ Ext.onReady(function() {
  setupInfoPerso = true;
  setupParcEcole = true;
  setupParcInter = true;
+ 
+ refreshIP(true);
+ refreshPE(true);
+ //refreshPI(false);
+ 
+});
 
- Ext.QuickTips.init();
+function refreshIP(setupInfoPerso){
+    Ext.QuickTips.init();
  var formInfoPerso = new Ext.FormPanel({
-	//renderTo : Ext.getBody(),
+	
 	frame: true,
 	//title: 'inscription',
 	width: 400,
@@ -31,7 +38,33 @@ Ext.onReady(function() {
 		}
 	}]
 });
-var options = new Ext.data.ArrayStore({
+var tabInfoPerso = new Ext.Panel({
+    	//renderTo: Ext.getBody(),
+         items: [{
+            html: "<table border=0>  <tr> <td>Nom : </td> <td>John</td> </tr> <tr> <td>Prénom : </td> <td>Smith</td> </tr> </table>",
+            xtype: "panel"
+        }],
+		buttons: [{
+		text: 'Modifier',
+		handler: function(){
+		}
+		}]
+		})
+if  (setupInfoPerso)
+	item1 = formInfoPerso;
+else
+	item1 = tabInfoPerso;
+    
+var mainPanel = new Ext.Panel ({
+           width:400,
+          items: [item1],
+  renderTo: Ext.Element.get('cg')
+});
+}
+
+
+function refreshPE(setupParcEcole){
+    var options = new Ext.data.ArrayStore({
 	fields: ['id', 'option_choisie'],
 	data : [['1', 'Informatique'],['2', 'Procédés'],['3', 'Mécanique et Matériaux'],['4', 'Environnement'],['3', 'Mathématiques Appliqués'],['4', 'Gestion Industrielle']]
 });
@@ -60,9 +93,41 @@ var formParcEcole = new Ext.FormPanel({
 	buttons: [{
 		text: 'Sauvegarder',
 		handler: function(){
+                    setupInfoPerso = false;
+                    alert('You clicked the button!');
 		}
 	}]
 });
+var tabParcEcole = new Ext.Panel({
+    	//renderTo: Ext.getBody(),
+         items: [{
+            html: "<table border=0>  <tr> <td>Promotion : </td> <td>2009</td> </tr> <tr> <td>Option choisie: </td> <td>Informatique</td> </tr> </table>",
+            xtype: "panel"
+        }],
+		buttons: [{
+		text: 'Modifier',
+		handler: function(){
+		}
+		}]
+		})
+                
+if  (setupParcEcole)
+	item2 = formParcEcole;
+else
+	item2 = tabParcEcole;
+    
+var mainPanel = new Ext.Panel ({
+          width:400,
+          items: [item2],
+  renderTo: Ext.Element.get('cdh')
+});
+    
+}
+/*
+
+ Ext.QuickTips.init();
+ 
+
 
 
 var formParcInter = new Ext.FormPanel({
@@ -132,30 +197,8 @@ var formParcInter = new Ext.FormPanel({
 	}
 	]
 });
-var tabInfoPerso = new Ext.Panel({
-    	//renderTo: Ext.getBody(),
-         items: [{
-            html: "<table border=0>  <tr> <td>Nom : </td> <td>John</td> </tr> <tr> <td>Prénom : </td> <td>Smith</td> </tr> </table>",
-            xtype: "panel"
-        }],
-		buttons: [{
-		text: 'Modifier',
-		handler: function(){
-		}
-		}]
-		})
-var tabParcEcole = new Ext.Panel({
-    	//renderTo: Ext.getBody(),
-         items: [{
-            html: "<table border=0>  <tr> <td>Promotion : </td> <td>2009</td> </tr> <tr> <td>Option choisie: </td> <td>Informatique</td> </tr> </table>",
-            xtype: "panel"
-        }],
-		buttons: [{
-		text: 'Modifier',
-		handler: function(){
-		}
-		}]
-		})
+
+
 var tabParcInter = new Ext.Panel({
     	//renderTo: Ext.getBody(),
          items: [{
@@ -169,15 +212,9 @@ var tabParcInter = new Ext.Panel({
 		}]
 		})
 
-if  (setupInfoPerso)
-	item1 = formInfoPerso;
-else
-	item1 = tabInfoPerso;
+
 	
-if  (setupParcEcole)
-	item2 = formParcEcole;
-else
-	item2 = tabParcEcole;
+
 	
 if  (setupParcInter)
 	item3 = formParcInter;
@@ -218,8 +255,9 @@ var mainPanel = new Ext.Panel ({
   //  renderTo: Ext.getBody()
   renderTo: Ext.Element.get('ext-div')
 });
+}
 
 
 
-
-});
+//});
+*/

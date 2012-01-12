@@ -11,7 +11,8 @@
         <script type="text/javascript" src="javascript/fonctionsAjoutsModificationPays.js"></script>
          <link rel="stylesheet" type="text/css" href="http://dev.sencha.com/deploy/ext-4.0.0/resources/css/ext-all.css" />
          <script type="text/javascript" src="http://dev.sencha.com/deploy/ext-4.0.0/bootstrap.js"></script>
-        <script type="text/javascript" src="profil.js"></script>
+        <script type="text/javascript" src="javascript/profil.js"></script>
+        <link rel="stylesheet" type="text/css" href="profil.css">
          <title>Accueil</title>
     </head>
     <body class="body" onload="cataloguePays('A');">

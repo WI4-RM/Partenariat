@@ -252,10 +252,46 @@ input {
     padding:.3em 1em;
     text-align:center;
     }
-
-padding:5px;
-text-align:left;
+    
+div.colonneGauche{
+	padding-top : 60px ;
+	/*padding-left : 10px ;*/
+	top : 120px ;
+	bottom : 40px ;
+	left : 280px ;
+	width : 500px ;
+	border-style : solid ;
+	border-width : 2px ;
+	position : absolute ;
 }
+div.colonneDroiteHaut{
+	padding-top : 60px ;
+	/*padding-left : 10px ;*/
+	top : 120px ;
+	bottom : 40px ;
+	left : 780px ;
+	width : 500px ;
+        color: red;
+	border-style : solid ;
+	border-width : 2px ;
+	position : absolute ;
+}
+div.colonneDroiteBas{
+	padding-top : 300px ;
+	/*padding-left : 10px ;*/
+	top : 120px ;
+	bottom : 40px ;
+	left : 780px ;
+	width : 500px ;
+        color: red;
+	border-style : solid ;
+	border-width : 2px ;
+	position : absolute ;
+}
+
+/*padding:5px;
+text-align:left;
+}*/
 caption {
 font-family:sans-serif;
 }

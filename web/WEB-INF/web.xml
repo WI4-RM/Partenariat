@@ -14,6 +14,7 @@
             <url-pattern>/WEB-INF/compte_view/listePays.jsp</url-pattern>
             <url-pattern>/WEB-INF/compte_view/inscription.jsp</url-pattern>
             <url-pattern>/WEB-INF/compte_view/historique.jsp</url-pattern>
+            <url-pattern>/WEB-INF/compte_view/profile.jsp</url-pattern>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>

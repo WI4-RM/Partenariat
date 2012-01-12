@@ -25,6 +25,7 @@
                     </td>
                 </tr>
             </form>
+            <a href="profil">Mon profil</a>
         </ul>
     </div>
 </span>
