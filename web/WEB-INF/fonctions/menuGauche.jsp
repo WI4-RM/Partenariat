@@ -6,7 +6,7 @@
             <%@ include file="dernieresDestinations.jsp"%>
             <li><a href="afficherRecherche">Recherche</a></li>
             <%
-            if (request.getAttribute("connecte").equals("true")){
+            if (request.getSession(false) != null){
             %>
                 <li><a href="">Liste des profils</a></li>
             <%

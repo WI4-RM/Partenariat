@@ -16,31 +16,28 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import partenariat.Historique;
 import partenariat.PaysManager;
 import partenariat.RubriqueManager;
-
 import session.InscriptionManager;
 import validator.InputValidator;
+
+
 
 /**
 *
 * @author fingon
 */
 @WebServlet(name = "ControllerServlet",
-        loadOnStartup = 1,
-        urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", "/pays", "/historique",
+        //loadOnStartup = 1,
+        urlPatterns = {"/inscription","/inscriptionValidation","/connect","/deconnect","/index", "","/index.html", "/pays", "/historique",
         "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays", "/modifierPays"})
 public class ControllerServlet extends HttpServlet {
 
     @PersistenceContext(unitName = "ProjetPartenariatsPU")
     private EntityManager em;
 
-    @EJB
-    private InscriptionManager inscriptionManager;
 
     @EJB
     private PaysManager paysManager;
@@ -63,6 +60,9 @@ public class ControllerServlet extends HttpServlet {
     @EJB
     private session.ProfilFacade profilFacade ;
     
+    @EJB
+    private InscriptionManager inscriptionManager;
+    
     /**
 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
 * @param request servlet request
@@ -76,29 +76,21 @@ public class ControllerServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String userPath = request.getServletPath();
         String url = "";
-
-        if (request.getAttribute("connecte") == null) // default : not connected
-            request.setAttribute("connecte", "false");
+        
+        HttpSession session = request.getSession(false);
+        String t;
+        if (session != null) // no connected
+       
+           t = (String) session.getAttribute("nom");
+          
+        
+            
 
         getServletContext().setAttribute("derniersPays", paysFacade.findAllOrderedById());
-  /*     
-        if (request.getSession(false) == null){ //connexion check
-            request.setAttribute("connecte", "false");
-            
-            //System.out.println("false");
-        }
-        else {
-            request.setAttribute("connecte", "true");
-            System.out.println("true");
-        }*/
 
-        if (userPath.equals("/inscription")) { //inscription request
 
-           // userPath = "inscription";
-            url = "/WEB-INF/compte_view/inscription.jsp";
-        }
 
-        else if (userPath.equals("/index.html") || userPath.equals("/index") || userPath.equals("")) {  //Page d'accueil
+        if (userPath.equals("/index.html") || userPath.equals("/index") || userPath.equals("")) {  //Page d'accueil
             url = "/WEB-INF/compte_view/pagePrincipale.jsp";
         }
 
@@ -280,14 +272,20 @@ public class ControllerServlet extends HttpServlet {
             url = "/WEB-INF/compte_view/historique.jsp";
         }
 
+        //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+        
+ 
+        if (userPath.equals("/inscription")) { //inscription request
+
+            // userPath = "inscription";
+            url = "/WEB-INF/compte_view/inscription.jsp";
+        }
+        
         else if (userPath.equals("/deconnect")){ //deconnexion
             request.getSession().invalidate();
             userPath = "/pagePrincipale";
             url = "/WEB-INF/compte_view" +userPath + ".jsp";
-        }
-
-
-        //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+        }       
 
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -322,11 +320,11 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-
+        
         String userPath = request.getServletPath();
         String url = "/WEB-INF/";
-
+        
+        
         if (userPath.equals("/inscriptionValidation")) {
 
             boolean allInputsOk = true;
@@ -354,7 +352,7 @@ public class ControllerServlet extends HttpServlet {
                 if (!InputValidator.checkPassword(password)){
                     allInputsOk = false;
                 userPath = "index";
-                url = userPath +".jsp";
+                url += "compte_view/pagePrincipale" +".jsp";
                     //response.sendError(400, "passwd");
                 }
                 if (!InputValidator.checkYear(yearS)){
@@ -373,7 +371,7 @@ public class ControllerServlet extends HttpServlet {
                 if (isOK){
                     userPath = "confirmation";
                     request.setAttribute("connecte", "true");
-                    request.getSession(); // create session
+                    createNewSession(request, name);
                 }
                 else
                     userPath ="errorSuscribe";
@@ -388,29 +386,21 @@ public class ControllerServlet extends HttpServlet {
             if (InputValidator.checkEmail(username))
                 ok = inscriptionManager.connect(username, password);
 
-            url = "index.html";
-            userPath = "index";
+            userPath = "pagePrincipale";
+            url += "compte_view/" + userPath + ".jsp";
+            //userPath = "index";
             if (ok){
-                request.setAttribute("connecte", "true");
-                request.getSession(); // create session
+                this.createNewSession(request, username);
 
             }
-            else {
-                request.setAttribute("connecte", "false");
-            }
+
 
         }
-        else {
-            processRequest(request, response);
-        }
-
-
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
-            ex.printStackTrace();
         }
-        //processRequest(request, response);
+
     }
 
     /**
@@ -421,4 +411,17 @@ public class ControllerServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+        /**
+     * Create a session whan for user tracking
+     * @param name : user name
+     * @param request : request from servlet 
+     */
+    private void createNewSession(HttpServletRequest request, String name) {
+        HttpSession session = request.getSession(true);
+        session.setAttribute("nom", name);
+        //Cookie c = new Cookie("nom", name);
+        
+        
+    }
 }
