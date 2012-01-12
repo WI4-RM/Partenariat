@@ -1,0 +1,261 @@
+body {
+	color : black ;
+	font-family : "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif ; 
+}
+
+.title {
+	text-align : center ;
+}
+
+span.dark a{
+	color : white ;
+}
+
+span.dark a:hover {
+	color : lightgrey ;
+}
+
+span.light a{
+	color : black ;
+}
+
+span.light a:hover {
+	 text-decoration : none ;
+}
+
+div.header {
+	top : 0px;
+	height : 120px;
+	left : 0px ;
+	right : 0px ;
+	border-style : solid ;
+	border-width : 2px ;
+	border-color : lightgrey ;
+	background-color : #003478 ;
+	position : absolute ; 
+}
+
+div.menuGauche{
+	padding-top : 60px ;
+	padding-left : 20px ;
+	top : 120px ;
+	bottom : 40px ;
+	left : 0px ;
+	width : 280px ;
+	border-style : solid ;
+	border-width : 2px ;
+	border-color : lightgrey ;
+	color : white ;
+	background-color : #003478 ;
+	position : absolute ;
+}
+
+div.bodyDiv {
+	padding-left : 50px ;
+	left : 300px;
+	right : 0px ;
+	top : 120px ;
+	bottom : 40px;
+	border-style : solid ;
+	border-width : 2px ;
+	border-color : lightgrey ;
+	position : absolute ; 
+}
+
+div.bodyDiv a{
+	color : black;
+}
+
+div.footer{
+	height : 40px ;
+	bottom : 0px ;
+	left : 0px ;
+	right : 0px ;
+	border-style : solid ;
+	border-width : 2px ;
+	border-color : lightgrey ;
+	background-color : #003478 ;
+	color : white ;	
+	position : absolute ; 
+}
+
+div.logoEMSE{
+	padding-top : 20px ;
+	padding-left : 20px ;
+	width : 200px ;
+	left : 0px ;
+	position : absolute ; 
+}
+
+div.titreBienvenue{
+	left : 200px ;
+	right : 350px ;
+	color : white ;
+	font-weight : bold ;
+	font-size : 1.4em ;
+	position : absolute ; 
+	text-align : center ;
+}
+
+div.inscription{
+	width : 350px ;
+	right : 0px ;
+	color : white ;
+	position : absolute ;
+}
+
+div.formInscription{
+	padding-left : 50px ;
+	left : 300px;
+	right : 0px ;
+	top : 120px ;
+	bottom : 40px;
+	border-style : solid ;
+	border-width : 2px ;
+	border-color : lightgrey ;
+	position : absolute ; 
+	padding-left : 100px ;
+}
+
+span.titreInscription {
+	font-size : 2.1em ;
+	font-weight : bold ;
+	padding-left : 100 ;
+}
+
+.boutons td {
+	text-align : center ;
+}
+
+img.logo {
+	position : absolute ; 
+	border : none ;
+}
+
+div.intro{
+	position : absolute ; 
+	padding-left : 40px ; 
+	padding-top : 20px ;
+	top : 0120px ;
+	height : 40px ;
+	left : 300px ;
+	right : 0px ;
+	font-size : 1.2em;
+	color : #003478 ;
+}
+
+div.carte{
+	position : absolute ; 
+	top : 160px ;
+	bottom : 0px ;
+	left : 300px ;
+	right : 350px ;
+	padding-left : 50px ;
+	padding-top : 60px ;
+}
+
+div.instructions{
+	position : absolute ; 
+	padding-top : 30px ; 
+	padding-left : 30px ;
+	top : 160px ;
+	height : 200px ;
+	right : 0px ;
+	width : 350px ;
+}
+
+div.paysConnus{
+	position : absolute ;  
+	padding-left : 30px ;
+	top : 360px ;
+	bottom : 40px ;
+	right : 0px ;
+	width : 350px ;
+}
+
+td.ouvert{
+	background-color : #003478 ;
+	color : grey ;
+}
+
+tr.alphabet{
+	font-size : 0.8em ;
+}
+
+/*********************PAULINE******************************/
+div.profil{
+	position : absolute ; 
+	top : 90px ;
+	bottom : 0px ;
+	left : 250px ;
+	right : 350px ;
+	padding-left : 50px ;
+	padding-top : 60px ;
+}
+
+body {
+	font-family: Tahoma,Arial,Helvetica,sans-serif;
+	font-size:12px;
+	color:#333;
+	margin:0;
+	padding:0;
+}
+h1 {
+	font-family: Georgia,"Times New Roman",Times,serif;
+	font-size:26px;
+	color:#083772;
+	letter-spacing:-1px;
+	font-weight:normal;
+	background:#eee;
+	padding:15px 20px;
+	border-bottom:1px solid #ccc;
+}
+h2 {
+	font-size: 18px;
+	line-height:18px;
+	color:#083772;
+	margin-bottom:15px;
+	font-weight:normal;
+}
+p {
+	margin:10px 20px;
+	line-height:18px;
+}
+input {
+	margin: 8px 20px;
+}
+#content {
+	margin-left:15px;
+}
+#myDiv {
+	border:2px solid #1F3E75;
+	background:#DFECFB;
+	margin:20px 50px;
+	padding:10px 20px;
+	width:200px;
+	text-align:center;
+}
+.red {
+	color: red;
+}
+    table {
+    width:90%;
+    border-top:1px solid #e5eff8;
+    border-right:1px solid #e5eff8;
+    margin:1em auto;
+    border-collapse:collapse;
+    }
+    td {
+    color:#678197;
+    border-bottom:1px solid #e5eff8;
+    border-left:1px solid #e5eff8;
+    padding:.3em 1em;
+    text-align:center;
+    }
+
+padding:5px;
+text-align:left;
+}
+caption {
+font-family:sans-serif;
+}
