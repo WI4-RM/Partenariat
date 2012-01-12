@@ -162,12 +162,13 @@ public class ControllerServlet extends HttpServlet {
             }
 
 
-            List<FichierUploade> liste = fichierUploadeFacade.findByIdrubrique(15);
+            List<FichierUploade> liste = fichierUploadeFacade.findByIdpays(idPays);
+
             request.setAttribute("nom",nomPays);
             request.setAttribute("idPays", request.getParameter("idPays"));
             getServletContext().setAttribute("titresRub", titresRubriquesTriees);
             getServletContext().setAttribute("rubriques", rubriquesPublieesTriees);
-            getServletContext().setAttribute("fichierUploadeFacade", fichierUploadeFacade);
+            getServletContext().setAttribute("fichiers", liste);
             url = "/WEB-INF/compte_view/pays.jsp";
         }
         else if (userPath.equals("/paysAlphabet")) {    //Fenetre de la page ppale qui donne les pays existants classés par initiale

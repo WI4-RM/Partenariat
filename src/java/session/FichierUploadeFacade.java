@@ -28,9 +28,9 @@ public class FichierUploadeFacade extends AbstractFacade<FichierUploade> {
         super(FichierUploade.class);
     }
 
-    public List<FichierUploade> findByIdrubrique(int idRub){
-        //FIXME Probleme d'acces a la bdd : impossible d'acceder au champ idrubrique
-        //return em.createNamedQuery("FichierUploade.findByIdrubrique").setParameter("idRubrique", idRub).getResultList();
+    public List<FichierUploade> findByIdpays(int idPays){
+        //FIXME comment mettre à jour les beans entity après modif de la bdd
+        //return em.createNamedQuery("FichierUploade.findByIdpays").setParameter("idPays", idPays).getResultList();
         return new ArrayList<FichierUploade>();
     }
 }
