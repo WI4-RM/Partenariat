@@ -20,7 +20,15 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.*;
+import partenariat.FichierUploadeManager;
 import partenariat.Historique;
 import partenariat.PaysManager;
 import partenariat.RubriqueManager;
@@ -28,11 +36,6 @@ import partenariat.RubriqueManager;
 import session.InscriptionManager;
 import validator.InputValidator;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import partenariat.FichierManager;
 /**
 *
 * @author fingon
@@ -56,7 +59,7 @@ public class ControllerServlet extends HttpServlet {
     private RubriqueManager rubriqueManager;
 
     @EJB
-    private FichierManager fichierManager;
+    private FichierUploadeManager fichierUploadeManager;
 
     @EJB
     private session.PaysFacade paysFacade;
@@ -258,10 +261,7 @@ public class ControllerServlet extends HttpServlet {
                 int idRubrique = Integer.parseInt(request.getParameter("idRubrique"));
                 rubriqueManager.updateText(idRubrique, "--null--", idPays);
             }
-            
-            request.setAttribute("nom",nomPays);
-            request.setAttribute("idPays", request.getParameter("idPays"));
-            url= "/pays";
+            url= "/pays?idPays="+idPays;
 
         }
 
@@ -290,8 +290,8 @@ public class ControllerServlet extends HttpServlet {
         }
 
         else if (userPath.equals("/uploadFichier")){
-            int idPays = Integer.parseInt(request.getParameter("idPays"));
             int idProfil = profilFacade.findAll().get(0).getIdprofil(); //FIXME l'id de l'utilisateur connecté
+            int idPays = 1;// = paysFacade.findAll().get(0).getIdpays(); //FIXME l'id de l'utilisateur connecté
             try {
                 // Create a factory for disk-based file items
                 FileItemFactory factory = new DiskFileItemFactory();
@@ -301,18 +301,51 @@ public class ControllerServlet extends HttpServlet {
                 List items;
                 items = upload.parseRequest(request);
                 // Process the uploaded items
-                int idFichier = 0;
+
                 Iterator iter = items.iterator();
                 FileItem item = (FileItem) iter.next();
-                String urlFichier = "/fichiersUploades/" + idFichier + ".jpg";
+                String nom = item.getName();
+                int maxLongueurNom = 25;
+                int longNom = nom.length();
+                if (longNom > maxLongueurNom){
+                    nom = nom.substring(0, maxLongueurNom-5) + nom.substring(longNom - 5);
+                }
+                System.out.println(nom);
+                String urlFichier = "/fichiersUploades/" + nom;
+                idPays = Integer.parseInt((String)request.getSession().getAttribute("idPays"));
+
+                List<FichierUploade> liste = fichierUploadeFacade.findByNom(nom);
+                if ((liste != null) && (liste.size() > 0) && (liste.get(0) != null)){
+                    int i = 2;
+                    while (true){
+                        urlFichier = "/fichiersUploades/" + nom + "_" + i;
+                        List<FichierUploade> curListe = fichierUploadeFacade.findByNom(urlFichier);
+                        if (curListe.get(0) != null){
+                            i++;
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                }
+                
                 String context = getServletContext().getRealPath(urlFichier);
                 File uploadedFile = new File(context);
                 item.write(uploadedFile);
-                //On crée la photo
-                //fichierManager.createFichier(urlFichier, idPays, idProfil, uploadedFile.length());
+                long tailleEnBits = uploadedFile.length();
+                int tailleEnOctets = (int)tailleEnBits/8;
+
+                if (tailleEnOctets < 1048576){  //La taille du fichier doit être inférieure à 5Mo
+                    //On crée le fichier
+                    fichierUploadeManager.createFichier(urlFichier, idPays, idProfil, tailleEnOctets);
+                }
+                else {
+                    request.setAttribute("messageErreur","La taille du fichier de doit pas excéder 5Mo");
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+            url= "/pays?idPays="+idPays;
         }
 
         else if (userPath.equals("/deconnect")){ //deconnexion

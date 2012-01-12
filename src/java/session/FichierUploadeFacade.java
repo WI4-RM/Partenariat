@@ -33,4 +33,8 @@ public class FichierUploadeFacade extends AbstractFacade<FichierUploade> {
         //return em.createNamedQuery("FichierUploade.findByIdpays").setParameter("idPays", idPays).getResultList();
         return new ArrayList<FichierUploade>();
     }
+
+    public List<FichierUploade> findByNom(String nom){
+        return em.createNamedQuery("FichierUploade.findByNom").setParameter("nom", nom).getResultList();
+    }
 }

@@ -105,11 +105,11 @@
             <%
         }
     }
+    request.getSession().setAttribute("idPays", idPays);
         %>
     <div id='idDivNouveauFichier'>
         <input type="button" onclick="javascript:nouveauFichier('idDivNouveauFichier','<%= idPays%>')" value="Uploader un fichier">
     </div>
         <span class="alignementDroite"><a href="javascript:goToSection('<%= nomPays%>')">Retourner en haut de la page</a></span>
         
-    <%-- TODO Liste des fichiers uploadés--%>
 </div>
