@@ -13,9 +13,9 @@
 	<!--<span class="light"><div class="profil" id="ext-div">
 		
 	</div></span>-->
-        <div class="profil" id="ext-div">
+        <!--<div class="profil" id="ext-div">
 		
-	</div>
+	</div>-->
         <div class="colonneGauche" id="cg"></div>
         <div class="colonneDroiteHaut" id="cdh"></div>
 	<div class="colonneDroiteBas"id="cdb"></div>	
