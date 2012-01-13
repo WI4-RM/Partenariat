@@ -20,7 +20,7 @@
             <div class = "titreBienvenue"><h1>Bienvenue sur le projet MineWorld !</h1></div>
             <div class="inscription"><table class="inscriptionTable">
                 <%
-                if (request.getSession(false) != null){// && !request.getSession(false).isNew()){
+                if (request.getAttribute("connecte").equals("true")){
                      String nom = (String) request.getSession().getAttribute("nom");
                      String prenom = (String) request.getSession().getAttribute("prenom");
                 %>

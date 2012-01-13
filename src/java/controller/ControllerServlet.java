@@ -38,8 +38,9 @@ import validator.InputValidator;
 */
 @WebServlet(name = "ControllerServlet",
 loadOnStartup = 1,
-        urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", "/pays", "/historique",
-        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays", "/modifierPays", "/uploadFichier", "/downloadFile"})
+        urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", 
+        "/pays", "/historique", "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays",
+        "/dernieresDestinations", "/nouveauPays", "/modifierPays", "/uploadFichier", "/downloadFile"})
 
 public class ControllerServlet extends HttpServlet {
 
@@ -86,7 +87,6 @@ public class ControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String userPath = request.getServletPath();
-        PrintWriter out = response.getWriter();
         String url = "";
         
         HttpSession session = request.getSession(false);
@@ -94,23 +94,27 @@ public class ControllerServlet extends HttpServlet {
         if (session != null) // no connected
            t = (String) session.getAttribute("nom");
 
-        request.getSession().invalidate();
-        
-        if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+        /*if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+            request.getSession().invalidate();
             session.setAttribute("idProfil", String.valueOf(1));
             int idProfil = Integer.parseInt((String)session.getAttribute("idProfil"));
             session.setAttribute("nom", profilFacade.findByIdprofil(idProfil).get(0).getNom());
             session.setAttribute("prenom",profilFacade.findByIdprofil(idProfil).get(0).getPrenom());
-        }
+        }*/
+        /*else{
+            this.createNewSession(request, "sessionLauriane");
+            session.setAttribute("idProfil",String.valueOf(1)) ;
+        }*/
 
         getServletContext().setAttribute("derniersPays", paysFacade.findAllOrderedById());
+
 
         if (userPath.equals("/index.html") || userPath.equals("/index") || userPath.equals("")) {  //Page d'accueil
             url = "/WEB-INF/compte_view/pagePrincipale.jsp";
         }
 
         else if (userPath.equals("/nouveauPays")){  //Créer un nouveau pays
-            if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
                 String nomPays = request.getParameter("nouveauPays");
                 if (!nomPays.equals("")){
                     nomPays = partenariat.Util.InitialeMajuscule(nomPays);
@@ -227,7 +231,7 @@ public class ControllerServlet extends HttpServlet {
         }
 
         else if (userPath.equals("/modifierPays")){ //Modification des rubriques d'un pays
-            if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
                 String action = request.getParameter("action");
                 int idPays = Integer.parseInt(request.getParameter("idPays"));
                 String nomPays = paysFacade.findByIdpays(idPays).get(0).getNom();
@@ -293,7 +297,7 @@ public class ControllerServlet extends HttpServlet {
         }
 
         else if (userPath.equals("/uploadFichier")){
-            if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
                 int idProfil = profilFacade.findAll().get(0).getIdprofil(); //FIXME l'id de l'utilisateur connecté
                 int idPays = Integer.parseInt((String)request.getSession().getAttribute("idPays"));
                 try {
@@ -360,9 +364,6 @@ public class ControllerServlet extends HttpServlet {
             String nomFichier = request.getParameter("nomFichier");
             url= dossierFichiersUploades + "/" + nomFichier;
         }
-
-        //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
-        
  
         else if (userPath.equals("/inscription")) { //inscription request
 
@@ -391,6 +392,13 @@ public class ControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = processRequest(request, response);
         try {
+            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+                request.setAttribute("connecte", "true");
+            }
+            else {
+                request.setAttribute("connecte", "false");
+            }
+            System.out.println(url);
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -441,7 +449,7 @@ public class ControllerServlet extends HttpServlet {
                 if (!InputValidator.checkPassword(password)){
                     allInputsOk = false;
                 userPath = "index";
-                url += "compte_view/pagePrincipale" +".jsp";
+                url += "compte_view/pagePrincipale.jsp";
                     //response.sendError(400, "passwd");
                 }
                 if (!InputValidator.checkYear(yearS)){
@@ -491,8 +499,15 @@ public class ControllerServlet extends HttpServlet {
             url = processRequest(request, response);
         }
         try {
+            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+                request.setAttribute("connecte", "true");
+            }
+            else {
+                request.setAttribute("connecte", "false");
+            }
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
     }

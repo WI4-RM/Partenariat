@@ -14,7 +14,7 @@
     <form action="recherche">
         <input type="hidden" name="type" value="avancee">
         <%
-        if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+        if (request.getAttribute("connecte").equals("true")){
         %>
         <p>Rechercher un profil</p>
         <input type="text" name="profil"/>

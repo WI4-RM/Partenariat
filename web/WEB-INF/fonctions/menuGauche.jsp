@@ -7,7 +7,7 @@
             <%@ include file="derniersPays.jsp"%>
             <li><a href="afficherRecherche">Recherche</a></li>
             <%
-            if (request.getSession(false) != null){// && !request.getSession(false).isNew()){
+            if (request.getAttribute("connecte").equals("true")){
             %>
                 <li><a href="">Liste des profils</a></li>
             <%

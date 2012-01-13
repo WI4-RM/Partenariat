@@ -22,7 +22,7 @@
         </div>
     </span>
     <%
-    if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+    if (request.getAttribute("connecte").equals("true")){
     %>
     <span class="light">
         <div class="instructions">

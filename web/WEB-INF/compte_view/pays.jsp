@@ -22,13 +22,7 @@
     <table width="100%" bgcolor="#b9c5d2" cellpadding="">
         <tr>
             <td><h1 id="<%= nomPays%>"><%= nomPays%></h1></td>
-            <%
-            //if (request.getAttribute("connecte").equals("true")){
-                %>
             <td align="right"><span class="alignementDroite"><a href="historique?idPays=<%= idPays%>">Historique</a></span></td>
-                <%
-            //}
-            %>
         </tr>
     </table>
         <ul>
@@ -63,7 +57,7 @@
                 <tr>
                     <td><h2 id="<%= nomRub%>"><%= nomRub%></h2></td>
                     <%
-                    if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+                    if (request.getAttribute("connecte").equals("true")){
                         %>
                     <td align="right">
                         <span class="alignementDroite">
@@ -88,7 +82,7 @@
         <%
     }
 
-     if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+     if (request.getAttribute("connecte").equals("true")){
         %>
     <br/>
     <div id="idNouvelleRubrique">
@@ -124,7 +118,7 @@
             <%
         }
     }
-    if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+    if (request.getAttribute("connecte").equals("true")){
         request.getSession().setAttribute("idPays", idPays);
     %>
     <div id='idDivNouveauFichier'>
