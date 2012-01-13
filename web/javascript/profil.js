@@ -4,9 +4,9 @@ Ext.onReady(function() {
  setupParcEcole = true;
  setupParcInter = true;
  
- refreshIP(true);
- refreshPE(true);
- //refreshPI(false);
+ refreshIP(false);
+ refreshPE(false);
+ refreshPI(true);
  
 });
 
@@ -49,7 +49,7 @@ var tabInfoPerso = new Ext.Panel({
 		handler: function(){
 		}
 		}]
-		})
+		});
 if  (setupInfoPerso)
 	item1 = formInfoPerso;
 else
@@ -109,7 +109,7 @@ var tabParcEcole = new Ext.Panel({
 		handler: function(){
 		}
 		}]
-		})
+});
                 
 if  (setupParcEcole)
 	item2 = formParcEcole;
@@ -121,14 +121,11 @@ var mainPanel = new Ext.Panel ({
           items: [item2],
   renderTo: Ext.Element.get('cdh')
 });
-    
 }
-/*
 
- Ext.QuickTips.init();
+function refreshPI(setupParcInter){
  
-
-
+ Ext.QuickTips.init();
 
 var formParcInter = new Ext.FormPanel({
 	//renderTo : Ext.getBody(),
@@ -210,16 +207,25 @@ var tabParcInter = new Ext.Panel({
 		handler: function(){
 		}
 		}]
-		})
-
-
-	
-
-	
+});	
 if  (setupParcInter)
 	item3 = formParcInter;
 else
 	item3 = tabParcInter;
+
+var mainPanel = new Ext.Panel ({
+          width:400,
+          items: [item2],
+  renderTo: Ext.Element.get('cdb')
+});
+}
+/*
+
+ 
+ 
+
+
+
 
 
 var mainPanel = new Ext.Panel ({
