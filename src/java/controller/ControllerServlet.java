@@ -98,12 +98,12 @@ public class ControllerServlet extends HttpServlet {
 
           
         
-        if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
-            session.setAttribute("idProfil", String.valueOf(1));
-            int idProfil = Integer.parseInt((String)session.getAttribute("idProfil"));
-            session.setAttribute("nom", profilFacade.findByIdprofil(idProfil).get(0).getNom());
-            session.setAttribute("prenom",profilFacade.findByIdprofil(idProfil).get(0).getPrenom());
-        }
+//        if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+//            session.setAttribute("idProfil", String.valueOf(1));
+//            int idProfil = Integer.parseInt((String)session.getAttribute("idProfil"));
+////            session.setAttribute("nom", profilFacade.findByIdprofil(idProfil).get(0).getNom());
+////            session.setAttribute("prenom",profilFacade.findByIdprofil(idProfil).get(0).getPrenom());
+//        }
 
         getServletContext().setAttribute("derniersPays", paysFacade.findAllOrderedById());
 
@@ -513,13 +513,17 @@ public class ControllerServlet extends HttpServlet {
      * @param name : user name
      * @param request : request from servlet 
      */
-    private void createNewSession(HttpServletRequest request, String name) {
+    private void createNewSession(HttpServletRequest request, String email) {
         HttpSession session = request.getSession(true);
-        session.setAttribute("nom", name);
+        session.setAttribute("email", email);
         
         //add other attribut
-        Compte c = compteFacade.findTheCompteByEmail(name);
-        session.setAttribute("idProfil", c.getProfilIdprofil().getIdprofil());
+        Compte c = compteFacade.findTheCompteByEmail(email);        
+        Integer idProfil = c.getProfilIdprofil().getIdprofil();
+        
+        session.setAttribute("idProfil",idProfil );
+        session.setAttribute("nom", profilFacade.findByIdprofil(idProfil).get(0).getNom());
+        session.setAttribute("prenom",profilFacade.findByIdprofil(idProfil).get(0).getPrenom());
         //Cookie c = new Cookie("nom", name);
         
         
