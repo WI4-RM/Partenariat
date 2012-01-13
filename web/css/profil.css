@@ -259,9 +259,7 @@ div.colonneGauche{
 	top : 120px ;
 	bottom : 40px ;
 	left : 280px ;
-	width : 500px ;
-	border-style : solid ;
-	border-width : 2px ;
+	width : 400px ;
 	position : absolute ;
 }
 div.colonneDroiteHaut{
@@ -269,11 +267,8 @@ div.colonneDroiteHaut{
 	/*padding-left : 10px ;*/
 	top : 120px ;
 	bottom : 40px ;
-	left : 780px ;
-	width : 500px ;
-        color: red;
-	border-style : solid ;
-	border-width : 2px ;
+	left : 680px ;
+	width : 400px ;
 	position : absolute ;
 }
 div.colonneDroiteBas{
@@ -281,11 +276,8 @@ div.colonneDroiteBas{
 	/*padding-left : 10px ;*/
 	top : 120px ;
 	bottom : 40px ;
-	left : 780px ;
-	width : 500px ;
-        color: red;
-	border-style : solid ;
-	border-width : 2px ;
+	left : 680px ;
+        width : 400px ;
 	position : absolute ;
 }
 
