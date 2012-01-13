@@ -63,7 +63,7 @@
                 <tr>
                     <td><h2 id="<%= nomRub%>"><%= nomRub%></h2></td>
                     <%
-                    //if (request.getAttribute("connecte").equals("true")){
+                    if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
                         %>
                     <td align="right">
                         <span class="alignementDroite">
@@ -77,7 +77,7 @@
                         </span>
                     </td>
                         <%
-                    //}
+                    }
                     %>
                 </tr>
             </div>
@@ -88,14 +88,14 @@
         <%
     }
 
-     //if (request.getAttribute("connecte").equals("true")){
+     if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
         %>
     <br/>
     <div id="idNouvelleRubrique">
         <input type="button" onclick="javascript:nouvelleCategorie('<%= idPays%>')" value="Ajouter une categorie">
     </div>
          <%
-    //}
+    }
 
     if (listeFichiers.size() > 0){
         %>
@@ -124,11 +124,15 @@
             <%
         }
     }
-    request.getSession().setAttribute("idPays", idPays);
-        %>
+    if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+        request.getSession().setAttribute("idPays", idPays);
+    %>
     <div id='idDivNouveauFichier'>
         <input type="button" onclick="javascript:nouveauFichier('idDivNouveauFichier','<%= idPays%>')" value="Uploader un fichier">
     </div>
+    <%
+    }
+    %>
         <span class="alignementDroite"><a href="javascript:goToSection('<%= nomPays%>')">Retourner en haut de la page</a></span>
         
 </div>

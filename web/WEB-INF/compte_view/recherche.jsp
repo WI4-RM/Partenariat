@@ -13,8 +13,14 @@
 <div class="divBody">
     <form action="recherche">
         <input type="hidden" name="type" value="avancee">
+        <%
+        if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+        %>
         <p>Rechercher un profil</p>
         <input type="text" name="profil"/>
+        <%
+        }
+        %>
         <p>Rechercher un pays</p>
         <input type="text" name="pays"/>
         <p>Rechercher une ville</p>

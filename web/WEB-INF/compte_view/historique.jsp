@@ -56,9 +56,13 @@
             <td><%= contenu%></td>
             <%
             }
+            if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
             %>
             <td width="15%">Par <a href="" ><%= prenom%> <%= nom%></a></td>
             <td width="15%"><a href="modifierPays?action=modifierRubrique&idPays=<%= idPays%>&idRubrique=<%= idRub%>&nouveauContenuRubrique=<%= contenu%>">Restaurer</a></td>
+            <%
+            }
+            %>
         </tr>
         <%
     }
