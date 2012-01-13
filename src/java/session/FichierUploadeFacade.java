@@ -30,8 +30,8 @@ public class FichierUploadeFacade extends AbstractFacade<FichierUploade> {
 
     public List<FichierUploade> findByIdpays(int idPays){
         //FIXME
-        //return em.createNamedQuery("FichierUploade.findByIdpays").setParameter("idPays", idPays).getResultList();
-        return new ArrayList<FichierUploade>();
+        return em.createNamedQuery("FichierUploade.findByIdpays").setParameter("idPays", idPays).getResultList();
+        //return new ArrayList<FichierUploade>();
     }
 
     public List<FichierUploade> findByNom(String nom){

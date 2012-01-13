@@ -3,7 +3,8 @@
         <ul>
             <li><a href="index.html">Accueil</a></li>
             <li><a href="listePays">Liste des pays</a></li>
-            <%@ include file="dernieresDestinations.jsp"%>
+            <%--<%@ include file="dernieresDestinations.jsp"%>--%>
+            <%@ include file="derniersPays.jsp"%>
             <li><a href="afficherRecherche">Recherche</a></li>
             <%
             if (request.getAttribute("connecte").equals("true")){

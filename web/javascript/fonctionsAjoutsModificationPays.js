@@ -14,6 +14,7 @@ function nouveauPays(){
 }
 
 function nouvelleCategorie(idPays){
+    window.location.href = "#idNouvelleRubrique";
     document.getElementById('idNouvelleRubrique').innerHTML = "";
     document.getElementById('idNouvelleRubrique').innerHTML += "\
     <form action=\"modifierPays\">\n\
@@ -32,8 +33,7 @@ function nouvelleCategorie(idPays){
     </table>\n\
     <input type=\"submit\" value=\"Creer une nouvelle rubrique\">\n\
     <input type=\"button\" value=\"Annuler\" onClick=\"javascript:annulerNouvelleRubrique("+ idPays+ ");\">\n\
-    </form>";
-    window.location.href = "#idNouvelleRubrique";
+    </form>"; 
 }
 
 function annulerNouvelleRubrique(idPays){
@@ -43,6 +43,7 @@ function annulerNouvelleRubrique(idPays){
 }
 
 function modifierRubrique(idPays, idRubrique, idPara, idDivContenu){
+    window.location.href = "#" + idRubrique;
     var contenu = document.getElementById(idPara).innerHTML;
     document.getElementById(idDivContenu).innerHTML = "";
     document.getElementById(idDivContenu).innerHTML += "\
@@ -78,9 +79,11 @@ function nouveauFichier(idDiv, idPays){
     <p>Entrez le chemin vers le fichier :</p>\n\
     <form action=\"uploadFichier\" method=\"POST\" enctype=\"multipart/form-data\">\n\
     <input type=\"file\" name=\"fichier\"/>\n\
-    <input type=\"submit\" value=\"Envoyer\" />\n\
+    <br/><input type=\"submit\" value=\"Envoyer\" />\n\
+    <input type=\"button\" value=\"Annuler\" onClick=\"annulerEnvoiFichier(\'"+ idDiv +"\',\'"+ idPays +"\');\"/>\n\
     </form>\n\
-    <input type=\"button\" value=\"Annuler\" onClick=\"annulerEnvoiFichier(\'"+ idDiv +"\',\'"+ idPays +"\');\"/>";
+";
+    window.location.href = "#fichiersUpload";
 }
 
 function annulerEnvoiFichier(idDiv, idRub){

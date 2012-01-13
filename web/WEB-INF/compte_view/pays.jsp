@@ -4,7 +4,7 @@
     Author     : lolo
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,entity.FichierUploade,entity.FichierUploade"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,java.text.SimpleDateFormat,entity.FichierUploade,entity.FichierUploade"%>
 <div class="divBody">
     <%
     String msg = (String)request.getAttribute("messageErreur");
@@ -17,7 +17,7 @@
     String idPays = (String)request.getAttribute("idPays");
     ArrayList<entity.Rubrique> listeRub = (ArrayList<entity.Rubrique>)getServletContext().getAttribute("rubriques");
     ArrayList<String> listeTitresRub = (ArrayList<String>)getServletContext().getAttribute("titresRub");
-    ArrayList<FichierUploade> listeFichiers = (ArrayList<FichierUploade>)getServletContext().getAttribute("fichiers");
+    List<FichierUploade> listeFichiers = (List<FichierUploade>)getServletContext().getAttribute("fichiers");
     %>
     <table width="100%" bgcolor="#b9c5d2" cellpadding="">
         <tr>
@@ -42,7 +42,7 @@
             }
             if (listeFichiers.size() > 0){
                 %>
-            <li><a href="javascript:goToSection('fichiersUpload')">Carte</a></li>
+            <li><a href="javascript:goToSection('fichiersUpload')">Fichiers</a></li>
                 <%
             }
             %>
@@ -66,8 +66,15 @@
                     //if (request.getAttribute("connecte").equals("true")){
                         %>
                     <td align="right">
-                        <span class="alignementDroite"><a href='javascript:modifierRubrique("<%= idPays%>","<%= idRub%>","<%= idParaRub%>", "<%= idDivTexte%>")'>Modifier</a>
-                        <br/><a href="modifierPays?action=supprimerRubrique&idPays=<%= idPays%>&idRubrique=<%= curRub.getIdrubrique()%>">Supprimer</a></span>
+                        <span class="alignementDroite">
+                            <a href='javascript:modifierRubrique("<%= idPays%>","<%= idRub%>","<%= idParaRub%>", "<%= idDivTexte%>")'>
+                                Modifier
+                            </a>
+                            <br/>
+                            <a href="modifierPays?action=supprimerRubrique&idPays=<%= idPays%>&idRubrique=<%= curRub.getIdrubrique()%>">
+                                Supprimer
+                            </a>
+                        </span>
                     </td>
                         <%
                     //}
@@ -97,11 +104,23 @@
         for (int j = 0; j < listeFichiers.size(); j++) {
             FichierUploade fichier = listeFichiers.get(j);
             String nomFichier = fichier.getNom();
+            SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yy" );
+            String date = dateFormat.format(fichier.getDate());
             int tailleFichier = fichier.getTaille();
+            String ordre = "Octets";
+            if (tailleFichier/1024 > 1){
+                tailleFichier = tailleFichier/1024;
+                ordre = "Kio";
+                if (tailleFichier/1024 > 1){
+                tailleFichier = tailleFichier/1024;
+                ordre = "Mio";
+            }
+            }
             String nomProfil = fichier.getProfilIdprofil().getNom();
             String prenomProfil = fichier.getProfilIdprofil().getPrenom();
             %>
-            <p><a href="<%= nomFichier%>"><%= nomFichier%></a> (<%= tailleFichier%>), mis en ligne par <a href=""><%= prenomProfil%><%= nomProfil%></a></p>
+            <p><a href="downloadFile?nomFichier=<%= nomFichier%>"><%= nomFichier%></a> (<%= tailleFichier%> <%= ordre%>),
+                mis en ligne par <a href=""><%= prenomProfil%> <%= nomProfil%></a> le <%= date%></p>
             <%
         }
     }

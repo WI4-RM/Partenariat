@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -43,7 +44,7 @@ import validator.InputValidator;
 @WebServlet(name = "ControllerServlet",
         loadOnStartup = 1,
         urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", "/pays", "/historique",
-        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays", "/modifierPays", "/uploadFichier"})
+        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays", "/modifierPays", "/uploadFichier", "/downloadFile"})
 public class ControllerServlet extends HttpServlet {
 
     @PersistenceContext(unitName = "ProjetPartenariatsPU")
@@ -75,7 +76,8 @@ public class ControllerServlet extends HttpServlet {
 
     @EJB
     private session.ProfilFacade profilFacade ;
-    
+
+    private String dossierFichiersUploades = "/fichiersUploades";
     /**
 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
 * @param request servlet request
@@ -83,11 +85,13 @@ public class ControllerServlet extends HttpServlet {
 * @throws ServletException if a servlet-specific error occurs
 * @throws IOException if an I/O error occurs
 */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected String processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
         String userPath = request.getServletPath();
+        //if (!userPath.equals("/uploadFichier")){
+         //   PrintWriter out = response.getWriter();
+        //}
         String url = "";
 
         if (request.getAttribute("connecte") == null) // default : not connected
@@ -174,13 +178,13 @@ public class ControllerServlet extends HttpServlet {
                 }
             }
 
-            List<FichierUploade> liste = fichierUploadeFacade.findByIdpays(idPays);
+            List<FichierUploade> listeFichiers = fichierUploadeFacade.findByIdpays(idPays);
 
             request.setAttribute("nom",nomPays);
             request.setAttribute("idPays", request.getParameter("idPays"));
             getServletContext().setAttribute("titresRub", titresRubriquesTriees);
             getServletContext().setAttribute("rubriques", rubriquesPublieesTriees);
-            getServletContext().setAttribute("fichiers", liste);
+            getServletContext().setAttribute("fichiers", listeFichiers);
             url = "/WEB-INF/compte_view/pays.jsp";
         }
         else if (userPath.equals("/paysAlphabet")) {    //Fenetre de la page ppale qui donne les pays existants classés par initiale
@@ -291,7 +295,7 @@ public class ControllerServlet extends HttpServlet {
 
         else if (userPath.equals("/uploadFichier")){
             int idProfil = profilFacade.findAll().get(0).getIdprofil(); //FIXME l'id de l'utilisateur connecté
-            int idPays = 1;// = paysFacade.findAll().get(0).getIdpays(); //FIXME l'id de l'utilisateur connecté
+            int idPays = Integer.parseInt((String)request.getSession().getAttribute("idPays"));
             try {
                 // Create a factory for disk-based file items
                 FileItemFactory factory = new DiskFileItemFactory();
@@ -301,43 +305,42 @@ public class ControllerServlet extends HttpServlet {
                 List items;
                 items = upload.parseRequest(request);
                 // Process the uploaded items
-
                 Iterator iter = items.iterator();
                 FileItem item = (FileItem) iter.next();
+
                 String nom = item.getName();
-                int maxLongueurNom = 25;
+                int maxLongueurNom = 38;
                 int longNom = nom.length();
                 if (longNom > maxLongueurNom){
                     nom = nom.substring(0, maxLongueurNom-5) + nom.substring(longNom - 5);
                 }
-                System.out.println(nom);
-                String urlFichier = "/fichiersUploades/" + nom;
-                idPays = Integer.parseInt((String)request.getSession().getAttribute("idPays"));
-
+                nom = idPays + nom;
                 List<FichierUploade> liste = fichierUploadeFacade.findByNom(nom);
                 if ((liste != null) && (liste.size() > 0) && (liste.get(0) != null)){
+                    String curNom;
                     int i = 2;
                     while (true){
-                        urlFichier = "/fichiersUploades/" + nom + "_" + i;
-                        List<FichierUploade> curListe = fichierUploadeFacade.findByNom(urlFichier);
-                        if (curListe.get(0) != null){
+                        curNom = i + "_" + nom;
+                        List<FichierUploade> curListe = fichierUploadeFacade.findByNom(curNom);
+                        if ((curListe != null) && (curListe.size() > 0) && (curListe.get(0) != null)){
                             i++;
                         }
                         else {
+                            nom = curNom;
                             break;
                         }
                     }
                 }
-                
-                String context = getServletContext().getRealPath(urlFichier);
-                File uploadedFile = new File(context);
-                item.write(uploadedFile);
-                long tailleEnBits = uploadedFile.length();
-                int tailleEnOctets = (int)tailleEnBits/8;
 
-                if (tailleEnOctets < 1048576){  //La taille du fichier doit être inférieure à 5Mo
-                    //On crée le fichier
-                    fichierUploadeManager.createFichier(urlFichier, idPays, idProfil, tailleEnOctets);
+                long tailleEnBytes = item.getSize();
+
+                if (tailleEnBytes < 5*1048576){  //La taille du fichier doit être inférieure à 5Mo
+                    //On copie le fichier
+                    String context = getServletContext().getRealPath(dossierFichiersUploades + "/" + nom);
+                    File uploadedFile = new File(context);
+                    item.write(uploadedFile);
+                    //On crée le fichier dans la bdd
+                    fichierUploadeManager.createFichier(nom, idPays, idProfil, (int)tailleEnBytes);
                 }
                 else {
                     request.setAttribute("messageErreur","La taille du fichier de doit pas excéder 5Mo");
@@ -345,7 +348,13 @@ public class ControllerServlet extends HttpServlet {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            url= "/pays?idPays="+idPays;
+            
+            url = "pays?idPays="+idPays;
+        }
+
+        else if (userPath.equals("/downloadFile")){
+            String nomFichier = request.getParameter("nomFichier");
+            url= dossierFichiersUploades + "/" + nomFichier;
         }
 
         else if (userPath.equals("/deconnect")){ //deconnexion
@@ -353,17 +362,8 @@ public class ControllerServlet extends HttpServlet {
             userPath = "/pagePrincipale";
             url = "/WEB-INF/compte_view" +userPath + ".jsp";
         }
-
-
+        return url;
         //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
-
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            out.close();
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -377,7 +377,14 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String url = processRequest(request, response);
+        try {
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            //out.close();
+        }
     }
 
     /**
@@ -469,7 +476,7 @@ public class ControllerServlet extends HttpServlet {
 
         }
         else {
-            processRequest(request, response);
+            url = processRequest(request, response);
         }
 
 
