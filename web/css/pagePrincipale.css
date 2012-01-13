@@ -140,8 +140,8 @@ div.instructions{
     line-height : 1.5em ;
     padding-top : 30px ;
     padding-left : 30px ;
-    top : 160px ;
-    height : 200px ;
+    top : 360px ;
+    bottom : 40px ;
     right : 0px ;
     width : 350px ;
 }
@@ -149,8 +149,8 @@ div.instructions{
 div.paysConnus{
     position : absolute ;
     padding-left : 30px ;
-    top : 360px ;
-    bottom : 40px ;
+    top : 160px ;
+    height : 200px ;
     right : 0px ;
     width : 350px ;
 }

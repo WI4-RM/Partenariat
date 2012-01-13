@@ -14,6 +14,7 @@ function nouveauPays(){
 }
 
 function nouvelleCategorie(idPays){
+    window.location.href = "#idNouvelleRubrique";
     document.getElementById('idNouvelleRubrique').innerHTML = "";
     document.getElementById('idNouvelleRubrique').innerHTML += "\
     <form action=\"modifierPays\">\n\
@@ -30,19 +31,19 @@ function nouvelleCategorie(idPays){
             <td><input type=\"text\" name=\"contenuNouvelleRubrique\" style=\"width:600px; height:200px;\" /></td>\n\
         </tr>\n\
     </table>\n\
-    <input type=\"submit\" value=\"Creer une nouvelle rubrique\" onClick=\"javascript:annulerModifierRubrique("+ idPays+ ");\">\n\
-    <input type=\"button\" value=\"Annuler\">\n\
-    </form>";
-    window.location.href = "#idNouvelleRubrique";
+    <input type=\"submit\" value=\"Creer une nouvelle rubrique\">\n\
+    <input type=\"button\" value=\"Annuler\" onClick=\"javascript:annulerNouvelleRubrique("+ idPays+ ");\">\n\
+    </form>"; 
 }
 
-function annulerModifierRubrique(idPays){
+function annulerNouvelleRubrique(idPays){
     document.getElementById('idNouvelleRubrique').innerHTML = "";
     document.getElementById('idNouvelleRubrique').innerHTML += "\
-        <input type=\"button\" onclick=\"javascript:nouvelleCategorie('"+idPays+"')\" value=\"Ajouter une categorie\">";
+        <input type=\"button\" onClick=\"javascript:nouvelleCategorie('"+idPays+"')\" value=\"Ajouter une categorie\">";
 }
 
 function modifierRubrique(idPays, idRubrique, idPara, idDivContenu){
+    window.location.href = "#" + idRubrique;
     var contenu = document.getElementById(idPara).innerHTML;
     document.getElementById(idDivContenu).innerHTML = "";
     document.getElementById(idDivContenu).innerHTML += "\
@@ -72,16 +73,17 @@ function visibilite(idDiv){
     }
 }
 
-function nouveauFichier(idDiv, idRub){
+function nouveauFichier(idDiv, idPays){
     document.getElementById(idDiv).innerHTML = "";
     document.getElementById(idDiv).innerHTML += "\
     <p>Entrez le chemin vers le fichier :</p>\n\
-    <form action=\"nouveauFichier\">\n\
-    <input type=\"hidden\" name=\"idRubrique\" value=\""+ idRub +"\">\n\
-    <input type=\"text\" />\n\
+    <form action=\"uploadFichier\" method=\"POST\" enctype=\"multipart/form-data\">\n\
+    <input type=\"file\" name=\"fichier\"/>\n\
     <br/><input type=\"submit\" value=\"Envoyer\" />\n\
-    <input type=\"button\" value=\"Annuler\" onClick=\"annulerEnvoiFichier(\'"+ idDiv +"\',\'"+ idRub +"\');\"/>\n\
-    </form>";
+    <input type=\"button\" value=\"Annuler\" onClick=\"annulerEnvoiFichier(\'"+ idDiv +"\',\'"+ idPays +"\');\"/>\n\
+    </form>\n\
+";
+    window.location.href = "#fichiersUpload";
 }
 
 function annulerEnvoiFichier(idDiv, idRub){

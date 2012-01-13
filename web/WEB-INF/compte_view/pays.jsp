@@ -4,7 +4,7 @@
     Author     : lolo
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,javax.ejb.EJB,session.FichierUploadeFacade,entity.FichierUploade"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,java.text.SimpleDateFormat,entity.FichierUploade,entity.FichierUploade"%>
 <div class="divBody">
     <%
     String msg = (String)request.getAttribute("messageErreur");
@@ -17,6 +17,7 @@
     String idPays = (String)request.getAttribute("idPays");
     ArrayList<entity.Rubrique> listeRub = (ArrayList<entity.Rubrique>)getServletContext().getAttribute("rubriques");
     ArrayList<String> listeTitresRub = (ArrayList<String>)getServletContext().getAttribute("titresRub");
+    List<FichierUploade> listeFichiers = (List<FichierUploade>)getServletContext().getAttribute("fichiers");
     %>
     <table width="100%" bgcolor="#b9c5d2" cellpadding="">
         <tr>
@@ -33,11 +34,15 @@
         <ul>
             <li><a href="javascript:goToSection('map')">Carte</a></li>
             <%
-
             for (int titreIndex = 0; titreIndex < listeTitresRub.size() ; titreIndex++){
                 String titre = listeTitresRub.get(titreIndex);
                 %>
-                <li><a href="javascript:goToSection('<%= titre%>')"><%= titre%></a></li>
+            <li><a href="javascript:goToSection('<%= titre%>')"><%= titre%></a></li>
+                <%
+            }
+            if (listeFichiers.size() > 0){
+                %>
+            <li><a href="javascript:goToSection('fichiersUpload')">Fichiers</a></li>
                 <%
             }
             %>
@@ -45,7 +50,7 @@
     <div id="map"></div>
     <br/>
     <%
-    for (int i = 0; i < listeRub.size(); i++){
+    for (int i = 0; i < listeRub.size(); i++){  //On parcout la liste des rubriques
         entity.Rubrique curRub = listeRub.get(i);
         String nomRub = curRub.getNom();
         String texteRub = curRub.getTexte();
@@ -58,14 +63,21 @@
                 <tr>
                     <td><h2 id="<%= nomRub%>"><%= nomRub%></h2></td>
                     <%
-                    //if (request.getAttribute("connecte").equals("true")){
+                    if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
                         %>
                     <td align="right">
-                        <span class="alignementDroite"><a href='javascript:modifierRubrique("<%= idPays%>","<%= idRub%>","<%= idParaRub%>", "<%= idDivTexte%>")'>Modifier</a>
-                        <br/><a href="modifierPays?action=supprimerRubrique&idPays=<%= idPays%>&idRubrique=<%= curRub.getIdrubrique()%>">Supprimer</a></span>
+                        <span class="alignementDroite">
+                            <a href='javascript:modifierRubrique("<%= idPays%>","<%= idRub%>","<%= idParaRub%>", "<%= idDivTexte%>")'>
+                                Modifier
+                            </a>
+                            <br/>
+                            <a href="modifierPays?action=supprimerRubrique&idPays=<%= idPays%>&idRubrique=<%= curRub.getIdrubrique()%>">
+                                Supprimer
+                            </a>
+                        </span>
                     </td>
                         <%
-                    //}
+                    }
                     %>
                 </tr>
             </div>
@@ -73,39 +85,54 @@
         <div id='<%= idDivTexte%>'>
             <p id="<%= idParaRub%>"> <%= texteRub%></p>
         </div>
-        <h2>Fichiers uploadés :</h2>
         <%
-        FichierUploadeFacade fichierUploadeFacade = (FichierUploadeFacade)getServletContext().getAttribute("fichierUploadeFacade");
-        List<FichierUploade> listeFichiers = fichierUploadeFacade.findByIdrubrique(idRub);
+    }
+
+     if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+        %>
+    <br/>
+    <div id="idNouvelleRubrique">
+        <input type="button" onclick="javascript:nouvelleCategorie('<%= idPays%>')" value="Ajouter une categorie">
+    </div>
+         <%
+    }
+
+    if (listeFichiers.size() > 0){
+        %>
+    <h2 id="fichiersUpload">Fichiers uploadés :</h2>
+        <%
         for (int j = 0; j < listeFichiers.size(); j++) {
             FichierUploade fichier = listeFichiers.get(j);
             String nomFichier = fichier.getNom();
+            SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yy" );
+            String date = dateFormat.format(fichier.getDate());
             int tailleFichier = fichier.getTaille();
+            String ordre = "Octets";
+            if (tailleFichier/1024 > 1){
+                tailleFichier = tailleFichier/1024;
+                ordre = "Kio";
+                if (tailleFichier/1024 > 1){
+                tailleFichier = tailleFichier/1024;
+                ordre = "Mio";
+            }
+            }
             String nomProfil = fichier.getProfilIdprofil().getNom();
             String prenomProfil = fichier.getProfilIdprofil().getPrenom();
             %>
-            <p><a href="<%= nomFichier%>"><%= nomFichier%></a> (<%= tailleFichier%>), mis en ligne par <a href=""><%= prenomProfil%><%= nomProfil%></a></p>
+            <p><a href="downloadFile?nomFichier=<%= nomFichier%>"><%= nomFichier%></a> (<%= tailleFichier%> <%= ordre%>),
+                mis en ligne par <a href=""><%= prenomProfil%> <%= nomProfil%></a> le <%= date%></p>
             <%
         }
-        
-        String idDivNouveauFichier = "idNouveauFichier" + nomRub;
-        %>
-        <div id='<%= idDivNouveauFichier%>'>
-            <input type="button" onclick="javascript:nouveauFichier('<%= idDivNouveauFichier%>','<%= idRub%>')" value="Uploader un fichier">
-        </div>
-            <a href="javascript:goToSection('<%= nomPays%>')">Retourner en haut de la page</a>
-        <%
+    }
+    if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+        request.getSession().setAttribute("idPays", idPays);
+    %>
+    <div id='idDivNouveauFichier'>
+        <input type="button" onclick="javascript:nouveauFichier('idDivNouveauFichier','<%= idPays%>')" value="Uploader un fichier">
+    </div>
+    <%
     }
     %>
-    <%
-    //if (request.getAttribute("connecte").equals("true")){
-        %>
-        <br/>
-        <div id="idNouvelleRubrique">
-            <input type="button" onclick="javascript:nouvelleCategorie('<%= idPays%>')" value="Ajouter une categorie">
-        </div>
-         <%
-    //}
-    %>
-    <%-- TODO Liste des fichiers uploadés--%>
+        <span class="alignementDroite"><a href="javascript:goToSection('<%= nomPays%>')">Retourner en haut de la page</a></span>
+        
 </div>

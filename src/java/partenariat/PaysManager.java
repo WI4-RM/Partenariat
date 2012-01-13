@@ -6,12 +6,10 @@
 package partenariat;
 
 import entity.Pays;
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.PaysFacade;
 
 /**
  *
@@ -22,9 +20,6 @@ import session.PaysFacade;
 public class PaysManager {
     @PersistenceContext(unitName = "ProjetPartenariatsPU")
     private EntityManager em;
-
-    @EJB
-    private PaysFacade paysFacade;
 
      public boolean createPays(String name){
         try {
