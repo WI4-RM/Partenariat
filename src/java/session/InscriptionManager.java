@@ -146,5 +146,26 @@ public class InscriptionManager {
        // return false;
           
     }
+    
+    
+
+    /** admin connection
+     * 
+     * @param username
+     * @param password
+     * @return true if the user is admin, with valid password
+     */
+    public boolean connectAdmin(String username, String password) {
+        if (connect(username, password)){
+            List<Compte> LCompte =  compteFacade.findByEmail(username);
+            if (LCompte.isEmpty())
+                return false;
+            
+             Compte userAccount = LCompte.get(0);
+             return userAccount.getIsAdministrator();
+        }
+        else
+            return false;
+    }
 
 }

@@ -4,6 +4,7 @@
 */
 package controller;
 
+import entity.Compte;
 import entity.FichierUploade;
 import entity.Pays;
 import entity.Rubrique;
@@ -27,6 +28,7 @@ import javax.servlet.http.*;
 import partenariat.Historique;
 import partenariat.PaysManager;
 import partenariat.RubriqueManager;
+import session.CompteFacade;
 import session.InscriptionManager;
 import validator.InputValidator;
 
@@ -76,6 +78,9 @@ public class ControllerServlet extends HttpServlet {
     @EJB
     private InscriptionManager inscriptionManager;
     
+    @EJB
+    private CompteFacade compteFacade;
+    
     /**
 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
 * @param request servlet request
@@ -90,9 +95,6 @@ public class ControllerServlet extends HttpServlet {
         String url = "";
         
         HttpSession session = request.getSession(false);
-        String t;
-        if (session != null) // no connected
-           t = (String) session.getAttribute("nom");
 
         /*if (request.getSession(false) != null && !request.getSession(false).isNew() ){
             request.getSession().invalidate();
@@ -105,6 +107,14 @@ public class ControllerServlet extends HttpServlet {
             this.createNewSession(request, "sessionLauriane");
             session.setAttribute("idProfil",String.valueOf(1)) ;
         }*/
+          
+        
+//        if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+//            session.setAttribute("idProfil", String.valueOf(1));
+//            int idProfil = Integer.parseInt((String)session.getAttribute("idProfil"));
+////            session.setAttribute("nom", profilFacade.findByIdprofil(idProfil).get(0).getNom());
+////            session.setAttribute("prenom",profilFacade.findByIdprofil(idProfil).get(0).getPrenom());
+//        }
 
         getServletContext().setAttribute("derniersPays", paysFacade.findAllOrderedById());
 
@@ -526,9 +536,17 @@ public class ControllerServlet extends HttpServlet {
      * @param name : user name
      * @param request : request from servlet 
      */
-    private void createNewSession(HttpServletRequest request, String name) {
+    private void createNewSession(HttpServletRequest request, String email) {
         HttpSession session = request.getSession(true);
-        session.setAttribute("nom", name);
+        session.setAttribute("email", email);
+        
+        //add other attribut
+        Compte c = compteFacade.findTheCompteByEmail(email);        
+        Integer idProfil = c.getProfilIdprofil().getIdprofil();
+        
+        session.setAttribute("idProfil",idProfil );
+        session.setAttribute("nom", profilFacade.findByIdprofil(idProfil).get(0).getNom());
+        session.setAttribute("prenom",profilFacade.findByIdprofil(idProfil).get(0).getPrenom());
         //Cookie c = new Cookie("nom", name);
         
         
