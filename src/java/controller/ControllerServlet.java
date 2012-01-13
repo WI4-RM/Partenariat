@@ -96,17 +96,17 @@ public class ControllerServlet extends HttpServlet {
         
         HttpSession session = request.getSession(false);
 
-        /*if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+        if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+            //int idProfil = 1;
+            //request.getSession().setAttribute("profil", profilFacade.findByIdprofil(idProfil).get(0));
             request.getSession().invalidate();
-            session.setAttribute("idProfil", String.valueOf(1));
-            int idProfil = Integer.parseInt((String)session.getAttribute("idProfil"));
-            session.setAttribute("nom", profilFacade.findByIdprofil(idProfil).get(0).getNom());
-            session.setAttribute("prenom",profilFacade.findByIdprofil(idProfil).get(0).getPrenom());
-        }*/
-        /*else{
-            this.createNewSession(request, "sessionLauriane");
-            session.setAttribute("idProfil",String.valueOf(1)) ;
-        }*/
+            /*session.setAttribute("idProfil", String.valueOf(1));
+            int idProfil = Integer.parseInt((String)session.getAttribute("idProfil"));*/
+        }
+        else{
+            //this.createNewSession(request, "sessionLauriane");
+            //session.setAttribute("idProfil",String.valueOf(1)) ;
+        }
           
         
 //        if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
@@ -408,7 +408,6 @@ public class ControllerServlet extends HttpServlet {
             else {
                 request.setAttribute("connecte", "false");
             }
-            System.out.println(url);
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
