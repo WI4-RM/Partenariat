@@ -22,8 +22,6 @@
         int idRub = curRub.getIdrubrique();
         String curTitreRub = curRub.getNom();
         String contenu = curRub.getTexte();
-        //GregorianCalendar cal = new GregorianCalendar();
-        //cal.setTime(curRub.getDate());
         SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yy" );
         String date = dateFormat.format(curRub.getDate());
         SimpleDateFormat heureFormat= new SimpleDateFormat("hh:mm:ss" );
