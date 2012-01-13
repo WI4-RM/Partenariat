@@ -35,6 +35,7 @@
                     <tr>
                         <td><a href="deconnect">Déconnexion</a></td>
                     </tr>
+                    
                 <%
                 }
                 else {

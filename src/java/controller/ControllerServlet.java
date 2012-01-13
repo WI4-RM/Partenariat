@@ -4,6 +4,7 @@
 */
 package controller;
 
+import entity.Compte;
 import entity.FichierUploade;
 import entity.Pays;
 import entity.Rubrique;
@@ -20,6 +21,7 @@ import javax.servlet.http.*;
 import partenariat.Historique;
 import partenariat.PaysManager;
 import partenariat.RubriqueManager;
+import session.CompteFacade;
 import session.InscriptionManager;
 import validator.InputValidator;
 
@@ -63,6 +65,9 @@ public class ControllerServlet extends HttpServlet {
     @EJB
     private InscriptionManager inscriptionManager;
     
+    @EJB
+    private CompteFacade compteFacade;
+    
     /**
 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
 * @param request servlet request
@@ -78,10 +83,7 @@ public class ControllerServlet extends HttpServlet {
         String url = "";
         
         HttpSession session = request.getSession(false);
-        String t;
-        if (session != null) // no connected
-       
-           t = (String) session.getAttribute("nom");
+
           
         
             
@@ -420,6 +422,10 @@ public class ControllerServlet extends HttpServlet {
     private void createNewSession(HttpServletRequest request, String name) {
         HttpSession session = request.getSession(true);
         session.setAttribute("nom", name);
+        
+        //add other attribut
+        Compte c = compteFacade.findTheCompteByEmail(name);
+        session.setAttribute("idProfil", c.getProfilIdprofil().getIdprofil());
         //Cookie c = new Cookie("nom", name);
         
         
