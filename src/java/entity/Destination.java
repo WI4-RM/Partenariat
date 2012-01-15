@@ -39,7 +39,7 @@ public class Destination implements Serializable {
     @Lob
     @Column(name = "commentaire")
     private String commentaire;
-    @JoinColumn(name = "destination_idDestination", referencedColumnName = "idDestination", insertable = false, updatable = false)
+    @JoinColumn(name = "destination_idDestination", referencedColumnName = "idVille", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Ville ville;
     @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil", insertable = false, updatable = false)

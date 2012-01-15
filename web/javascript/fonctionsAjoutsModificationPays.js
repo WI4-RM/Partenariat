@@ -96,3 +96,34 @@ function goToSection(id){
     var section = "#" + id;
     window.location.href = section;
 }
+
+function addDestination(idDiv, idVille){
+    var section = "#" + idDiv;
+    document.getElementById(idDiv).innerHTML = "";
+    document.getElementById(idDiv).innerHTML += "\
+    <form action=\"ajouterDestination\">\n\
+    <input type=\"hidden\" name=\"action\" value=\"villeExistante\">\n\
+    <input type=\"hidden\" name=\"idVille\" value=\""+ idVille +"\">\n\
+    <table>\n\
+        <tr>\n\
+            <td>Type</td>\n\
+            <td><input type=\"text\" name=\"titreNouvelleRubrique\" /></td>\n\
+        </tr>\n\
+        <tr>\n\
+            <td>Précision (Entreprise, université, lieu de visite...)</td>\n\
+            <td><SELECT name=\"type\">\n\
+                    <OPTION VALUE=\"stage\">Stage</OPTION>\n\
+                    <OPTION VALUE=\"semestre\">Départ universitaire</OPTION>\n\
+                    <OPTION VALUE=\"tourisme\">Tourisme</OPTION>\n\
+                </SELECT></td>\n\
+        /tr>\n\
+        <tr>\n\
+            <td>Commentaire</td>\n\
+            <td><textarea name=\"commentaire\" style=\"width:600px; height:200px;\"> </textarea></td>\n\
+        </tr>\n\
+    </table>\n\
+    <input type=\"submit\" value=\"Creer une nouvelle rubrique\">\n\
+    <input type=\"button\" value=\"Annuler\" onClick=\"javascript:annulerNouvelleRubrique("+ idPays+ ");\">\n\
+    </form>";
+    window.location.href = section;
+}

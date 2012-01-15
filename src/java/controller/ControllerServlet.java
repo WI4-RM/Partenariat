@@ -8,6 +8,7 @@ import entity.Compte;
 import entity.FichierUploade;
 import entity.Pays;
 import entity.Rubrique;
+import entity.Ville;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -66,7 +67,7 @@ public class ControllerServlet extends HttpServlet {
     private session.RubriqueFacade rubriqueFacade ;
 
     @EJB
-    private session.DestinationFacade destinationFacade ;
+    private session.VilleFacade villeFacade ;
 
     @EJB
     private session.FichierUploadeFacade fichierUploadeFacade ;
@@ -74,13 +75,14 @@ public class ControllerServlet extends HttpServlet {
     @EJB
     private session.ProfilFacade profilFacade ;
 
-    private String dossierFichiersUploades = "/fichiersUploades";
     @EJB
     private InscriptionManager inscriptionManager;
     
     @EJB
     private CompteFacade compteFacade;
-    
+
+    private String dossierFichiersUploades = "/fichiersUploades";
+
     /**
 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
 * @param request servlet request
@@ -177,12 +179,15 @@ public class ControllerServlet extends HttpServlet {
                 }
             }
 
+            List<Ville> listeVilles = villeFacade.findByIdpays(idPays);
+
             List<FichierUploade> listeFichiers = fichierUploadeFacade.findByIdpays(idPays);
 
             request.setAttribute("nom",nomPays);
             request.setAttribute("idPays", request.getParameter("idPays"));
             getServletContext().setAttribute("titresRub", titresRubriquesTriees);
             getServletContext().setAttribute("rubriques", rubriquesPublieesTriees);
+            getServletContext().setAttribute("villes", listeVilles);
             getServletContext().setAttribute("fichiers", listeFichiers);
             url = "/WEB-INF/compte_view/pays.jsp";
         }
