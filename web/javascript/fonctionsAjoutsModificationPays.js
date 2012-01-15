@@ -27,7 +27,7 @@ function nouvelleCategorie(idPays){
         </tr>\n\
         <tr>\n\
             <td>Contenu</td>\n\
-            <td><input type=\"text\" name=\"contenuNouvelleRubrique\" style=\"width:600px; height:200px;\" /></td>\n\
+            <td><textarea name=\"contenuNouvelleRubrique\" style=\"width:600px; height:200px;\"> </textarea></td>\n\
         </tr>\n\
     </table>\n\
     <input type=\"submit\" value=\"Creer une nouvelle rubrique\">\n\
@@ -50,7 +50,7 @@ function modifierRubrique(idPays, idRubrique, idPara, idDivContenu){
     <input type=\"hidden\" name=\"action\" value=\"modifierRubrique\">\n\
     <input type=\"hidden\" name=\"idPays\" value=\""+ idPays +"\">\n\
     <input type=\"hidden\" name=\"idRubrique\" value=\""+ idRubrique +"\">\n\
-    <input type=\"text\" name=\"nouveauContenuRubrique\" style=\"width:600px; height:200px;\" value=\""+ contenu +"\"/>\n\
+    <textarea name=\"nouveauContenuRubrique\" style=\"width:600px; height:200px;\">" + contenu + "</textarea>\n\
     <br/><input type=\"submit\" value=\"Valider la modification\" />\n\
     <input type=\"button\" value=\"Annuler\" onClick=\"annulerModifierRubrique(\'"+ contenu +"\',\'"+ idDivContenu +"\',\'"+ idPara +"\');\"/>\n\
     </form>";

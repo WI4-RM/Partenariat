@@ -6,14 +6,11 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,101 +24,91 @@ import javax.persistence.Table;
 @Table(name = "destination")
 @NamedQueries({
     @NamedQuery(name = "Destination.findAll", query = "SELECT d FROM Destination d"),
-    @NamedQuery(name = "Destination.findByIdDestination", query = "SELECT d FROM Destination d WHERE d.idDestination = :idDestination"),
-    @NamedQuery(name = "Destination.findByX", query = "SELECT d FROM Destination d WHERE d.x = :x"),
-    @NamedQuery(name = "Destination.findByY", query = "SELECT d FROM Destination d WHERE d.y = :y"),
-    @NamedQuery(name = "Destination.findByZoomLevel", query = "SELECT d FROM Destination d WHERE d.zoomLevel = :zoomLevel"),
-    @NamedQuery(name = "Destination.findByVille", query = "SELECT d FROM Destination d WHERE d.ville = :ville")})
+    @NamedQuery(name = "Destination.findByDestinationidDestination", query = "SELECT d FROM Destination d WHERE d.destinationPK.destinationidDestination = :destinationidDestination"),
+    @NamedQuery(name = "Destination.findByProfilIdprofil", query = "SELECT d FROM Destination d WHERE d.destinationPK.profilIdprofil = :profilIdprofil"),
+    @NamedQuery(name = "Destination.findByType", query = "SELECT d FROM Destination d WHERE d.type = :type"),
+    @NamedQuery(name = "Destination.findByOrganisme", query = "SELECT d FROM Destination d WHERE d.organisme = :organisme")})
 public class Destination implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "idDestination")
-    private Integer idDestination;
-    @Column(name = "X")
-    private Integer x;
-    @Column(name = "Y")
-    private Integer y;
-    @Column(name = "zoom_level")
-    private Integer zoomLevel;
-    @Column(name = "ville")
-    private String ville;
-    @JoinTable(name = "destination_has_profil", joinColumns = {
-        @JoinColumn(name = "destination_idDestination", referencedColumnName = "idDestination")}, inverseJoinColumns = {
-        @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil")})
-    @ManyToMany
-    private List<Profil> profilList;
-    @JoinColumn(name = "pays_idpays", referencedColumnName = "idpays")
+    @EmbeddedId
+    protected DestinationPK destinationPK;
+    @Column(name = "type")
+    private String type;
+    @Column(name = "organisme")
+    private String organisme;
+    @Lob
+    @Column(name = "commentaire")
+    private String commentaire;
+    @JoinColumn(name = "destination_idDestination", referencedColumnName = "idDestination", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Pays paysIdpays;
+    private Ville ville;
+    @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Profil profil;
 
     public Destination() {
     }
 
-    public Destination(Integer idDestination) {
-        this.idDestination = idDestination;
+    public Destination(DestinationPK destinationPK) {
+        this.destinationPK = destinationPK;
     }
 
-    public Integer getIdDestination() {
-        return idDestination;
+    public Destination(int destinationidDestination, int profilIdprofil) {
+        this.destinationPK = new DestinationPK(destinationidDestination, profilIdprofil);
     }
 
-    public void setIdDestination(Integer idDestination) {
-        this.idDestination = idDestination;
+    public DestinationPK getDestinationPK() {
+        return destinationPK;
     }
 
-    public Integer getX() {
-        return x;
+    public void setDestinationPK(DestinationPK destinationPK) {
+        this.destinationPK = destinationPK;
     }
 
-    public void setX(Integer x) {
-        this.x = x;
+    public String getType() {
+        return type;
     }
 
-    public Integer getY() {
-        return y;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setY(Integer y) {
-        this.y = y;
+    public String getOrganisme() {
+        return organisme;
     }
 
-    public Integer getZoomLevel() {
-        return zoomLevel;
+    public void setOrganisme(String organisme) {
+        this.organisme = organisme;
     }
 
-    public void setZoomLevel(Integer zoomLevel) {
-        this.zoomLevel = zoomLevel;
+    public String getCommentaire() {
+        return commentaire;
     }
 
-    public String getVille() {
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
+    }
+
+    public Ville getVille() {
         return ville;
     }
 
-    public void setVille(String ville) {
+    public void setVille(Ville ville) {
         this.ville = ville;
     }
 
-    public List<Profil> getProfilList() {
-        return profilList;
+    public Profil getProfil() {
+        return profil;
     }
 
-    public void setProfilList(List<Profil> profilList) {
-        this.profilList = profilList;
-    }
-
-    public Pays getPaysIdpays() {
-        return paysIdpays;
-    }
-
-    public void setPaysIdpays(Pays paysIdpays) {
-        this.paysIdpays = paysIdpays;
+    public void setProfil(Profil profil) {
+        this.profil = profil;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idDestination != null ? idDestination.hashCode() : 0);
+        hash += (destinationPK != null ? destinationPK.hashCode() : 0);
         return hash;
     }
 
@@ -132,7 +119,7 @@ public class Destination implements Serializable {
             return false;
         }
         Destination other = (Destination) object;
-        if ((this.idDestination == null && other.idDestination != null) || (this.idDestination != null && !this.idDestination.equals(other.idDestination))) {
+        if ((this.destinationPK == null && other.destinationPK != null) || (this.destinationPK != null && !this.destinationPK.equals(other.destinationPK))) {
             return false;
         }
         return true;
@@ -140,7 +127,7 @@ public class Destination implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Destination[idDestination=" + idDestination + "]";
+        return "entity.Destination[destinationPK=" + destinationPK + "]";
     }
 
 }

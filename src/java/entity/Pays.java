@@ -45,9 +45,9 @@ public class Pays implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paysIdpays")
     private List<Rubrique> rubriqueList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paysIdpays")
-    private List<FichierUploade> fichierUploadeList;
+    private List<Ville> villeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paysIdpays")
-    private List<Destination> destinationList;
+    private List<FichierUploade> fichierUploadeList;
 
     public Pays() {
     }
@@ -85,20 +85,20 @@ public class Pays implements Serializable {
         this.rubriqueList = rubriqueList;
     }
 
+    public List<Ville> getVilleList() {
+        return villeList;
+    }
+
+    public void setVilleList(List<Ville> villeList) {
+        this.villeList = villeList;
+    }
+
     public List<FichierUploade> getFichierUploadeList() {
         return fichierUploadeList;
     }
 
     public void setFichierUploadeList(List<FichierUploade> fichierUploadeList) {
         this.fichierUploadeList = fichierUploadeList;
-    }
-
-    public List<Destination> getDestinationList() {
-        return destinationList;
-    }
-
-    public void setDestinationList(List<Destination> destinationList) {
-        this.destinationList = destinationList;
     }
 
     @Override

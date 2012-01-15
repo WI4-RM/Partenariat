@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -48,14 +47,14 @@ public class Profil implements Serializable {
     @Basic(optional = false)
     @Column(name = "promo")
     private int promo;
-    @ManyToMany(mappedBy = "profilList")
-    private List<Destination> destinationList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "profilIdprofil")
     private List<Rubrique> rubriqueList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "profilIdprofil")
     private List<Compte> compteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "profilIdprofil")
     private List<FichierUploade> fichierUploadeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "profil")
+    private List<Destination> destinationList;
 
     public Profil() {
     }
@@ -103,14 +102,6 @@ public class Profil implements Serializable {
         this.promo = promo;
     }
 
-    public List<Destination> getDestinationList() {
-        return destinationList;
-    }
-
-    public void setDestinationList(List<Destination> destinationList) {
-        this.destinationList = destinationList;
-    }
-
     public List<Rubrique> getRubriqueList() {
         return rubriqueList;
     }
@@ -133,6 +124,14 @@ public class Profil implements Serializable {
 
     public void setFichierUploadeList(List<FichierUploade> fichierUploadeList) {
         this.fichierUploadeList = fichierUploadeList;
+    }
+
+    public List<Destination> getDestinationList() {
+        return destinationList;
+    }
+
+    public void setDestinationList(List<Destination> destinationList) {
+        this.destinationList = destinationList;
     }
 
     @Override

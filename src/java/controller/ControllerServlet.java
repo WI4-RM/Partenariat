@@ -97,25 +97,15 @@ public class ControllerServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         if (request.getSession(false) != null && !request.getSession(false).isNew() ){
-            //int idProfil = 1;
-            //request.getSession().setAttribute("profil", profilFacade.findByIdprofil(idProfil).get(0));
             request.getSession().invalidate();
-            /*session.setAttribute("idProfil", String.valueOf(1));
-            int idProfil = Integer.parseInt((String)session.getAttribute("idProfil"));*/
+            //request.getSession().setAttribute("profil", profilFacade.findAll().get(0));
+            //session.setAttribute("idProfil", String.valueOf(profilFacade.findAll().get(0).getIdprofil()));
         }
         else{
-            //this.createNewSession(request, "sessionLauriane");
-            //session.setAttribute("idProfil",String.valueOf(1)) ;
+            //this.createNewSession(request, "sessionLauria");
+            //session.setAttribute("idProfil","1") ;
         }
           
-        
-//        if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
-//            session.setAttribute("idProfil", String.valueOf(1));
-//            int idProfil = Integer.parseInt((String)session.getAttribute("idProfil"));
-////            session.setAttribute("nom", profilFacade.findByIdprofil(idProfil).get(0).getNom());
-////            session.setAttribute("prenom",profilFacade.findByIdprofil(idProfil).get(0).getPrenom());
-//        }
-
         getServletContext().setAttribute("derniersPays", paysFacade.findAllOrderedById());
 
 
@@ -132,7 +122,7 @@ public class ControllerServlet extends HttpServlet {
                     int idPays;
 
                     if ((pays == null) || (pays.size() == 0) || (pays.get(0) == null)){
-                        paysManager.createPays(nomPays);
+                        paysManager.createPays(nomPays, Integer.parseInt((String)session.getAttribute("idProfil")));
                         idPays = paysFacade.findByNom(nomPays).get(0).getIdpays();
                     }
                     else {

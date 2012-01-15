@@ -34,7 +34,7 @@ public class RubriqueManager {
         try {
             //create rubrique
             Rubrique rubrique = new Rubrique();
-            rubrique.setNom(titre);
+            rubrique.setNom(Util.verificationTailleString(titre, 45));
             rubrique.setTexte(contenu);
             rubrique.setProfilIdprofil(profilFacade.findAll().get(0));    //FIXME mettre l'id de l'utilisateur connecte
             Date date = new Date();
@@ -54,7 +54,7 @@ public class RubriqueManager {
     }
 
      public boolean updateText(int idRub, String texte, int idPays){
-         try {
+        try {
             Rubrique rubriqueAncienne = rubriqueFacade.findByIdrubrique(idRub).get(0);
             createRubrique(rubriqueAncienne.getNom(), texte, idPays);
             return true;
