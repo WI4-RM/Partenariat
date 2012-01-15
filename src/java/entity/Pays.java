@@ -6,7 +6,7 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -43,11 +43,11 @@ public class Pays implements Serializable {
     @Column(name = "nom")
     private String nom;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paysIdpays")
-    private List<Rubrique> rubriqueList;
+    private Collection<Rubrique> rubriqueCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paysIdpays")
-    private List<Ville> villeList;
+    private Collection<Ville> villeCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paysIdpays")
-    private List<FichierUploade> fichierUploadeList;
+    private Collection<FichierUploade> fichierUploadeCollection;
 
     public Pays() {
     }
@@ -77,28 +77,28 @@ public class Pays implements Serializable {
         this.nom = nom;
     }
 
-    public List<Rubrique> getRubriqueList() {
-        return rubriqueList;
+    public Collection<Rubrique> getRubriqueCollection() {
+        return rubriqueCollection;
     }
 
-    public void setRubriqueList(List<Rubrique> rubriqueList) {
-        this.rubriqueList = rubriqueList;
+    public void setRubriqueCollection(Collection<Rubrique> rubriqueCollection) {
+        this.rubriqueCollection = rubriqueCollection;
     }
 
-    public List<Ville> getVilleList() {
-        return villeList;
+    public Collection<Ville> getVilleCollection() {
+        return villeCollection;
     }
 
-    public void setVilleList(List<Ville> villeList) {
-        this.villeList = villeList;
+    public void setVilleCollection(Collection<Ville> villeCollection) {
+        this.villeCollection = villeCollection;
     }
 
-    public List<FichierUploade> getFichierUploadeList() {
-        return fichierUploadeList;
+    public Collection<FichierUploade> getFichierUploadeCollection() {
+        return fichierUploadeCollection;
     }
 
-    public void setFichierUploadeList(List<FichierUploade> fichierUploadeList) {
-        this.fichierUploadeList = fichierUploadeList;
+    public void setFichierUploadeCollection(Collection<FichierUploade> fichierUploadeCollection) {
+        this.fichierUploadeCollection = fichierUploadeCollection;
     }
 
     @Override

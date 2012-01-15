@@ -6,7 +6,7 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -48,13 +48,13 @@ public class Profil implements Serializable {
     @Column(name = "promo")
     private int promo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "profilIdprofil")
-    private List<Rubrique> rubriqueList;
+    private Collection<Rubrique> rubriqueCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "profilIdprofil")
-    private List<Compte> compteList;
+    private Collection<Compte> compteCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "profilIdprofil")
-    private List<FichierUploade> fichierUploadeList;
+    private Collection<FichierUploade> fichierUploadeCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "profil")
-    private List<Destination> destinationList;
+    private Collection<Destination> destinationCollection;
 
     public Profil() {
     }
@@ -102,36 +102,36 @@ public class Profil implements Serializable {
         this.promo = promo;
     }
 
-    public List<Rubrique> getRubriqueList() {
-        return rubriqueList;
+    public Collection<Rubrique> getRubriqueCollection() {
+        return rubriqueCollection;
     }
 
-    public void setRubriqueList(List<Rubrique> rubriqueList) {
-        this.rubriqueList = rubriqueList;
+    public void setRubriqueCollection(Collection<Rubrique> rubriqueCollection) {
+        this.rubriqueCollection = rubriqueCollection;
     }
 
-    public List<Compte> getCompteList() {
-        return compteList;
+    public Collection<Compte> getCompteCollection() {
+        return compteCollection;
     }
 
-    public void setCompteList(List<Compte> compteList) {
-        this.compteList = compteList;
+    public void setCompteCollection(Collection<Compte> compteCollection) {
+        this.compteCollection = compteCollection;
     }
 
-    public List<FichierUploade> getFichierUploadeList() {
-        return fichierUploadeList;
+    public Collection<FichierUploade> getFichierUploadeCollection() {
+        return fichierUploadeCollection;
     }
 
-    public void setFichierUploadeList(List<FichierUploade> fichierUploadeList) {
-        this.fichierUploadeList = fichierUploadeList;
+    public void setFichierUploadeCollection(Collection<FichierUploade> fichierUploadeCollection) {
+        this.fichierUploadeCollection = fichierUploadeCollection;
     }
 
-    public List<Destination> getDestinationList() {
-        return destinationList;
+    public Collection<Destination> getDestinationCollection() {
+        return destinationCollection;
     }
 
-    public void setDestinationList(List<Destination> destinationList) {
-        this.destinationList = destinationList;
+    public void setDestinationCollection(Collection<Destination> destinationCollection) {
+        this.destinationCollection = destinationCollection;
     }
 
     @Override

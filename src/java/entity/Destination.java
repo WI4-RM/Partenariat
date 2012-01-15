@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -27,7 +30,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Destination.findByDestinationidDestination", query = "SELECT d FROM Destination d WHERE d.destinationPK.destinationidDestination = :destinationidDestination"),
     @NamedQuery(name = "Destination.findByProfilIdprofil", query = "SELECT d FROM Destination d WHERE d.destinationPK.profilIdprofil = :profilIdprofil"),
     @NamedQuery(name = "Destination.findByType", query = "SELECT d FROM Destination d WHERE d.type = :type"),
-    @NamedQuery(name = "Destination.findByOrganisme", query = "SELECT d FROM Destination d WHERE d.organisme = :organisme")})
+    @NamedQuery(name = "Destination.findByOrganisme", query = "SELECT d FROM Destination d WHERE d.organisme = :organisme"),
+    @NamedQuery(name = "Destination.findByDate", query = "SELECT d FROM Destination d WHERE d.date = :date")})
 public class Destination implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -39,6 +43,9 @@ public class Destination implements Serializable {
     @Lob
     @Column(name = "commentaire")
     private String commentaire;
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     @JoinColumn(name = "destination_idDestination", referencedColumnName = "idVille", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Ville ville;
@@ -87,6 +94,14 @@ public class Destination implements Serializable {
 
     public void setCommentaire(String commentaire) {
         this.commentaire = commentaire;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Ville getVille() {
