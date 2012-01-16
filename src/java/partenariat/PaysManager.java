@@ -55,6 +55,7 @@ public class PaysManager {
             while (iter.hasNext()){
                rubriqueManager.createRubrique((String) iter.next(), "", idPays);
             }
+            //paysFacade.update();
 
             return true;
         } catch (Exception e) {

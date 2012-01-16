@@ -4,12 +4,12 @@
     Author     : lolo
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,java.text.SimpleDateFormat,partenariat.Historique,entity.Rubrique"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,java.text.SimpleDateFormat,entity.Rubrique"%>
 <div class="divBody">
     <%
     String nomPays = (String)request.getAttribute("nom");
     String idPays = (String)request.getAttribute("idPays");
-    ArrayList<Historique> listeHist = (ArrayList<Historique>)getServletContext().getAttribute("historique");
+    List<Rubrique> listeHist = (List<Rubrique>)getServletContext().getAttribute("historique");
     %>
     <h1>Historique - <a href="pays?idPays=<%= idPays%>"><%= nomPays%></a></h1>
     <br/>
@@ -17,8 +17,7 @@
     <%
     String titreRub = "--init--";
     for (int i = 0; i < listeHist.size(); i++){
-        Historique hist = listeHist.get(i);
-        Rubrique curRub = hist.getRubrique();
+        Rubrique curRub = listeHist.get(i);
         int idRub = curRub.getIdrubrique();
         String curTitreRub = curRub.getNom();
         String contenu = curRub.getTexte();
@@ -26,8 +25,8 @@
         String date = dateFormat.format(curRub.getDate());
         SimpleDateFormat heureFormat= new SimpleDateFormat("hh:mm:ss" );
         String heure = heureFormat.format(curRub.getDate());
-        String nom = hist.getNomProfil();
-        String prenom = hist.getPrenomProfil();
+        String nom = curRub.getProfilIdprofil().getNom();
+        String prenom = curRub.getProfilIdprofil().getPrenom();
         String idTabRub = "idTab" + curTitreRub;
         if (!curTitreRub.equals(titreRub)){
             if (!titreRub.equals("--init--")){

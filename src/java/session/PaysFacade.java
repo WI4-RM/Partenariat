@@ -27,6 +27,10 @@ public class PaysFacade extends AbstractFacade<Pays> {
         super(Pays.class);
     }
 
+    /*public void update(Pays pays) {
+        em.refresh(pays);
+    }*/
+
     public List<Pays> findByFirstLetter(String lettre){
         return em.createNamedQuery("Pays.findByFirstLetter").setParameter("lettre", lettre).getResultList();
     }

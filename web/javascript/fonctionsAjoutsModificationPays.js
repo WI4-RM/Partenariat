@@ -42,7 +42,7 @@ function annulerNouvelleRubrique(idPays){
         <input type=\"button\" onClick=\"javascript:nouvelleCategorie('"+idPays+"')\" value=\"Ajouter une categorie\">";
 }
 
-function modifierRubrique(idPays, idRubrique, idPara, idDivContenu){
+function modifierRubrique(idPays, idRubrique, idPara, idDivContenu, nomRub){
     var contenu = document.getElementById(idPara).innerHTML;
     document.getElementById(idDivContenu).innerHTML = "";
     document.getElementById(idDivContenu).innerHTML += "\
@@ -54,7 +54,7 @@ function modifierRubrique(idPays, idRubrique, idPara, idDivContenu){
     <br/><input type=\"submit\" value=\"Valider la modification\" />\n\
     <input type=\"button\" value=\"Annuler\" onClick=\"annulerModifierRubrique(\'"+ contenu +"\',\'"+ idDivContenu +"\',\'"+ idPara +"\');\"/>\n\
     </form>";
-    window.location.href = "#" + idRubrique;
+    window.location.href = "#" + nomRub;
 }
 
 function annulerModifierRubrique(contenu, idDivContenu, idPara){
@@ -101,29 +101,34 @@ function addDestination(idDiv, idVille){
     var section = "#" + idDiv;
     document.getElementById(idDiv).innerHTML = "";
     document.getElementById(idDiv).innerHTML += "\
-    <form action=\"ajouterDestination\">\n\
+    <form action=\"nouvelleDestination\">\n\
     <input type=\"hidden\" name=\"action\" value=\"villeExistante\">\n\
     <input type=\"hidden\" name=\"idVille\" value=\""+ idVille +"\">\n\
     <table>\n\
         <tr>\n\
-            <td>Type</td>\n\
-            <td><input type=\"text\" name=\"titreNouvelleRubrique\" /></td>\n\
-        </tr>\n\
-        <tr>\n\
-            <td>Précision (Entreprise, université, lieu de visite...)</td>\n\
+            <td width=\"25%\">Type</td>\n\
             <td><SELECT name=\"type\">\n\
                     <OPTION VALUE=\"stage\">Stage</OPTION>\n\
                     <OPTION VALUE=\"semestre\">Départ universitaire</OPTION>\n\
                     <OPTION VALUE=\"tourisme\">Tourisme</OPTION>\n\
-                </SELECT></td>\n\
-        /tr>\n\
+                </SELECT>\n\
+            </td>\n\
+        </tr>\n\
         <tr>\n\
-            <td>Commentaire</td>\n\
+            <td width=\"25%\">Précision (Entreprise, université, lieu de visite...)</td>\n\
+            <td><input type=\"text\" name=\"organisme\" /></td>\n\
+        </tr>\n\
+        <tr>\n\
+            <td width=\"20%\">Commentaire</td>\n\
             <td><textarea name=\"commentaire\" style=\"width:600px; height:200px;\"> </textarea></td>\n\
         </tr>\n\
     </table>\n\
-    <input type=\"submit\" value=\"Creer une nouvelle rubrique\">\n\
-    <input type=\"button\" value=\"Annuler\" onClick=\"javascript:annulerNouvelleRubrique("+ idPays+ ");\">\n\
+    <input type=\"submit\" value=\"Ajouter une destination\">\n\
+    <input type=\"button\" value=\"Annuler\" onClick=\"javascript:annulerAjoutDestination('"+ idDiv+ "');\">\n\
     </form>";
     window.location.href = section;
+}
+
+function annulerAjoutDestination(idDiv){
+    document.getElementById(idDiv).innerHTML = "";
 }
