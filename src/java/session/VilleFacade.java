@@ -5,7 +5,7 @@
 
 package session;
 
-import entity.Destination;
+import entity.Ville;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,35 +19,35 @@ import javax.persistence.criteria.Root;
  * @author lolo
  */
 @Stateless
-public class DestinationFacade {
+public class VilleFacade {
     @PersistenceContext(unitName = "ProjetPartenariatsPU")
     private EntityManager em;
 
-    public void create(Destination destination) {
-        em.persist(destination);
+    public void create(Ville ville) {
+        em.persist(ville);
     }
 
-    public void edit(Destination destination) {
-        em.merge(destination);
+    public void edit(Ville ville) {
+        em.merge(ville);
     }
 
-    public void remove(Destination destination) {
-        em.remove(em.merge(destination));
+    public void remove(Ville ville) {
+        em.remove(em.merge(ville));
     }
 
-    public Destination find(Object id) {
-        return em.find(Destination.class, id);
+    public Ville find(Object id) {
+        return em.find(Ville.class, id);
     }
 
-    public List<Destination> findAll() {
+    public List<Ville> findAll() {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Destination.class));
+        cq.select(cq.from(Ville.class));
         return em.createQuery(cq).getResultList();
     }
 
-    public List<Destination> findRange(int[] range) {
+    public List<Ville> findRange(int[] range) {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Destination.class));
+        cq.select(cq.from(Ville.class));
         Query q = em.createQuery(cq);
         q.setMaxResults(range[1] - range[0]);
         q.setFirstResult(range[0]);
@@ -56,10 +56,18 @@ public class DestinationFacade {
 
     public int count() {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        Root<Destination> rt = cq.from(Destination.class);
+        Root<Ville> rt = cq.from(Ville.class);
         cq.select(em.getCriteriaBuilder().count(rt));
         Query q = em.createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
+    }
+
+    public List<Ville> findByIdVille(int idVille) {
+        return em.createNamedQuery("Ville.findByIdVille").setParameter("idVille", idVille).getResultList();
+    }
+
+    public List<Ville> findByIdpays(int idPays) {
+        return em.createNamedQuery("Ville.findByIdpays").setParameter("idPays", idPays).getResultList();
     }
 
 }

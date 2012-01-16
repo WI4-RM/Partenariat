@@ -10,7 +10,6 @@ import entity.Pays;
 import entity.Rubrique;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +24,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import partenariat.FichierUploadeManager;
 import javax.servlet.http.*;
-import partenariat.Historique;
+import partenariat.DestinationManager;
 import partenariat.PaysManager;
 import partenariat.RubriqueManager;
 import session.CompteFacade;
@@ -40,8 +39,9 @@ import validator.InputValidator;
 */
 @WebServlet(name = "ControllerServlet",
 loadOnStartup = 1,
-        urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", "/pays", "/historique",
-        "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/dernieresDestinations", "/nouveauPays", "/modifierPays", "/uploadFichier", "/downloadFile"})
+        urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", 
+        "/pays", "/historique", "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/nouvelleDestination",
+        "/dernieresDestinations", "/nouveauPays", "/modifierPays", "/uploadFichier", "/downloadFile"})
 
 public class ControllerServlet extends HttpServlet {
 
@@ -65,6 +65,9 @@ public class ControllerServlet extends HttpServlet {
     private session.RubriqueFacade rubriqueFacade ;
 
     @EJB
+    private session.VilleFacade villeFacade ;
+
+    @EJB
     private session.DestinationFacade destinationFacade ;
 
     @EJB
@@ -73,13 +76,17 @@ public class ControllerServlet extends HttpServlet {
     @EJB
     private session.ProfilFacade profilFacade ;
 
-    private String dossierFichiersUploades = "/fichiersUploades";
     @EJB
     private InscriptionManager inscriptionManager;
+
+    @EJB
+    private DestinationManager destinationManager;
     
     @EJB
     private CompteFacade compteFacade;
-    
+
+    private String dossierFichiersUploades = "/fichiersUploades";
+
     /**
 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
 * @param request servlet request
@@ -91,28 +98,30 @@ public class ControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String userPath = request.getServletPath();
-        PrintWriter out = response.getWriter();
         String url = "";
         
         HttpSession session = request.getSession(false);
 
+        //INUTILE : me sert à tester si je suis connectée ou pas
+        /*if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+            //request.getSession().invalidate();
+            request.getSession().setAttribute("profil", profilFacade.findAll().get(0));
+            session.setAttribute("idProfil", profilFacade.findAll().get(0).getIdprofil());
+        }
+        else{//
+            this.createNewSession(request, "sessionLauria");
+            session.setAttribute("idProfil",1) ;
+        }*/
           
-        
-//        if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
-//            session.setAttribute("idProfil", String.valueOf(1));
-//            int idProfil = Integer.parseInt((String)session.getAttribute("idProfil"));
-////            session.setAttribute("nom", profilFacade.findByIdprofil(idProfil).get(0).getNom());
-////            session.setAttribute("prenom",profilFacade.findByIdprofil(idProfil).get(0).getPrenom());
-//        }
-
         getServletContext().setAttribute("derniersPays", paysFacade.findAllOrderedById());
+
 
         if (userPath.equals("/index.html") || userPath.equals("/index") || userPath.equals("")) {  //Page d'accueil
             url = "/WEB-INF/compte_view/pagePrincipale.jsp";
         }
 
         else if (userPath.equals("/nouveauPays")){  //Créer un nouveau pays
-            if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
                 String nomPays = request.getParameter("nouveauPays");
                 if (!nomPays.equals("")){
                     nomPays = partenariat.Util.InitialeMajuscule(nomPays);
@@ -120,7 +129,7 @@ public class ControllerServlet extends HttpServlet {
                     int idPays;
 
                     if ((pays == null) || (pays.size() == 0) || (pays.get(0) == null)){
-                        paysManager.createPays(nomPays);
+                        paysManager.createPays(nomPays, (Integer) session.getAttribute("idProfil"));
                         idPays = paysFacade.findByNom(nomPays).get(0).getIdpays();
                     }
                     else {
@@ -140,7 +149,8 @@ public class ControllerServlet extends HttpServlet {
 
         else if (userPath.equals("/pays")) {    //Page d'un pays
             int idPays = Integer.parseInt(request.getParameter("idPays"));
-            String nomPays = paysFacade.findByIdpays(idPays).get(0).getNom();
+            Pays pays = paysFacade.findByIdpays(idPays).get(0);
+
             List listeRubriques = rubriqueFacade.findByIdPays(idPays);
             ArrayList<String> titresRubriques = new ArrayList<String>();
             ArrayList<entity.Rubrique> rubriquesPubliees = new ArrayList<entity.Rubrique>();
@@ -175,13 +185,13 @@ public class ControllerServlet extends HttpServlet {
                 }
             }
 
-            List<FichierUploade> listeFichiers = fichierUploadeFacade.findByIdpays(idPays);
+            request.setAttribute("pays", pays);
 
-            request.setAttribute("nom",nomPays);
-            request.setAttribute("idPays", request.getParameter("idPays"));
             getServletContext().setAttribute("titresRub", titresRubriquesTriees);
             getServletContext().setAttribute("rubriques", rubriquesPublieesTriees);
-            getServletContext().setAttribute("fichiers", listeFichiers);
+            getServletContext().setAttribute("fichiers", fichierUploadeFacade.findByIdpays(idPays));
+            getServletContext().setAttribute("villes", villeFacade.findByIdpays(idPays));
+
             url = "/WEB-INF/compte_view/pays.jsp";
         }
         else if (userPath.equals("/paysAlphabet")) {    //Fenetre de la page ppale qui donne les pays existants classés par initiale
@@ -229,10 +239,10 @@ public class ControllerServlet extends HttpServlet {
         }
 
         else if (userPath.equals("/modifierPays")){ //Modification des rubriques d'un pays
-            if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
+            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
                 String action = request.getParameter("action");
                 int idPays = Integer.parseInt(request.getParameter("idPays"));
-                String nomPays = paysFacade.findByIdpays(idPays).get(0).getNom();
+                Pays pays = paysFacade.findByIdpays(idPays).get(0);
 
                 if (action.equals("ajouterRubrique")){
                     String nouveauTitre = request.getParameter("titreNouvelleRubrique");
@@ -265,39 +275,27 @@ public class ControllerServlet extends HttpServlet {
                 }
                 url= "/pays?idPays="+idPays;
             }
-                else {
-                    url = "";
-                }
+            else {
+                url = "";
+            }
         }
 
         else if (userPath.equals("/historique")){
             int idPays = Integer.parseInt(request.getParameter("idPays"));
             String nomPays = paysFacade.findByIdpays(idPays).get(0).getNom();
-            ArrayList<Historique> listeHist = new ArrayList<Historique>();
             List<Rubrique> listeRub = rubriqueFacade.findOrderedByNameThenDate(idPays);
-
-            for (int i = 0; i < listeRub.size(); i++){
-                Historique hist = new Historique();
-                Rubrique rub = listeRub.get(i);
-                int idProfil = rub.getProfilIdprofil().getIdprofil();
-                String nomProfil = profilFacade.findByIdprofil(idProfil).get(0).getNom();
-                String prenomProfil = profilFacade.findByIdprofil(idProfil).get(0).getPrenom();
-                hist.setRubrique(rub);
-                hist.setNomProfil(nomProfil);
-                hist.setPrenomProfil(prenomProfil);
-                listeHist.add(hist);
-            }
-
             request.setAttribute("nom",nomPays);
             request.setAttribute("idPays", request.getParameter("idPays"));
-            getServletContext().setAttribute("historique", listeHist);
+            getServletContext().setAttribute("historique", listeRub);
             url = "/WEB-INF/compte_view/historique.jsp";
         }
 
         else if (userPath.equals("/uploadFichier")){
-            if (request.getSession(false) != null){// && !request.getSession(false).isNew() ){
-                int idProfil = profilFacade.findAll().get(0).getIdprofil(); //FIXME l'id de l'utilisateur connecté
+            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+                //int idProfil = profilFacade.findAll().get(0).getIdprofil();
+                int idProfil = (Integer) request.getAttribute("idProfil");
                 int idPays = Integer.parseInt((String)request.getSession().getAttribute("idPays"));
+                Pays pays = paysFacade.findByIdpays(idPays).get(0);
                 try {
                     // Create a factory for disk-based file items
                     FileItemFactory factory = new DiskFileItemFactory();
@@ -350,7 +348,6 @@ public class ControllerServlet extends HttpServlet {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-
                 url = "pays?idPays="+idPays;
             }
             else {
@@ -363,9 +360,23 @@ public class ControllerServlet extends HttpServlet {
             url= dossierFichiersUploades + "/" + nomFichier;
         }
 
-        //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
-        
- 
+        else if (userPath.equals("/nouvelleDestination")){
+            String action = request.getParameter("action");
+
+            if (action.equals("villeExistante")){
+                String sIdVille = request.getParameter("idVille");
+                int idVille = Integer.parseInt(sIdVille);
+                int idPays = villeFacade.findByIdVille(idVille).get(0).getPaysIdpays().getIdpays();
+                String type = request.getParameter("type");
+                String organisme =  request.getParameter("organisme");
+                String commentaire = request.getParameter("commentaire");
+                if (type.equals("stage") || type.equals("organisme") ||type.equals("tourisme")){
+                    destinationManager.createDestination(idVille, idPays, (Integer) request.getAttribute("idProfil"), type, organisme, commentaire);
+                }
+                url = "pays?idPays=" + idPays;
+            }
+        }
+
         else if (userPath.equals("/inscription")) { //inscription request
 
             // userPath = "inscription";
@@ -393,6 +404,12 @@ public class ControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = processRequest(request, response);
         try {
+            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+                request.setAttribute("connecte", "true");
+            }
+            else {
+                request.setAttribute("connecte", "false");
+            }
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -443,7 +460,7 @@ public class ControllerServlet extends HttpServlet {
                 if (!InputValidator.checkPassword(password)){
                     allInputsOk = false;
                 userPath = "index";
-                url += "compte_view/pagePrincipale" +".jsp";
+                url += "compte_view/pagePrincipale.jsp";
                     //response.sendError(400, "passwd");
                 }
                 if (!InputValidator.checkYear(yearS)){
@@ -493,8 +510,15 @@ public class ControllerServlet extends HttpServlet {
             url = processRequest(request, response);
         }
         try {
+            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+                request.setAttribute("connecte", "true");
+            }
+            else {
+                request.setAttribute("connecte", "false");
+            }
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
     }

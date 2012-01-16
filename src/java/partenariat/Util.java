@@ -71,4 +71,13 @@ public class Util {
         }
         return mot;
     }
+
+    static public String verificationTailleString(String chaine, int tailleMax){
+        int lg = chaine.length();
+        if ((chaine != null) && (lg > 0)){
+            if (lg > tailleMax)
+                chaine = chaine.substring(0, tailleMax);
+        }
+        return chaine;
+    }
 }

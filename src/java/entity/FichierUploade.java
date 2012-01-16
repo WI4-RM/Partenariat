@@ -50,12 +50,12 @@ public class FichierUploade implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @JoinColumn(name = "pays_idpays", referencedColumnName = "idpays")
-    @ManyToOne(optional = false)
-    private Pays paysIdpays;
     @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil")
     @ManyToOne(optional = false)
     private Profil profilIdprofil;
+    @JoinColumn(name = "pays_idpays", referencedColumnName = "idpays")
+    @ManyToOne(optional = false)
+    private Pays paysIdpays;
 
     public FichierUploade() {
     }
@@ -102,20 +102,20 @@ public class FichierUploade implements Serializable {
         this.date = date;
     }
 
-    public Pays getPaysIdpays() {
-        return paysIdpays;
-    }
-
-    public void setPaysIdpays(Pays paysIdpays) {
-        this.paysIdpays = paysIdpays;
-    }
-
     public Profil getProfilIdprofil() {
         return profilIdprofil;
     }
 
     public void setProfilIdprofil(Profil profilIdprofil) {
         this.profilIdprofil = profilIdprofil;
+    }
+
+    public Pays getPaysIdpays() {
+        return paysIdpays;
+    }
+
+    public void setPaysIdpays(Pays paysIdpays) {
+        this.paysIdpays = paysIdpays;
     }
 
     @Override

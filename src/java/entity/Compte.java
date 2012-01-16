@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -16,55 +17,42 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author fingon
+ * @author lolo
  */
 @Entity
 @Table(name = "compte")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Compte.findAll", query = "SELECT c FROM Compte c"),
     @NamedQuery(name = "Compte.findByIdcompte", query = "SELECT c FROM Compte c WHERE c.idcompte = :idcompte"),
     @NamedQuery(name = "Compte.findByEmail", query = "SELECT c FROM Compte c WHERE c.email = :email"),
     @NamedQuery(name = "Compte.findByPasswordHash", query = "SELECT c FROM Compte c WHERE c.passwordHash = :passwordHash"),
     @NamedQuery(name = "Compte.findByValidationHash", query = "SELECT c FROM Compte c WHERE c.validationHash = :validationHash"),
-    @NamedQuery(name = "Compte.findByIsAdministrator", query = "SELECT c FROM Compte c WHERE c.isAdministrator = :isAdministrator")})
+    @NamedQuery(name = "Compte.findByIsAdministrator", query = "SELECT c FROM Compte c WHERE c.isAdministrator = :isAdministrator"),
+    @NamedQuery(name = "Compte.findBySalt", query = "SELECT c FROM Compte c WHERE c.salt = :salt")})
 public class Compte implements Serializable {
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 60)
-    @Column(name = "salt")
-    private String salt;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-   // @NotNull
-    @Column(name = "idcompte",unique=true)
+    @Column(name = "idcompte")
     private Integer idcompte;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 60)
-    @Column(name = "email",unique = true)
+    @Column(name = "email")
     private String email;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 60)
     @Column(name = "password_hash")
     private String passwordHash;
-    @Size(max = 60)
     @Column(name = "validation_hash")
     private String validationHash;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "is_administrator")
     private boolean isAdministrator;
+    @Basic(optional = false)
+    @Column(name = "salt")
+    private String salt;
     @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil")
     @ManyToOne(optional = false)
     private Profil profilIdprofil;
@@ -76,11 +64,12 @@ public class Compte implements Serializable {
         this.idcompte = idcompte;
     }
 
-    public Compte(Integer idcompte, String email, String passwordHash, boolean isAdministrator) {
+    public Compte(Integer idcompte, String email, String passwordHash, boolean isAdministrator, String salt) {
         this.idcompte = idcompte;
         this.email = email;
         this.passwordHash = passwordHash;
         this.isAdministrator = isAdministrator;
+        this.salt = salt;
     }
 
     public Integer getIdcompte() {
@@ -123,6 +112,14 @@ public class Compte implements Serializable {
         this.isAdministrator = isAdministrator;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     public Profil getProfilIdprofil() {
         return profilIdprofil;
     }
@@ -153,15 +150,7 @@ public class Compte implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Compte[ idcompte=" + idcompte + " ]";
+        return "entity.Compte[idcompte=" + idcompte + "]";
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-    
 }
