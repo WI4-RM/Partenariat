@@ -102,16 +102,16 @@ public class ControllerServlet extends HttpServlet {
         
         HttpSession session = request.getSession(false);
 
-        System.out.println("Poutou");
-        if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+        //INUTILE : me sert à tester si je suis connectée ou pas
+        /*if (request.getSession(false) != null && !request.getSession(false).isNew() ){
             //request.getSession().invalidate();
             request.getSession().setAttribute("profil", profilFacade.findAll().get(0));
-            session.setAttribute("idProfil", String.valueOf(profilFacade.findAll().get(0).getIdprofil()));
+            session.setAttribute("idProfil", profilFacade.findAll().get(0).getIdprofil());
         }
         else{//
             this.createNewSession(request, "sessionLauria");
-            session.setAttribute("idProfil","1") ;
-        }
+            session.setAttribute("idProfil",1) ;
+        }*/
           
         getServletContext().setAttribute("derniersPays", paysFacade.findAllOrderedById());
 
@@ -129,7 +129,7 @@ public class ControllerServlet extends HttpServlet {
                     int idPays;
 
                     if ((pays == null) || (pays.size() == 0) || (pays.get(0) == null)){
-                        paysManager.createPays(nomPays, Integer.parseInt((String)session.getAttribute("idProfil")));
+                        paysManager.createPays(nomPays, (Integer) session.getAttribute("idProfil"));
                         idPays = paysFacade.findByNom(nomPays).get(0).getIdpays();
                     }
                     else {
@@ -292,7 +292,8 @@ public class ControllerServlet extends HttpServlet {
 
         else if (userPath.equals("/uploadFichier")){
             if (request.getSession(false) != null && !request.getSession(false).isNew() ){
-                int idProfil = profilFacade.findAll().get(0).getIdprofil(); //FIXME l'id de l'utilisateur connecté
+                //int idProfil = profilFacade.findAll().get(0).getIdprofil();
+                int idProfil = (Integer) request.getAttribute("idProfil");
                 int idPays = Integer.parseInt((String)request.getSession().getAttribute("idPays"));
                 Pays pays = paysFacade.findByIdpays(idPays).get(0);
                 try {
@@ -370,7 +371,7 @@ public class ControllerServlet extends HttpServlet {
                 String organisme =  request.getParameter("organisme");
                 String commentaire = request.getParameter("commentaire");
                 if (type.equals("stage") || type.equals("organisme") ||type.equals("tourisme")){
-                    destinationManager.createDestination(idVille, idPays, 1, type, organisme, commentaire);//FIXME l'idProfil de l'utilisateur connecté
+                    destinationManager.createDestination(idVille, idPays, (Integer) request.getAttribute("idProfil"), type, organisme, commentaire);
                 }
                 url = "pays?idPays=" + idPays;
             }

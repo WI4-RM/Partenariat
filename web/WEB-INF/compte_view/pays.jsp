@@ -43,7 +43,7 @@
         <li><a href="javascript:goToSection('<%= titre%>')"><%= titre%></a></li>
             <%
         }
-        if (listeVilles.size() > 0){
+        if (listeVilles.size() > 0 && request.getAttribute("connecte").equals("true")){
             %>
         <li><a href="javascript:goToSection('villes')">Villes</a></li>
             <%
@@ -232,9 +232,18 @@
             String nomProfil = fichier.getProfilIdprofil().getNom();
             String prenomProfil = fichier.getProfilIdprofil().getPrenom();
             %>
-            <p><a href="downloadFile?nomFichier=<%= nomFichier%>"><%= nomFichier%></a> (<%= tailleFichier%> <%= ordre%>),
+            <p><a href="downloadFile?nomFichier=<%= nomFichier%>"><%= nomFichier%></a> (<%= tailleFichier%> <%= ordre%>)
+            <%
+            if (request.getAttribute("connecte").equals("true")){
+            %>
                 mis en ligne par <a href=""><%= prenomProfil%> <%= nomProfil%></a> le <%= date%></p>
             <%
+            }
+            else {
+            %>
+                </p>
+            <%
+            }
         }
     }
     if (request.getAttribute("connecte").equals("true")){
