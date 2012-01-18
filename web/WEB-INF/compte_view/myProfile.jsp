@@ -1,5 +1,5 @@
 <%-- 
-    Document   : profile
+    Document   : myProfile
     Created on : 12 janv. 2012, 09:22:11
     Author     : Pauline
 --%>
@@ -18,7 +18,7 @@
 	</div>-->
         <div class="colonneGauche" id="cg"></div>
         <div class="colonneDroiteHaut" id="cdh"></div>
-	<div class="colonneDroiteBas"id="cdb"></div>	
+	<div class="colonneDroiteBas" id="cdb"></div>	
         
     
 </div>

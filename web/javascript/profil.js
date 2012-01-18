@@ -6,7 +6,7 @@ Ext.onReady(function() {
  
  refreshIP(false);
  refreshPE(false);
- refreshPI(true);
+ refreshPI(false);
  
 });
 
@@ -15,6 +15,7 @@ function refreshIP(setupInfoPerso){
  var formInfoPerso = new Ext.FormPanel({
 	
 	frame: true,
+	title: 'Informations personnelles',
 	//title: 'inscription',
 	width: 400,
 	//height: 150,
@@ -35,11 +36,15 @@ function refreshIP(setupInfoPerso){
 	buttons: [{
 		text: 'Sauvegarder',
 		handler: function(){
+                    document.getElementById('cg').innerHTML = "";
+                    refreshIP(false);
 		}
 	}]
 });
 var tabInfoPerso = new Ext.Panel({
     	//renderTo: Ext.getBody(),
+        frame: true,
+	title: 'Informations personelles',
          items: [{
             html: "<table border=0>  <tr> <td>Nom : </td> <td>John</td> </tr> <tr> <td>Prénom : </td> <td>Smith</td> </tr> </table>",
             xtype: "panel"
@@ -47,6 +52,9 @@ var tabInfoPerso = new Ext.Panel({
 		buttons: [{
 		text: 'Modifier',
 		handler: function(){
+                    
+                    document.getElementById('cg').innerHTML = "";
+                    refreshIP(true);
 		}
 		}]
 		});
@@ -93,13 +101,15 @@ var formParcEcole = new Ext.FormPanel({
 	buttons: [{
 		text: 'Sauvegarder',
 		handler: function(){
-                    setupInfoPerso = false;
-                    alert('You clicked the button!');
+                    document.getElementById('cdh').innerHTML = "";
+                    refreshPE(false);
 		}
 	}]
 });
 var tabParcEcole = new Ext.Panel({
     	//renderTo: Ext.getBody(),
+        frame: true,
+	title: 'Ecole',
          items: [{
             html: "<table border=0>  <tr> <td>Promotion : </td> <td>2009</td> </tr> <tr> <td>Option choisie: </td> <td>Informatique</td> </tr> </table>",
             xtype: "panel"
@@ -107,6 +117,8 @@ var tabParcEcole = new Ext.Panel({
 		buttons: [{
 		text: 'Modifier',
 		handler: function(){
+                    document.getElementById('cdh').innerHTML = "";
+                    refreshPE(true);
 		}
 		}]
 });
@@ -185,11 +197,15 @@ var formParcInter = new Ext.FormPanel({
 	buttons: [{
 		text: 'Sauvegarder',
 		handler: function(){
+                    //setupInfoPerso = false;
+                    document.getElementById('cdb').innerHTML = "";
+                    refreshPI(false);
 		}
 	},
 	{
 		text: 'Ajouter une destination',
 		handler: function(){
+                    
 		}
 	}
 	]
@@ -198,6 +214,8 @@ var formParcInter = new Ext.FormPanel({
 
 var tabParcInter = new Ext.Panel({
     	//renderTo: Ext.getBody(),
+        frame: true,
+	title: 'Parcours international',
          items: [{
             html: "<table border=0>  <tr> <td>Ville : </td> <td>Berlin</td> </tr> <tr> <td>Pays : </td> <td>Allemagne</td> </tr> <tr> <td>Date d'arrivée : </td> <td>10 janvier 2011</td> </tr><tr> <td>Date de départ : </td> <td>15 septembre 2011</td> </tr></table>",
             xtype: "panel"
@@ -205,6 +223,10 @@ var tabParcInter = new Ext.Panel({
 		buttons: [{
 		text: 'Modifier',
 		handler: function(){
+                   // setupInfoPerso = false;
+                    document.getElementById('cdb').innerHTML = "";
+                    refreshPI(true);
+                    //alert('You clicked the button!');
 		}
 		}]
 });	
@@ -215,55 +237,7 @@ else
 
 var mainPanel = new Ext.Panel ({
           width:400,
-          items: [item2],
+          items: [item3],
   renderTo: Ext.Element.get('cdb')
 });
 }
-/*
-
- 
- 
-
-
-
-
-
-var mainPanel = new Ext.Panel ({
-   // title: 'John Smith',
-    width: 1000,
-    //height: 500,
-    layout:'column',
-    items: [{
-        title: 'Informations personnelles',
-        columnWidth: .5,
-		items : [{
-				//width: 500,
-				//height:100,
-				items : [item1]
-				}]
-    },
-	{
-        title: 'Parcours',
-        columnWidth: .5,
-		items: [
-				{
-				//width: 500,
-				//height:150,
-				items : [item2]
-				},
-				{
-				//width: 500,
-				//height:400,
-				items : [item3]
-				}
-				]
-    }],
-  //  renderTo: Ext.getBody()
-  renderTo: Ext.Element.get('ext-div')
-});
-}
-
-
-
-//});
-*/

@@ -8,11 +8,11 @@
         <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
         <link rel="stylesheet" type="text/css" media="screen, projection, print" href="css/pagePrincipale.css" />
         <script type="text/javascript" src="javascript/cataloguePays.js"></script>
-        <script type="text/javascript" src="javascript/fonctionsAjoutsModificationPays.js"></script>
-         <link rel="stylesheet" type="text/css" href="http://dev.sencha.com/deploy/ext-4.0.0/resources/css/ext-all.css" />
+        <script type="text/javascript" src="javascript/fonctionsAjoutsModificationPays.js"></script>         
+        <link rel="stylesheet" type="text/css" href="http://dev.sencha.com/deploy/ext-4.0.0/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="css/profil.css" /> 
          <script type="text/javascript" src="http://dev.sencha.com/deploy/ext-4.0.0/bootstrap.js"></script>
-        <script type="text/javascript" src="javascript/profil.js"></script>
-        <link rel="stylesheet" type="text/css" href="css/profil.css" />
+        <script type="text/javascript" src="javascript/profil.js"></script>        
          <title>Accueil</title>
     </head>
     <body class="body" onload="cataloguePays('A');">
