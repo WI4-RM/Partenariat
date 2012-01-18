@@ -2,126 +2,129 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
- * @author fingon
+ * @author lolo
  */
 @Entity
 @Table(name = "destination")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Destination.findAll", query = "SELECT d FROM Destination d"),
-    @NamedQuery(name = "Destination.findByProfilIdprofil", query = "SELECT d FROM Destination d WHERE d.destinationPK.profilIdprofil = :profilIdprofil"),
-    @NamedQuery(name = "Destination.findByPaysIdpays", query = "SELECT d FROM Destination d WHERE d.destinationPK.paysIdpays = :paysIdpays"),
-    @NamedQuery(name = "Destination.findByX", query = "SELECT d FROM Destination d WHERE d.x = :x"),
-    @NamedQuery(name = "Destination.findByY", query = "SELECT d FROM Destination d WHERE d.y = :y"),
-    @NamedQuery(name = "Destination.findByZoomLevel", query = "SELECT d FROM Destination d WHERE d.zoomLevel = :zoomLevel"),
-    @NamedQuery(name = "Destination.findByVille", query = "SELECT d FROM Destination d WHERE d.ville = :ville")})
+    @NamedQuery(name = "Destination.findByType", query = "SELECT d FROM Destination d WHERE d.type = :type"),
+    @NamedQuery(name = "Destination.findByOrganisme", query = "SELECT d FROM Destination d WHERE d.organisme = :organisme"),
+    @NamedQuery(name = "Destination.findByDate", query = "SELECT d FROM Destination d WHERE d.date = :date"),
+    @NamedQuery(name = "Destination.findByIddestination", query = "SELECT d FROM Destination d WHERE d.iddestination = :iddestination")})
 public class Destination implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected DestinationPK destinationPK;
-    @Column(name = "X")
-    private Integer x;
-    @Column(name = "Y")
-    private Integer y;
-    @Column(name = "zoom_level")
-    private Integer zoomLevel;
-    @Size(max = 60)
-    @Column(name = "ville")
-    private String ville;
-    @JoinColumn(name = "pays_idpays", referencedColumnName = "idpays", insertable = false, updatable = false)
+    @Column(name = "type")
+    private String type;
+    @Column(name = "organisme")
+    private String organisme;
+    @Lob
+    @Column(name = "commentaire")
+    private String commentaire;
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "iddestination")
+    private Integer iddestination;
+    @JoinColumn(name = "destination_idDestination", referencedColumnName = "idVille")
     @ManyToOne(optional = false)
-    private Pays pays;
-    @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil", insertable = false, updatable = false)
+    private Ville destinationidDestination;
+    @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil")
     @ManyToOne(optional = false)
-    private Profil profil;
+    private Profil profilIdprofil;
 
     public Destination() {
     }
 
-    public Destination(DestinationPK destinationPK) {
-        this.destinationPK = destinationPK;
+    public Destination(Integer iddestination) {
+        this.iddestination = iddestination;
     }
 
-    public Destination(int profilIdprofil, int paysIdpays) {
-        this.destinationPK = new DestinationPK(profilIdprofil, paysIdpays);
+    public String getType() {
+        return type;
     }
 
-    public DestinationPK getDestinationPK() {
-        return destinationPK;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setDestinationPK(DestinationPK destinationPK) {
-        this.destinationPK = destinationPK;
+    public String getOrganisme() {
+        return organisme;
     }
 
-    public Integer getX() {
-        return x;
+    public void setOrganisme(String organisme) {
+        this.organisme = organisme;
     }
 
-    public void setX(Integer x) {
-        this.x = x;
+    public String getCommentaire() {
+        return commentaire;
     }
 
-    public Integer getY() {
-        return y;
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
     }
 
-    public void setY(Integer y) {
-        this.y = y;
+    public Date getDate() {
+        return date;
     }
 
-    public Integer getZoomLevel() {
-        return zoomLevel;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public void setZoomLevel(Integer zoomLevel) {
-        this.zoomLevel = zoomLevel;
+    public Integer getIddestination() {
+        return iddestination;
     }
 
-    public String getVille() {
-        return ville;
+    public void setIddestination(Integer iddestination) {
+        this.iddestination = iddestination;
     }
 
-    public void setVille(String ville) {
-        this.ville = ville;
+    public Ville getDestinationidDestination() {
+        return destinationidDestination;
     }
 
-    public Pays getPays() {
-        return pays;
+    public void setDestinationidDestination(Ville destinationidDestination) {
+        this.destinationidDestination = destinationidDestination;
     }
 
-    public void setPays(Pays pays) {
-        this.pays = pays;
+    public Profil getProfilIdprofil() {
+        return profilIdprofil;
     }
 
-    public Profil getProfil() {
-        return profil;
-    }
-
-    public void setProfil(Profil profil) {
-        this.profil = profil;
+    public void setProfilIdprofil(Profil profilIdprofil) {
+        this.profilIdprofil = profilIdprofil;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (destinationPK != null ? destinationPK.hashCode() : 0);
+        hash += (iddestination != null ? iddestination.hashCode() : 0);
         return hash;
     }
 
@@ -132,7 +135,7 @@ public class Destination implements Serializable {
             return false;
         }
         Destination other = (Destination) object;
-        if ((this.destinationPK == null && other.destinationPK != null) || (this.destinationPK != null && !this.destinationPK.equals(other.destinationPK))) {
+        if ((this.iddestination == null && other.iddestination != null) || (this.iddestination != null && !this.iddestination.equals(other.iddestination))) {
             return false;
         }
         return true;
@@ -140,7 +143,7 @@ public class Destination implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Destination[ destinationPK=" + destinationPK + " ]";
+        return "entity.Destination[iddestination=" + iddestination + "]";
     }
-    
+
 }

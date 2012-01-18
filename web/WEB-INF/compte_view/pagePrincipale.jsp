@@ -15,6 +15,16 @@
         </div>
     </span>
     <span class="light">
+        <div class="paysConnus">
+            <p>Les pays déjà répertoriés sont :</p>
+            <div id="idPaysConnus">
+            </div>
+        </div>
+    </span>
+    <%
+    if (request.getAttribute("connecte").equals("true")){
+    %>
+    <span class="light">
         <div class="instructions">
             <div id="idNouveauPays">
                 <%
@@ -30,12 +40,8 @@
             <p><a href="">Ajouter un lieu</a></p>
         </div>
     </span>
-    <span class="light">
-        <div class="paysConnus">
-            <p>Les pays déjà répertoriés sont :</p>
-            <div id="idPaysConnus">
-            </div>
-        </div>
-    </span>
+    <%
+    }
+    %>
 </div>
 	

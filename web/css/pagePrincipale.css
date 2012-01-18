@@ -51,6 +51,9 @@ div.menuGauche{
 }
 
 div.divBody {
+	border-radius: 10px 0px 0px 0px;
+        -webkit-border-radius: 10px 0px 0px 0px;
+        -moz-border-radius: 10px 0px 0px 0px;
 	padding-left : 30px ;
 	left : 280px;
 	right : 0px ;
@@ -79,6 +82,9 @@ div.footer{
 	color : white ;
 	position : absolute ;
         font-size: 0.8em;
+        border-radius: 0px 0px 10px 0px;
+        -webkit-border-radius: 0px 0px 10px 0px;
+        -moz-border-radius: 0px 0px 10px 0px;
 }
 
 div.logoEMSE{
@@ -140,8 +146,8 @@ div.instructions{
     line-height : 1.5em ;
     padding-top : 30px ;
     padding-left : 30px ;
-    top : 160px ;
-    height : 200px ;
+    top : 360px ;
+    bottom : 40px ;
     right : 0px ;
     width : 350px ;
 }
@@ -149,8 +155,8 @@ div.instructions{
 div.paysConnus{
     position : absolute ;
     padding-left : 30px ;
-    top : 360px ;
-    bottom : 40px ;
+    top : 160px ;
+    height : 200px ;
     right : 0px ;
     width : 350px ;
 }

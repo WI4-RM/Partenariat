@@ -27,22 +27,22 @@ function nouvelleCategorie(idPays){
         </tr>\n\
         <tr>\n\
             <td>Contenu</td>\n\
-            <td><input type=\"text\" name=\"contenuNouvelleRubrique\" style=\"width:600px; height:200px;\" /></td>\n\
+            <td><textarea name=\"contenuNouvelleRubrique\" style=\"width:600px; height:200px;\"> </textarea></td>\n\
         </tr>\n\
     </table>\n\
-    <input type=\"submit\" value=\"Creer une nouvelle rubrique\" onClick=\"javascript:annulerModifierRubrique("+ idPays+ ");\">\n\
-    <input type=\"button\" value=\"Annuler\">\n\
+    <input type=\"submit\" value=\"Creer une nouvelle rubrique\">\n\
+    <input type=\"button\" value=\"Annuler\" onClick=\"javascript:annulerNouvelleRubrique("+ idPays+ ");\">\n\
     </form>";
     window.location.href = "#idNouvelleRubrique";
 }
 
-function annulerModifierRubrique(idPays){
+function annulerNouvelleRubrique(idPays){
     document.getElementById('idNouvelleRubrique').innerHTML = "";
     document.getElementById('idNouvelleRubrique').innerHTML += "\
-        <input type=\"button\" onclick=\"javascript:nouvelleCategorie('"+idPays+"')\" value=\"Ajouter une categorie\">";
+        <input type=\"button\" onClick=\"javascript:nouvelleCategorie('"+idPays+"')\" value=\"Ajouter une categorie\">";
 }
 
-function modifierRubrique(idPays, idRubrique, idPara, idDivContenu){
+function modifierRubrique(idPays, idRubrique, idPara, idDivContenu, nomRub){
     var contenu = document.getElementById(idPara).innerHTML;
     document.getElementById(idDivContenu).innerHTML = "";
     document.getElementById(idDivContenu).innerHTML += "\
@@ -50,10 +50,11 @@ function modifierRubrique(idPays, idRubrique, idPara, idDivContenu){
     <input type=\"hidden\" name=\"action\" value=\"modifierRubrique\">\n\
     <input type=\"hidden\" name=\"idPays\" value=\""+ idPays +"\">\n\
     <input type=\"hidden\" name=\"idRubrique\" value=\""+ idRubrique +"\">\n\
-    <input type=\"text\" name=\"nouveauContenuRubrique\" style=\"width:600px; height:200px;\" value=\""+ contenu +"\"/>\n\
+    <textarea name=\"nouveauContenuRubrique\" style=\"width:600px; height:200px;\">" + contenu + "</textarea>\n\
     <br/><input type=\"submit\" value=\"Valider la modification\" />\n\
     <input type=\"button\" value=\"Annuler\" onClick=\"annulerModifierRubrique(\'"+ contenu +"\',\'"+ idDivContenu +"\',\'"+ idPara +"\');\"/>\n\
     </form>";
+    window.location.href = "#" + nomRub;
 }
 
 function annulerModifierRubrique(contenu, idDivContenu, idPara){
@@ -72,16 +73,17 @@ function visibilite(idDiv){
     }
 }
 
-function nouveauFichier(idDiv, idRub){
+function nouveauFichier(idDiv, idPays){
     document.getElementById(idDiv).innerHTML = "";
     document.getElementById(idDiv).innerHTML += "\
     <p>Entrez le chemin vers le fichier :</p>\n\
-    <form action=\"nouveauFichier\">\n\
-    <input type=\"hidden\" name=\"idRubrique\" value=\""+ idRub +"\">\n\
-    <input type=\"text\" />\n\
+    <form action=\"uploadFichier\" method=\"POST\" enctype=\"multipart/form-data\">\n\
+    <input type=\"file\" name=\"fichier\"/>\n\
     <br/><input type=\"submit\" value=\"Envoyer\" />\n\
-    <input type=\"button\" value=\"Annuler\" onClick=\"annulerEnvoiFichier(\'"+ idDiv +"\',\'"+ idRub +"\');\"/>\n\
-    </form>";
+    <input type=\"button\" value=\"Annuler\" onClick=\"annulerEnvoiFichier(\'"+ idDiv +"\',\'"+ idPays +"\');\"/>\n\
+    </form>\n\
+";
+    window.location.href = "#" + idDiv;
 }
 
 function annulerEnvoiFichier(idDiv, idRub){
@@ -93,4 +95,40 @@ function annulerEnvoiFichier(idDiv, idRub){
 function goToSection(id){
     var section = "#" + id;
     window.location.href = section;
+}
+
+function addDestination(idDiv, idVille){
+    var section = "#" + idDiv;
+    document.getElementById(idDiv).innerHTML = "";
+    document.getElementById(idDiv).innerHTML += "\
+    <form action=\"nouvelleDestination\">\n\
+    <input type=\"hidden\" name=\"action\" value=\"villeExistante\">\n\
+    <input type=\"hidden\" name=\"idVille\" value=\""+ idVille +"\">\n\
+    <table>\n\
+        <tr>\n\
+            <td width=\"25%\">Type</td>\n\
+            <td><SELECT name=\"type\">\n\
+                    <OPTION VALUE=\"stage\">Stage</OPTION>\n\
+                    <OPTION VALUE=\"semestre\">Départ universitaire</OPTION>\n\
+                    <OPTION VALUE=\"tourisme\">Tourisme</OPTION>\n\
+                </SELECT>\n\
+            </td>\n\
+        </tr>\n\
+        <tr>\n\
+            <td width=\"25%\">Précision (Entreprise, université, lieu de visite...)</td>\n\
+            <td><input type=\"text\" name=\"organisme\" /></td>\n\
+        </tr>\n\
+        <tr>\n\
+            <td width=\"20%\">Commentaire</td>\n\
+            <td><textarea name=\"commentaire\" style=\"width:600px; height:200px;\"> </textarea></td>\n\
+        </tr>\n\
+    </table>\n\
+    <input type=\"submit\" value=\"Ajouter une destination\">\n\
+    <input type=\"button\" value=\"Annuler\" onClick=\"javascript:annulerAjoutDestination('"+ idDiv+ "');\">\n\
+    </form>";
+    window.location.href = section;
+}
+
+function annulerAjoutDestination(idDiv){
+    document.getElementById(idDiv).innerHTML = "";
 }

@@ -46,40 +46,41 @@
     </tr>
     <tr>
         <td colspan="17">
-            <div class="listePaysInitiale">
-                <div class="listePaysInitialeGauche">
+            <!--<div class="listePaysInitiale">
+                <div class="listePaysInitialeGauche">-->
             <%
                 List<entity.Pays> listePays = (List<entity.Pays>)getServletContext().getAttribute("paysAlphabet");
-                int milieu = listePays.size()/2;
+                //int milieu = listePays.size()/2;
                 if (listePays != null){
-                    for (int i = 0; i < milieu; i++){
+                    //for (int i = 0; i < milieu; i++){
+                    for (int i = 0; i < listePays.size(); i++){
                         entity.Pays p = listePays.get(i);
                         String nom = p.getNom();
                         int id = p.getIdpays();
                         %>
-                <a href="pays?idPays=<%= id%>&nom=<%= nom%>"><%= nom%></a>
+                <a href="pays?idPays=<%= id%>"><%= nom%></a>
                 <br/>
                         <%
                     }
                 }
             %>
-                </div>
-                <div class="listePaysInitialeDroite">
+                <!--</div>
+                <div class="listePaysInitialeDroite">-->
             <%
-                if (listePays != null){
+                /*if (listePays != null){
                     for (int i = milieu; i < listePays.size(); i++){
                         entity.Pays p = listePays.get(i);
                         String nom = p.getNom();
-                        int id = p.getIdpays();
+                        int id = p.getIdpays();*/
                         %>
-                <a href="pays?idPays=<%= id%>&nom=<%= nom%>"><%= nom%></a>
-                <br/>
+                <%--<a href="pays?idPays=<%= id%>&nom=<%= nom%>"><%= nom%></a>
+                <br/>--%>
                         <%
-                    }
-                }
+                    //}
+                //}
             %>
-                </div>
-            </div>
+                <!--</div>
+            </div>-->
         </td>
     </tr>
 </table>

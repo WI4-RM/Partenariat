@@ -6,6 +6,8 @@
 package partenariat;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -68,5 +70,14 @@ public class Util {
             return premiereLettre.toUpperCase() + leReste.toLowerCase();
         }
         return mot;
+    }
+
+    static public String verificationTailleString(String chaine, int tailleMax){
+        int lg = chaine.length();
+        if ((chaine != null) && (lg > 0)){
+            if (lg > tailleMax)
+                chaine = chaine.substring(0, tailleMax);
+        }
+        return chaine;
     }
 }
