@@ -8,6 +8,7 @@ import entity.Compte;
 import entity.FichierUploade;
 import entity.Pays;
 import entity.Rubrique;
+import entity.Profil;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,36 +19,36 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import partenariat.FichierUploadeManager;
-import javax.servlet.http.*;
-import partenariat.DestinationManager;
 import partenariat.PaysManager;
 import partenariat.RubriqueManager;
-import session.CompteFacade;
+
 import session.InscriptionManager;
 import validator.InputValidator;
-
-
 
 /**
 *
 * @author fingon
 */
 @WebServlet(name = "ControllerServlet",
-loadOnStartup = 1,
+        loadOnStartup = 1,
         urlPatterns = {"/index","/inscription","/inscriptionValidation","/connect", "", "/deconnect","/index.html", 
         "/pays", "/historique", "/paysAlphabet","/afficherRecherche", "/recherche", "/listePays", "/nouvelleDestination",
-        "/dernieresDestinations", "/nouveauPays", "/modifierPays", "/uploadFichier", "/downloadFile"})
-
+        "/dernieresDestinations", "/nouveauPays", "/modifierPays", "/uploadFichier", "/downloadFile","/myProfile","/xProfile"})
 public class ControllerServlet extends HttpServlet {
 
     @PersistenceContext(unitName = "ProjetPartenariatsPU")
     private EntityManager em;
 
+    @EJB
+    private InscriptionManager inscriptionManager;
 
     @EJB
     private PaysManager paysManager;
@@ -56,16 +57,10 @@ public class ControllerServlet extends HttpServlet {
     private RubriqueManager rubriqueManager;
 
     @EJB
-    private FichierUploadeManager fichierUploadeManager;
-
-    @EJB
     private session.PaysFacade paysFacade;
 
     @EJB
     private session.RubriqueFacade rubriqueFacade ;
-
-    @EJB
-    private session.VilleFacade villeFacade ;
 
     @EJB
     private session.DestinationFacade destinationFacade ;
@@ -75,18 +70,22 @@ public class ControllerServlet extends HttpServlet {
 
     @EJB
     private session.ProfilFacade profilFacade ;
-
-    @EJB
-    private InscriptionManager inscriptionManager;
-
-    @EJB
-    private DestinationManager destinationManager;
     
     @EJB
-    private CompteFacade compteFacade;
-
+    private session.CompteFacade compteFacade ;
+    
+    @EJB
+    private session.VilleFacade villeFacade ;
+    
+    @EJB
+    private partenariat.FichierUploadeManager fichierUploadeManager;
+    
+    @EJB
+    private partenariat.DestinationManager destinationManager;
+    
     private String dossierFichiersUploades = "/fichiersUploades";
-
+    
+    
     /**
 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
 * @param request servlet request
@@ -94,6 +93,7 @@ public class ControllerServlet extends HttpServlet {
 * @throws ServletException if a servlet-specific error occurs
 * @throws IOException if an I/O error occurs
 */
+    
     protected String processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -225,14 +225,117 @@ public class ControllerServlet extends HttpServlet {
             if (type.equals("rapide")){
                 ;
             }
-            else {
-                ;
+            else {//cherche les profils dont le nom ou prenom correspond à la requête                
+                    String profil = (String)request.getParameter("profil");
+                    if (profil !=null){
+                        ArrayList<Integer> idList = new ArrayList<Integer>();
+                        List<Profil> profilListNom = profilFacade.findByNom(profil);
+                        List<Profil> profilListPrenom = profilFacade.findByPrenom(profil);
+                        int idProfil=-1;
+                        for (int i=0; i<profilListNom.size();i++){
+                            idProfil = profilListNom.get(i).getIdprofil();
+                            idList.add(idProfil);
+                        }
+                           for (int i=0; i<profilListPrenom.size();i++){
+                            idProfil = profilListPrenom.get(i).getIdprofil();
+                            idList.add(idProfil);
+                        }
+                       if (idList == null){
+                           getServletContext().setAttribute("idList", null);
+                           url = "/afficherRechercheResult?result=0";
+                       }
+                       else{
+                            getServletContext().setAttribute("idList", idList);
+                            url = "/afficherRechercheResult?result="+idList.size();
+                       }
+                       
+                    }
+                    
+                    
+                    
             }
+            //String profil = (String)request.getParameter("profil");
         }
         else if (userPath.equals("/afficherRecherche")) {   //Affiche la page de recherche
+            
             url = "/WEB-INF/compte_view/recherche.jsp";
+       
         }
-
+        
+        else if (userPath.equals("/afficherRechercheResult")) {
+                       
+                int nbr = Integer.parseInt(request.getParameter("result"));
+                
+                List<Integer> idList = (List<Integer>) getServletContext().getAttribute("idList");
+                int id;
+                
+                ArrayList<String> noms = new ArrayList<String>();
+                ArrayList<String> prenoms = new ArrayList<String>();
+                
+                String name = null;
+                String firstName = null;
+                
+                if (nbr == 0)
+                    url = "/WEB-INF/compte_view/xProfile.jsp";
+                else{
+                    for (int i = 0; i< idList.size(); i++){
+                    id = idList.get(i);
+                    
+                    name  = profilFacade.findByIdprofil(id).get(0).getNom();
+                    firstName = profilFacade.findByIdprofil(id).get(0).getPrenom();
+                    
+                    noms.add(name);
+                    noms.add(firstName);
+                    
+                    getServletContext().setAttribute("noms", name);
+                    getServletContext().setAttribute("prenoms", firstName);
+                                                
+               }
+                    url = "/WEB-INF/compte_view/recherche.jsp";
+               }     
+     }
+    
+        else if (userPath.equals("/myProfile")) {  //Page profil perso
+            //String action = request.getParameter("action");
+            url = "/WEB-INF/compte_view/myProfile.jsp";
+        }
+        else if (userPath.equals("/xProfile")) {  
+            
+            List<Integer> idList =  (List<Integer>) getServletContext().getAttribute("idList");
+            int id =0;
+            
+            if (idList.size() == 0)
+                url = "/WEB-INF/compte_view/xProfile.jsp";
+            
+            else {
+            
+                for (int i = 0; i< idList.size(); i++){
+                    id = idList.get(i);
+                    String name = profilFacade.findByIdprofil(id).get(0).getNom();
+                    String firstName = profilFacade.findByIdprofil(id).get(0).getPrenom();
+                    int promo = profilFacade.findByIdprofil(id).get(0).getPromo();
+                                  
+                    //String pays = destinationFacade.findByProfilIdprofil(id).get(0).getPays().getNom();
+                    //String ville = destinationFacade.findByProfilIdprofil(id).get(0).getVille();    
+                    
+                    getServletContext().setAttribute("id", id);
+            getServletContext().setAttribute("nom", name);
+            getServletContext().setAttribute("prenom", firstName);
+            getServletContext().setAttribute("promo", promo);
+            
+            //getServletContext().setAttribute("pays", pays);
+            //getServletContext().setAttribute("ville", ville);
+            
+                }
+            
+               
+                      
+            
+            url = "/WEB-INF/compte_view/xProfile.jsp";
+            }
+           
+        }
+        
         else if (userPath.equals("/listePays")){    //Affiche la page de tous les pays créés
             getServletContext().setAttribute("tousPays", paysFacade.findAllOrderedByName());
             url = "/WEB-INF/compte_view/listePays.jsp";
