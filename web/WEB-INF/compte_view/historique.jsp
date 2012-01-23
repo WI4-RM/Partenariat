@@ -4,6 +4,7 @@
     Author     : lolo
 --%>
 
+<%@page import="controller.ControllerServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,java.text.SimpleDateFormat,entity.Rubrique"%>
 <div class="divBody">
     <%
@@ -55,7 +56,7 @@
             <td><%= contenu%></td>
             <%
             }
-            if (request.getAttribute("connecte").equals("true")){
+            if (ControllerServlet.isConnected(request)){
             %>
             <td width="15%">Par <a href="" ><%= prenom%> <%= nom%></a></td>
             <td width="15%"><a href="modifierPays?action=modifierRubrique&idPays=<%= idPays%>&idRubrique=<%= idRub%>&nouveauContenuRubrique=<%= contenu%>">Restaurer</a></td>
