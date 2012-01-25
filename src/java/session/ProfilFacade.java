@@ -30,5 +30,10 @@ public class ProfilFacade extends AbstractFacade<Profil> {
     public List<Profil> findByIdprofil(int id){
         return em.createNamedQuery("Profil.findByIdprofil").setParameter("idprofil", id).getResultList();
     }
-    
+     public List<Profil> findByNom(String name){
+        return em.createNamedQuery("Profil.findByNom").setParameter("nom", name).getResultList();
+    }
+     public List<Profil> findByPrenom(String firstName){
+        return em.createNamedQuery("Profil.findByPrenom").setParameter("prenom", firstName).getResultList();
+    }
 }

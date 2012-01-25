@@ -1,3 +1,4 @@
+<%@page import="controller.ControllerServlet"%>
 <span class="dark">
     <div class="menuGauche" id='menuGauche' class='menuGauche'>
         <ul>
@@ -7,7 +8,7 @@
             <%@ include file="derniersPays.jsp"%>
             <li><a href="afficherRecherche">Recherche</a></li>
             <%
-            if (request.getAttribute("connecte").equals("true")){
+            if (ControllerServlet.isConnected(request)){
             %>
                 <li><a href="">Liste des profils</a></li>
             <%

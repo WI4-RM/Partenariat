@@ -4,6 +4,7 @@
     Author     : lolo
 --%>
 
+<%@page import="controller.ControllerServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,java.text.SimpleDateFormat,entity.Rubrique,entity.Pays,entity.FichierUploade,entity.Ville,entity.Destination"%>
 <div class="divBody">
     <%
@@ -43,7 +44,7 @@
         <li><a href="javascript:goToSection('<%= titre%>')"><%= titre%></a></li>
             <%
         }
-        if (listeVilles.size() > 0){
+        if (listeVilles.size() > 0 && ControllerServlet.isConnected(request)){
             %>
         <li><a href="javascript:goToSection('villes')">Villes</a></li>
             <%
@@ -74,7 +75,7 @@
             <tr>
                 <td><h2 id="<%= nomRub%>"><%= nomRub%></h2></td>
                 <%
-                if (request.getAttribute("connecte").equals("true")){
+                if (ControllerServlet.isConnected(request)){
                     %>
                 <td align="right">
                     <span class="alignementDroite">
@@ -99,7 +100,7 @@
     }
 
     //Affichage de la possibilité d'ajouter une catégorie
-    if (request.getAttribute("connecte").equals("true")){
+    if (ControllerServlet.isConnected(request)){
         %>
     <br/>
     <div id="idNouvelleRubrique">
@@ -109,7 +110,7 @@
     }
     
     //Affichage des villes
-    if (request.getAttribute("connecte").equals("true") && listeVilles.size() > 0){ //Si il y a des villes
+    if (ControllerServlet.isConnected(request) && listeVilles.size() > 0){ //Si il y a des villes
         %>
         <table bgcolor="#cae3ff" width="100%"><tr><td><h2 id="villes">Villes</h2></td></tr></table> <!-- titre2 pour les villes -->
         <%
@@ -232,12 +233,21 @@
             String nomProfil = fichier.getProfilIdprofil().getNom();
             String prenomProfil = fichier.getProfilIdprofil().getPrenom();
             %>
-            <p><a href="downloadFile?nomFichier=<%= nomFichier%>"><%= nomFichier%></a> (<%= tailleFichier%> <%= ordre%>),
+            <p><a href="downloadFile?nomFichier=<%= nomFichier%>"><%= nomFichier%></a> (<%= tailleFichier%> <%= ordre%>)
+            <%
+            if (ControllerServlet.isConnected(request)){
+            %>
                 mis en ligne par <a href=""><%= prenomProfil%> <%= nomProfil%></a> le <%= date%></p>
             <%
+            }
+            else {
+            %>
+                </p>
+            <%
+            }
         }
     }
-    if (request.getAttribute("connecte").equals("true")){
+    if (ControllerServlet.isConnected(request)){
         request.getSession().setAttribute("idPays", String.valueOf(idPays));
     %>
     <div id='idDivNouveauFichier'>

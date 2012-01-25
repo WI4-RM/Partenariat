@@ -1,4 +1,5 @@
 <%-- any content can be specified here e.g.: --%>
+<%@page import="controller.ControllerServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" import="entity.Profil"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -20,12 +21,11 @@
             <div class = "titreBienvenue"><h1>Bienvenue sur le projet MineWorld !</h1></div>
             <div class="inscription"><table class="inscriptionTable">
                 <%
-                if (request.getAttribute("connecte").equals("true")){
-                    Profil profil= (Profil) request.getSession().getAttribute("profil");
-                    String nom = profil.getNom();
-                    String prenom = profil.getPrenom();
-                    int idProfil = profil.getIdprofil();
-                %>
+                if (ControllerServlet.isConnected(request)) {
+                    String nom = (String) request.getSession().getAttribute("nom");
+                    String prenom = (String) request.getSession().getAttribute("prenom");
+                    Integer idProfil = (Integer) request.getSession().getAttribute("idProfil");
+                 %>
                     <tr>
                         <td>Bienvenue <%= prenom%> <%= nom %> !</td>
                     </tr>
@@ -64,5 +64,5 @@
                 }
                 %>
             </table></div>
-	</div></span>
+</div></span>
         <jsp:include page="/WEB-INF/fonctions/menuGauche.jsp" flush="true"/>
