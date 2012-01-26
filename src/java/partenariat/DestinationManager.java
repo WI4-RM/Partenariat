@@ -15,6 +15,7 @@ import session.PaysFacade;
 import session.ProfilFacade;
 import entity.Destination;
 import entity.Profil;
+import entity.Ville;
 import java.util.Date;
 import session.VilleFacade;
 
@@ -44,10 +45,11 @@ public class DestinationManager {
      public boolean createDestination(int idVille, int idPays, int idProfil, String type, String organisme, String com){
         try {
             //create destination
-            Destination destination = new Destination();
-            destination.setDestinationidDestination(villeFacade.findByIdVille(idVille).get(0));
             Profil profil = profilFacade.findByIdprofil(idProfil).get(0);
-            destination.setProfilIdprofil(profil);
+            Ville ville = villeFacade.findByIdVille(idVille).get(0);
+            Destination destination = new Destination();
+            destination.setVille(ville);
+            destination.setProfil(profil);
             destination.setType(type);
             destination.setOrganisme(organisme);
             destination.setCommentaire(com);
