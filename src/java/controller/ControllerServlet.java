@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -106,13 +107,13 @@ public class ControllerServlet extends HttpServlet {
 * @throws IOException if an I/O error occurs
 */
     
-    protected String processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String userPath = request.getServletPath();
         String url = "";
         
-        HttpSession session = request.getSession(false);
+       HttpSession session = request.getSession(false);
 
         //INUTILE : me sert à tester si je suis connectée ou pas
         if (request.getSession(false) != null && !request.getSession(false).isNew() ){
@@ -124,16 +125,17 @@ public class ControllerServlet extends HttpServlet {
             this.createNewSession(request, "sessionLauria");
             session.setAttribute("idProfil",1) ;
         }
-          
+
         getServletContext().setAttribute("derniersPays", paysFacade.findAllOrderedById());
 
 
         if (userPath.equals("/index.html") || userPath.equals("/index") || userPath.equals("")) {  //Page d'accueil
             url = "/WEB-INF/compte_view/pagePrincipale.jsp";
+
         }
 
         else if (userPath.equals("/nouveauPays")){  //Créer un nouveau pays
-            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+            if (ControllerServlet.isConnected(request) ){
                 String nomPays = request.getParameter("nouveauPays");
                 if (!nomPays.equals("")){
                     nomPays = partenariat.Util.InitialeMajuscule(nomPays);
@@ -480,7 +482,7 @@ public class ControllerServlet extends HttpServlet {
         }
 
         else if (userPath.equals("/modifierPays")){ //Modification des rubriques d'un pays
-            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+            if (ControllerServlet.isConnected(request) ){
                 String action = request.getParameter("action");
                 int idPays = Integer.parseInt(request.getParameter("idPays"));
                 Pays pays = paysFacade.findByIdpays(idPays).get(0);
@@ -532,7 +534,7 @@ public class ControllerServlet extends HttpServlet {
         }
 
         else if (userPath.equals("/uploadFichier")){
-            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
+            if (ControllerServlet.isConnected(request) ){
                 //int idProfil = profilFacade.findAll().get(0).getIdprofil();
                 int idProfil = (Integer) request.getAttribute("idProfil");
                 int idPays = Integer.parseInt((String)request.getSession().getAttribute("idPays"));
@@ -620,7 +622,7 @@ public class ControllerServlet extends HttpServlet {
 
         else if (userPath.equals("/inscription")) { //inscription request
 
-            // userPath = "inscription";
+            userPath = "inscription";
             url = "/WEB-INF/compte_view/inscription.jsp";
         }
         
@@ -629,7 +631,13 @@ public class ControllerServlet extends HttpServlet {
             userPath = "/pagePrincipale";
             url = "/WEB-INF/compte_view" +userPath + ".jsp";
         }
-        return url;
+        try {
+              
+        request.getRequestDispatcher(url).forward(request, response);
+        
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        } 
         //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
     }
 
@@ -643,20 +651,20 @@ public class ControllerServlet extends HttpServlet {
 */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String url = processRequest(request, response);
-        try {
-            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
-                request.setAttribute("connecte", "true");
-            }
-            else {
-                request.setAttribute("connecte", "false");
-            }
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            //out.close();
-        }
+        processRequest(request, response);
+//        try {
+//            if (ControllerServlet.isConnected(request) ){
+//                request.setAttribute(inscription, "true");
+//            }
+//            else {
+//                request.setAttribute("connecte", "false");
+//            }
+//            request.getRequestDispatcher(url).forward(request, response);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        } finally {
+//            //out.close();
+//        }
     }
 
     /**
@@ -719,8 +727,7 @@ public class ControllerServlet extends HttpServlet {
 
                 if (isOK){
                     userPath = "confirmation";
-                    request.setAttribute("connecte", "true");
-                    createNewSession(request, name);
+                    createNewSession(request, email);
                 }
                 else
                     userPath ="errorSuscribe";
@@ -742,25 +749,25 @@ public class ControllerServlet extends HttpServlet {
                 this.createNewSession(request, username);
 
             }
-            else {
-                request.setAttribute("connecte", "false");
-            }
 
         }
-        else {
-            url = processRequest(request, response);
-        }
-        try {
-            if (request.getSession(false) != null && !request.getSession(false).isNew() ){
-                request.setAttribute("connecte", "true");
-            }
-            else {
-                request.setAttribute("connecte", "false");
-            }
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+//        else {
+//            processRequest(request, response);
+//        }
+        
+        request.getRequestDispatcher(url).forward(request, response);
+
+//        try {
+//            if (ControllerServlet.isConnected(request) ){
+//                request.setAttribute("connecte", "true");
+//            }
+//            else {
+//                request.setAttribute("connecte", "false");
+//            }
+//            request.getRequestDispatcher(url).forward(request, response);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
 
     }
 
@@ -792,5 +799,14 @@ public class ControllerServlet extends HttpServlet {
         //Cookie c = new Cookie("nom", name);
         
         
+    }
+    
+    /**
+     * 
+     * @param request
+     * @return true if user is logged
+     */
+    public static boolean isConnected(HttpServletRequest request){
+        return request.getSession(false)!= null && request.getSession(false).getAttribute("email") != null;
     }
 }
