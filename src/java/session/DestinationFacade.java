@@ -61,7 +61,7 @@ public class DestinationFacade {
         Query q = em.createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    public List<Destination> findByProfilIdprofil(int id){
-        return em.createNamedQuery("Destination.findByProfilIdprofil").setParameter("profilIdprofil", id).getResultList();
+    public List<Destination> findByIdprofil(int id){
+        return em.createNamedQuery("Destination.findByIdprofil").setParameter("profilIdprofil", id).getResultList();
     }
 }

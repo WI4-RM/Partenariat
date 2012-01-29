@@ -41,7 +41,7 @@ public class DestinationManager {
     @EJB
     DestinationFacade destinationFacade;
 
-     public boolean createDestination(int idVille, int idPays, int idProfil, String type, String organisme, String com){
+     public boolean createDestination(int idVille, int idPays, int idProfil, String type, String organisme, String com, Date dateD, Date dateA){
         try {
             //create destination
             Destination destination = new Destination();
@@ -54,6 +54,9 @@ public class DestinationManager {
             Date date = new Date();
             date.getTime();
             destination.setDate(date);
+            destination.setDatedepart(dateD);
+            destination.setDatearrivee(dateA);
+            
             em.persist(destination);
 
             return true;

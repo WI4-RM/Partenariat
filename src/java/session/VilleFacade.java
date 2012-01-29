@@ -69,5 +69,9 @@ public class VilleFacade {
     public List<Ville> findByIdpays(int idPays) {
         return em.createNamedQuery("Ville.findByIdpays").setParameter("idPays", idPays).getResultList();
     }
+    
+     public List<Ville> findByVille(String ville) {
+        return em.createNamedQuery("Ville.findByVille").setParameter("ville", ville).getResultList();
+    }
 
 }

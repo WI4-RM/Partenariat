@@ -36,4 +36,22 @@ public class ProfilFacade extends AbstractFacade<Profil> {
      public List<Profil> findByPrenom(String firstName){
         return em.createNamedQuery("Profil.findByPrenom").setParameter("prenom", firstName).getResultList();
     }
+     public List<Profil> findAllOrderedByName(){
+        return em.createNamedQuery("Profil.findAllOrderedByName").getResultList();
+    }
+      public void changeNom(String nom, int idprofil){
+        em.createNamedQuery("Profil.changeNom").setParameter("nom", nom).setParameter("idprofil", idprofil).executeUpdate();
+        return;
+    }
+
+    public void changePrenom(String prenom, int idprofil) {
+        em.createNamedQuery("Profil.changePrenom").setParameter("prenom", prenom).setParameter("idprofil", idprofil).executeUpdate();
+        return;
+    }
+
+    public void changePromo(int promo, int idprofil) {
+        em.createNamedQuery("Profil.changePromo").setParameter("promo", promo).setParameter("idprofil", idprofil).executeUpdate();
+        return;
+    }
+     
 }

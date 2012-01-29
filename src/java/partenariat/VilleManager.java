@@ -41,7 +41,7 @@ public class VilleManager {
             ville.setZoomLevel(zoom);
             ville.setPaysIdpays(paysFacade.findByIdpays(idPays).get(0));
             villeFacade.create(ville);
-
+           
             return true;
         } catch (Exception e) {
             e.printStackTrace();

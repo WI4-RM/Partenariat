@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -33,8 +35,19 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Destination.findByType", query = "SELECT d FROM Destination d WHERE d.type = :type"),
     @NamedQuery(name = "Destination.findByOrganisme", query = "SELECT d FROM Destination d WHERE d.organisme = :organisme"),
     @NamedQuery(name = "Destination.findByDate", query = "SELECT d FROM Destination d WHERE d.date = :date"),
-    @NamedQuery(name = "Destination.findByIddestination", query = "SELECT d FROM Destination d WHERE d.iddestination = :iddestination")})
+    @NamedQuery(name = "Destination.findByIddestination", query = "SELECT d FROM Destination d WHERE d.iddestination = :iddestination"),
+    @NamedQuery(name = "Destination.findByIdprofil", query = "SELECT d FROM Destination d WHERE d.profilIdprofil.idprofil = :profilIdprofil")})
 public class Destination implements Serializable {
+   
+    @Column(name =     "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+    @Column(name =     "datearrivee")
+    @Temporal(TemporalType.DATE)
+    private Date datearrivee;
+    @Column(name = "datedepart")
+    @Temporal(TemporalType.DATE)
+    private Date datedepart;
     private static final long serialVersionUID = 1L;
     @Column(name = "type")
     private String type;
@@ -43,9 +56,6 @@ public class Destination implements Serializable {
     @Lob
     @Column(name = "commentaire")
     private String commentaire;
-    @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -87,14 +97,6 @@ public class Destination implements Serializable {
 
     public void setCommentaire(String commentaire) {
         this.commentaire = commentaire;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public Integer getIddestination() {
@@ -143,7 +145,30 @@ public class Destination implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Destination[iddestination=" + iddestination + "]";
+        return "entity.Destination[iddestination=" + iddestination + "]";    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Date getDatearrivee() {
+        return datearrivee;
+    }
+
+    public void setDatearrivee(Date datearrivee) {
+        this.datearrivee = datearrivee;
+    }
+
+    public Date getDatedepart() {
+        return datedepart;
+    }
+
+    public void setDatedepart(Date datedepart) {
+        this.datedepart = datedepart;
     }
 
 }
