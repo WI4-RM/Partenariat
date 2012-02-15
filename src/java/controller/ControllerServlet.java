@@ -215,7 +215,6 @@ public class ControllerServlet extends HttpServlet {
         else if (userPath.equals("/recherche")) {   //TODO
             String type = (String)request.getAttribute("type");
             if (type.equals("rapide")){
-                ;
             }
             else {//cherche les profils dont le nom ou prenom correspond à la requête                
                     String profil = (String)request.getParameter("profil");
