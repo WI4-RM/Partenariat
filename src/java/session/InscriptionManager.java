@@ -77,7 +77,7 @@ public class InscriptionManager {
             compte.setSalt(finalSalt);
             
             em.persist(compte);
-            
+
             return true;
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(CompteFacade.class.getName()).log(Level.SEVERE, null, ex);

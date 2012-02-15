@@ -15,7 +15,7 @@
         int max = Math.min(listeDestinations.size(), 3);
         for (int i = 0; i < max; i++){
             entity.Destination d = listeDestinations.get(i);
-            String ville = d.getVille();
+            String ville = "ville";//d.getVille();
             int id = 0;
             %>
             <li><a href="pays?idPays=<%= id%>&nom=<%= ville%>"><%= ville%></a></li>

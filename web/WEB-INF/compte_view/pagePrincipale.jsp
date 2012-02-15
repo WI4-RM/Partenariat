@@ -1,3 +1,4 @@
+<%@page import="controller.ControllerServlet"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 
@@ -22,7 +23,7 @@
         </div>
     </span>
     <%
-    if (request.getAttribute("connecte").equals("true")){
+    if (ControllerServlet.isConnected(request)){
     %>
     <span class="light">
         <div class="instructions">
