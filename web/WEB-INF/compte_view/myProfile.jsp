@@ -1,18 +1,13 @@
-<%-- 
-    Document   : myProfile
-    Created on : 12 janv. 2012, 09:22:11
-    Author     : Pauline
---%>
-
 <%@page import="java.util.List"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <div class="divBody">
    <% //int setup = Integer.parseInt(request.getParameter("setup"));
-      String nom = (String) getServletContext().getAttribute("nom");
-      String prenom = (String) getServletContext().getAttribute("prenom");
-      int promo = (Integer) getServletContext().getAttribute("promo");
-      String email = (String) getServletContext().getAttribute("email");
-      List<String> ville = (List<String>) getServletContext().getAttribute("ville");
-      List<String> pays = (List<String>) getServletContext().getAttribute("pays");
+      String nom = (String) request.getSession(false).getAttribute("nom");
+      String prenom = (String) request.getSession(false).getAttribute("prenom");
+      int promo = (Integer) request.getSession(false).getAttribute("promo");
+      String email = (String) request.getSession(false).getAttribute("email");
+      List<String> ville = (List<String>) request.getSession(false).getAttribute("ville");
+      List<String> pays = (List<String>) request.getSession(false).getAttribute("pays");
    %>
    
    <h1>Mon Profil</h1>
@@ -39,17 +34,17 @@
                 <td><%= promo%></td>
             </tr>
         </table>
-                <input type="button" onclick="javascript:ModifInfoPerso('<%= nom%>','<%= prenom%>','<%= promo%>');" value="Modifier" > 
+                <input type="button" onclick="javascript:ModifInfoPerso('<%= nom%>','<%= prenom%>','<%= promo%>');" value="Modifier" >
    
    
     <div class="colonneDroite" id="cd">
          <%if ((ville==null)||(ville.size() == 0)||(ville.get(0) == null)||(pays==null)||(pays.size() == 0)||(pays.get(0) == null)) {%>
-           Pas de parcours ‡ l'international spÈcifiÈ%>
-           <input type="button" value="Ajouter une destination" onclick="javascript:addDestinationP();">  
-        <%} else  {%>
+           Pas de parcours √† l'international sp√©cifi√©
+           <input type="button" value="Ajouter une destination" onclick="javascript:addDestinationP();">
+        <%} else {%>
          <table>
              <caption><h2>Parcours International</h2></caption>
-             <% for (int i=0; (i<ville.size())&&(i<pays.size()); i++) %>
+             <% for (int i=0; (i<ville.size())&&(i<pays.size()); i++) {%>
             <tr>
                 <td>Pays</td>
                 <td><%= pays%></td>

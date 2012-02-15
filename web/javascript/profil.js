@@ -1,85 +1,86 @@
 function ModifInfoPerso(nom, prenom, promo){
     document.getElementById('cgauche').innerHTML = "";
     document.getElementById('cgauche').innerHTML += "\
-    <form action=\"changeInfoPerso\">\n\
-    <h2>Modifier Mes Informations Personnelles</h2>\n\
-    <table>\n\
-        <tr>\n\
-            <td>Nom</td>\n\
-            <td><input type=\"text\" name=\"nom\" value="+nom+" /></td>\n\
-        </tr>\n\
-        <tr>\n\
-            <td>Prenom</td>\n\
-            <td><input type=\"text\" name=\"prenom\" value="+prenom+" /></td>\n\
-        </tr>\n\
-        <tr>\n\
-            <td>Promotion</td>\n\
-            <td><input type=\"text\" name=\"promo\" value="+promo+" /></td>\n\
-        </tr>\n\
-    </table>\n\
-    <input type=\"submit\" value=\"Valider les modifications\">\n\
-    <input type=\"button\" value=\"Annuler\" onClick=\"javascript:refreshInfoPerso(\'"+nom+"\',\'"+prenom+"\',\'"+promo+"\');\">\n\
-    </form>";
+<form action=\"changeInfoPerso\">\n\
+<h2>Modifier Mes Informations Personnelles</h2>\n\
+<table>\n\
+<tr>\n\
+<td>Nom</td>\n\
+<td><input type=\"text\" name=\"nom\" value="+nom+" /></td>\n\
+</tr>\n\
+<tr>\n\
+<td>Prenom</td>\n\
+<td><input type=\"text\" name=\"prenom\" value="+prenom+" /></td>\n\
+</tr>\n\
+<tr>\n\
+<td>Promotion</td>\n\
+<td><input type=\"text\" name=\"promo\" value="+promo+" /></td>\n\
+</tr>\n\
+</table>\n\
+<input type=\"submit\" value=\"Valider les modifications\">\n\
+<input type=\"button\" value=\"Annuler\" onClick=\"javascript:refreshInfoPerso(\'"+nom+"\',\'"+prenom+"\',\'"+promo+"\');\">\n\
+</form>";
 }
 
 function refreshInfoPerso(nom, prenom, promo){
     document.getElementById('cgauche').innerHTML = "";
     document.getElementById('cgauche').innerHTML += "\
-        <table>\n\
-            <caption>Informations personelles</caption>\n\
-            <tr>\n\
-                <td>Nom</td>\n\
-                <td>"+nom+"</td>\n\
-            </tr>\n\
-            <tr>\n\
-                <td>Prenom</td>\n\
-                <td>"+prenom+"</td>\n\
-            </tr>\n\
-            <tr>\n\
-                <td>Promotion</td>\n\
-                <td>"+promo+"</td>\n\
-            </tr>\n\
-        </table>\n\
-                <input type=\"button\" onclick=\"javascript:ModifInfoPerso(\'"+nom+"\',\'"+prenom+"\',\'"+promo+"\');\" value=\"Modifier\" > \n\
-   "
+<table>\n\
+<caption>Informations personelles</caption>\n\
+<tr>\n\
+<td>Nom</td>\n\
+<td>"+nom+"</td>\n\
+</tr>\n\
+<tr>\n\
+<td>Prenom</td>\n\
+<td>"+prenom+"</td>\n\
+</tr>\n\
+<tr>\n\
+<td>Promotion</td>\n\
+<td>"+promo+"</td>\n\
+</tr>\n\
+</table>\n\
+<input type=\"button\" onclick=\"javascript:ModifInfoPerso(\'"+nom+"\',\'"+prenom+"\',\'"+promo+"\');\" value=\"Modifier\" > \n\
+"
 }
 
 function addDestinationP(){
     document.getElementById('cd').innerHTML = "";
     document.getElementById('cd').innerHTML += "\
-    <form action=\"addDestination\">\n\
-     <h2>Ajouter une destination</h2>\n\
-    <table>\n\
-        <tr>\n\
-            <td>Ville *</td>\n\
-            <td><input type=\"text\" name=\"ville\" /></td>\n\
-        </tr>\n\
-        <tr>\n\
-            <td>Pays *</td>\n\
-            <td><input type=\"text\" name=\"pays\" /></td>\n\
-        </tr>\n\
-        <tr>\n\
-            <td>Type *</td>\n\
-            <td><input type=\"radio\" name=\"typeVoyage\" value=\"Tourisme\">Tourisme\n\
-                <input type=\"radio\" name=\"typeVoyage\" value=\"Etudes\">Etudes\n\
-                <input type=\"radio\" name=\"typeVoyage\" value=\"Stage\">Stage</td>\n\
-        </tr>\n\
-        <tr>\n\
-        <td>Date de départ *</td>\n\
-        <td>JJ<input type=\"text\" id=\"JJd\" name=\"JJd\" style=\"width:20px\" onkeypress:\"checkDate(this.form.JJd,this.form.MMd,this.form.AAAAd)\"/>MM<input type=\"textarea\" name=\"MMd\" style=\"width:20px\"/>AAAA<input type=\"textarea\" name=\"AAAAd\" style=\"width:40px\"/></td>\n\
-        </tr>\n\
-        <tr>\n\
-        <td>Date de retour *</td>\n\
-        <td>JJ<input type=\"text\" id=\"JJa\" name=\"JJa\" style=\"width:20px\" onkeypress:\"checkDate(this.form.JJa,this.form.MMa,this.form.AAAAa)\"/>MM<input type=\"textarea\" name=\"MMa\" style=\"width:20px\"/>AAAA<input type=\"textarea\" name=\"AAAAa\" style=\"width:40px\"/></td>\n\
-        </tr>\n\
-        <tr>\n\
-            <td>Commentaire</td>\n\
-            <td><textarea name=\"commentaires\" style=\"width:400px; height:200px;\"> </textarea></td>\n\
-        </tr>\n\
-    </table>\n\
-    <input type=\"button\" value=\"Annuler\">\n\
-    <input type=\"button\" value=\"Créer une nouvelle destination\" onclick=\"javascript:checkFormValues(ville, pays, typeVoyage, commentaire, JJa,MMa,AAAAa, JJd,MMd, AAAAd)\" >\n\
-    </form>";
+<form action=\"addDestination\">\n\
+<h2>Ajouter une destination</h2>\n\
+<table>\n\
+<tr>\n\
+<td>Ville *</td>\n\
+<td><input type=\"text\" id=\"ville\" name=\"ville\" /></td>\n\
+</tr>\n\
+<tr>\n\
+<td>Pays *</td>\n\
+<td><input type=\"text\" id=\"pays\" name=\"pays\" /></td>\n\
+</tr>\n\
+<tr>\n\
+<td>Type *</td>\n\
+<td><input type=\"radio\" name=\"typeVoyage\" value=\"Tourisme\">Tourisme\n\
+<input type=\"radio\" name=\"typeVoyage\" value=\"Etudes\">Etudes\n\
+<input type=\"radio\" name=\"typeVoyage\" value=\"Stage\">Stage</td>\n\
+</tr>\n\
+<tr>\n\
+<td>Date de départ *</td>\n\
+<td>JJ<input type=\"text\" id=\"JJd\" name=\"JJd\" style=\"width:20px\" onkeypress:\"checkDate(this.form.JJd,this.form.MMd,this.form.AAAAd)\"/>MM<input type=\"textarea\" name=\"MMd\" style=\"width:20px\"/>AAAA<input type=\"textarea\" name=\"AAAAd\" style=\"width:40px\"/></td>\n\
+</tr>\n\
+<tr>\n\
+<td>Date de retour *</td>\n\
+<td>JJ<input type=\"text\" id=\"JJa\" name=\"JJa\" style=\"width:20px\" onkeypress:\"checkDate(this.form.JJa,this.form.MMa,this.form.AAAAa)\"/>MM<input type=\"textarea\" name=\"MMa\" style=\"width:20px\"/>AAAA<input type=\"textarea\" name=\"AAAAa\" style=\"width:40px\"/></td>\n\
+</tr>\n\
+<tr>\n\
+<td>Commentaire</td>\n\
+<td><textarea name=\"commentaires\" style=\"width:400px; height:200px;\"> </textarea></td>\n\
+</tr>\n\
+</table>\n\
+<input type=\"button\" value=\"Annuler\">\n\
+<input type=\"button\" value=\"Créer une nouvelle destination\" onclick=\"javascript:checkFormValues(this.form.ville, this.form.pays, this.form.typeVoyage, this.form.commentaires, this.form.JJa,this.form.MMa,this.form.AAAAa, this.form.JJd,this.form.MMd, this.form.AAAAd)\" >\n\
+<input type=\"submit\" value=\"valider\"/>\n\
+</form>";
 }
 
 function checkFormValues(ville, pays, type, com, jourD, moisD, anD,jourA, moisA, anA){
@@ -89,7 +90,7 @@ function checkFormValues(ville, pays, type, com, jourD, moisD, anD,jourA, moisA,
             {
                if (type[i].checked){
                    break;
-               }                   
+               }
             }
     var url = "addDestination?ville="+ville.value+"&pays="+pays.value+"&type="+type[i].value+"&com="+com+"&jourd="+jourD.value+"&moisd="+moisD.value+"&and="+anD.value+"&joura="+jourA.value+"&moisa="+moisA.value+"&ana="+anA.value;
     window.location.replace(url);
@@ -107,7 +108,7 @@ function checkNotNull(ville, pays, type){
             {
                if (type[i].checked){
                    return true;
-               }                   
+               }
             }
         return false
     }

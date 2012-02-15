@@ -1,7 +1,7 @@
-<%-- 
-    Document   : xProfile
+<%--
+    Document : xProfile
     Created on : 15 janv. 2012, 16:26:23
-    Author     : Pauline
+    Author : Pauline
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,java.lang.*,javax.ejb.EJB,session.ProfilFacade,entity.Profil"%>
@@ -61,6 +61,6 @@
     <%}
            else {%>
            Pas de parcours à l'international spécifié
-       <%}%> 
+       <%}%>
     </div>
 </div>

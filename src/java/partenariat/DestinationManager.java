@@ -1,7 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
+*/
 
 package partenariat;
 
@@ -15,15 +15,14 @@ import session.PaysFacade;
 import session.ProfilFacade;
 import entity.Destination;
 import entity.Profil;
-import entity.Ville;
 import java.util.Date;
 import session.VilleFacade;
 
 
 /**
- *
- * @author lolo
- */
+*
+* @author lolo
+*/
 @Stateless
 @LocalBean
 public class DestinationManager {
@@ -42,23 +41,19 @@ public class DestinationManager {
     @EJB
     DestinationFacade destinationFacade;
 
-     public boolean createDestination(int idVille, int idPays, int idProfil, String type, String organisme, String com, Date dateD, Date dateA){
+     public boolean createDestination(int idVille, int idPays, int idProfil, String type, String organisme, String com){
         try {
             //create destination
-            Profil profil = profilFacade.findByIdprofil(idProfil).get(0);
-            Ville ville = villeFacade.findByIdVille(idVille).get(0);
             Destination destination = new Destination();
-            destination.setVille(ville);
-            destination.setProfil(profil);
+            destination.setDestinationidDestination(villeFacade.findByIdVille(idVille).get(0));
+            Profil profil = profilFacade.findByIdprofil(idProfil).get(0);
+            destination.setProfilIdprofil(profil);
             destination.setType(type);
             destination.setOrganisme(organisme);
             destination.setCommentaire(com);
             Date date = new Date();
             date.getTime();
             destination.setDate(date);
-            destination.setDatedepart(dateD);
-            destination.setDatearrivee(dateA);
-            
             em.persist(destination);
 
             return true;
@@ -68,5 +63,9 @@ public class DestinationManager {
 
 
         return false;
+    }
+
+    public void createDestination(int idVille, int idPays, int i, String type, String organ, String com, Date dateD, Date dateA) {
+        createDestination(idVille, idPays, i, type, organ, com);
     }
 }

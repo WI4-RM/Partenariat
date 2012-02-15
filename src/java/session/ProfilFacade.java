@@ -1,7 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
+*/
 package session;
 
 import entity.Profil;
@@ -11,9 +11,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- *
- * @author fingon
- */
+*
+* @author fingon
+*/
 @Stateless
 public class ProfilFacade extends AbstractFacade<Profil> {
     @PersistenceContext(unitName = "ProjetPartenariatsPU")
@@ -52,6 +52,12 @@ public class ProfilFacade extends AbstractFacade<Profil> {
     public void changePromo(int promo, int idprofil) {
         em.createNamedQuery("Profil.changePromo").setParameter("promo", promo).setParameter("idprofil", idprofil).executeUpdate();
         return;
+    }
+    
+    public List<entity.Destination> getDestinationsList(int idProfil){
+        List<Profil> lp = findByIdprofil(idProfil);
+        Profil p = lp.get(0);
+        return p.getDestinationList();
     }
      
 }

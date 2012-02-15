@@ -1,7 +1,7 @@
-<%-- 
-    Document   : listeProfils
+<%--
+    Document : listeProfils
     Created on : 18 janv. 2012, 23:25:10
-    Author     : Pauline
+    Author : Pauline
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*"%>
 <div class="divBody">
@@ -21,4 +21,3 @@
         }
     %>
 </div>
-
