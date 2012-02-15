@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
 *
@@ -33,6 +34,18 @@ import javax.persistence.Table;
     @NamedQuery(name = "Pays.findAllOrderedById", query = "SELECT p FROM Pays p ORDER BY p.idpays DESC"),
     @NamedQuery(name = "Pays.findByFirstLetter", query = "SELECT p FROM Pays p WHERE p.nom LIKE :lettre ORDER BY p.nom")})
 public class Pays implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "X")
+    private float x;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Y")
+    private float y;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "zoom_level")
+    private int zoomLevel;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -124,6 +137,30 @@ public class Pays implements Serializable {
     @Override
     public String toString() {
         return "entity.Pays[idpays=" + idpays + "]";
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public int getZoomLevel() {
+        return zoomLevel;
+    }
+
+    public void setZoomLevel(int zoomLevel) {
+        this.zoomLevel = zoomLevel;
     }
 
 }

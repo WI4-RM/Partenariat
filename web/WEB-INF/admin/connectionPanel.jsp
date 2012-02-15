@@ -12,20 +12,22 @@
         <title>Administration</title>
     </head>
     <body>
-                        <form action="connectAdmin" method="post">
-                    <tr>
-                        <td>Identifiant</td>
-                        <td><input type="text" name="login" id="login"/></td>
+        <form action="connectAdmin" method="post">
+            <table>
+                <tr>
+                    <td>Identifiant</td>
+                    <td><input type="text" name="login" id="login"/></td>
 
-                    </tr>
-                    <tr>
-                        <td>Mot de passe</td>
-                        <td><input type="password" name="password" id="password" /></td>
-                    </tr>
-                    <tr>
-                        <td><input type="submit" value="valider" /></td>
-                        <td colspan="3"></td>
-                    </tr>
-                    </form>
+                </tr>
+                <tr>
+                    <td>Mot de passe</td>
+                    <td><input type="password" name="password" id="password" /></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="valider" /></td>
+                    <td colspan="3"></td>
+                </tr>
+            </table>
+        </form>
     </body>
 </html>

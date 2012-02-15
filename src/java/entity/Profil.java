@@ -30,7 +30,11 @@ import javax.persistence.Table;
     @NamedQuery(name = "Profil.findByIdprofil", query = "SELECT p FROM Profil p WHERE p.idprofil = :idprofil"),
     @NamedQuery(name = "Profil.findByNom", query = "SELECT p FROM Profil p WHERE p.nom = :nom"),
     @NamedQuery(name = "Profil.findByPrenom", query = "SELECT p FROM Profil p WHERE p.prenom = :prenom"),
-    @NamedQuery(name = "Profil.findByPromo", query = "SELECT p FROM Profil p WHERE p.promo = :promo")})
+    @NamedQuery(name = "Profil.findByPromo", query = "SELECT p FROM Profil p WHERE p.promo = :promo"),
+    @NamedQuery(name = "Profil.changeNom", query="UPDATE Profil p SET p.nom = :nom WHERE p.idprofil = :idprofil"),
+    @NamedQuery(name = "Profil.changePrenom", query="UPDATE Profil p SET p.prenom = :prenom WHERE p.idprofil = :idprofil"),
+    @NamedQuery(name = "Profil.changePromo", query="UPDATE Profil p SET p.promo = :promo WHERE p.idprofil = :idprofil")})
+
 public class Profil implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

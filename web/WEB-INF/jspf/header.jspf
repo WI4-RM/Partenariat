@@ -10,6 +10,8 @@
         <link rel="stylesheet" type="text/css" media="screen, projection, print" href="css/pagePrincipale.css" />
         <script type="text/javascript" src="javascript/cataloguePays.js"></script>
         <script type="text/javascript" src="javascript/fonctionsAjoutsModificationPays.js"></script>
+        <script type="text/javascript" src="javascript/inputChecker.js"></script>
+        <script type="text/javascript" src="javascript/profil.js"></script>           
         <title>Accueil</title>
     </head>
     <body class="body" onload="cataloguePays('A');">
@@ -30,7 +32,7 @@
                         <td>Bienvenue <%= prenom%> <%= nom %> !</td>
                     </tr>
                     <tr>
-                        <td><a href="profil?idProfil=<%= idProfil%>">Accéder à mon profil</a></td>
+                        <td><a href="myProfile?idProfil=<%= idProfil%>">Accéder à mon profil</a></td>
                     </tr>
                     <tr>
                         <td><a href="deconnect">Déconnexion</a></td>
@@ -42,7 +44,9 @@
                 %>
                 <form action="connect" method="post">
                     <tr>
-                        <td colspan="3">Déjà inscrit ? Identifiez-vous !</td>
+                        <td colspan="3">Déjà inscrit ? Identifiez-vous ! 
+                        <a href="forgottenPasswordForm">passe oubli&eacute; ?</a>
+                        </td>
                     </tr>
                     <tr>
                         <td>Identifiant</td>

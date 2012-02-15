@@ -53,4 +53,8 @@ public class CompteFacade extends AbstractFacade<Compte> {
     public List<Compte> findByProfil_idprofil(String email ){
         return em.createNamedQuery("Compte.findByEmail").setParameter("email", email).getResultList();
     }
+
+    public List<Compte> findByIdprofil(int idprofil){
+        return em.createNamedQuery("Compte.findByIdprofil").setParameter("idprofil", idprofil).getResultList();
+    }
 }

@@ -35,6 +35,9 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "FichierUploade.findByIdpays", query = "SELECT f FROM FichierUploade f WHERE f.paysIdpays.idpays = :idPays"),
     @NamedQuery(name = "FichierUploade.findByDate", query = "SELECT f FROM FichierUploade f WHERE f.date = :date")})
 public class FichierUploade implements Serializable {
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,9 +50,6 @@ public class FichierUploade implements Serializable {
     @Basic(optional = false)
     @Column(name = "taille")
     private int taille;
-    @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
     @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil")
     @ManyToOne(optional = false)
     private Profil profilIdprofil;
@@ -94,14 +94,6 @@ public class FichierUploade implements Serializable {
         this.taille = taille;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public Profil getProfilIdprofil() {
         return profilIdprofil;
     }
@@ -141,6 +133,14 @@ public class FichierUploade implements Serializable {
     @Override
     public String toString() {
         return "entity.FichierUploade[idfichierUploade=" + idfichierUploade + "]";
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
 }

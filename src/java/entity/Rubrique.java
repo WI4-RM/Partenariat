@@ -37,6 +37,9 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Rubrique.findByNomEtIdpays", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays.idpays = :idPays AND r.nom = :nom"),
     @NamedQuery(name = "Rubrique.findByIdPays", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays.idpays = :idPays ORDER BY r.idrubrique DESC")})
 public class Rubrique implements Serializable {
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,9 +51,6 @@ public class Rubrique implements Serializable {
     @Lob
     @Column(name = "texte")
     private String texte;
-    @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
     @JoinColumn(name = "pays_idpays", referencedColumnName = "idpays")
     @ManyToOne(optional = false)
     private Pays paysIdpays;
@@ -87,14 +87,6 @@ public class Rubrique implements Serializable {
 
     public void setTexte(String texte) {
         this.texte = texte;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public Pays getPaysIdpays() {
@@ -136,6 +128,14 @@ public class Rubrique implements Serializable {
     @Override
     public String toString() {
         return "entity.Rubrique[idrubrique=" + idrubrique + "]";
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
 }

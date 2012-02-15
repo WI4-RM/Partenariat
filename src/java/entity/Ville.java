@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
 *
@@ -36,18 +37,24 @@ import javax.persistence.Table;
     @NamedQuery(name = "Ville.findByVille", query = "SELECT v FROM Ville v WHERE v.ville = :ville"),
     @NamedQuery(name = "Ville.findByIdpays", query = "SELECT v FROM Ville v WHERE v.paysIdpays.idpays = :idPays")})
 public class Ville implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "X")
+    private float x;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Y")
+    private float y;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "zoom_level")
+    private int zoomLevel;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idVille")
     private Integer idVille;
-    @Column(name = "X")
-    private Integer x;
-    @Column(name = "Y")
-    private Integer y;
-    @Column(name = "zoom_level")
-    private Integer zoomLevel;
     @Column(name = "ville")
     private String ville;
     @JoinColumn(name = "pays_idpays", referencedColumnName = "idpays")
@@ -69,22 +76,6 @@ public class Ville implements Serializable {
 
     public void setIdVille(Integer idVille) {
         this.idVille = idVille;
-    }
-
-    public Integer getX() {
-        return x;
-    }
-
-    public void setX(Integer x) {
-        this.x = x;
-    }
-
-    public Integer getY() {
-        return y;
-    }
-
-    public void setY(Integer y) {
-        this.y = y;
     }
 
     public Integer getZoomLevel() {
@@ -142,6 +133,27 @@ public class Ville implements Serializable {
     @Override
     public String toString() {
         return "entity.Ville[idVille=" + idVille + "]";
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+
+    public void setZoomLevel(int zoomLevel) {
+        this.zoomLevel = zoomLevel;
     }
 
 }

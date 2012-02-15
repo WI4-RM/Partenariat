@@ -17,7 +17,7 @@ public class InputValidator {
      * @return true if email is something@mines-saint-etienne.org
      */
     public static boolean checkEmail(String email){
-        return email.matches("[a-zA-Z0-9]+@mines-saint-etienne\\.org");
+        return email.matches("[a-zA-Z0-9\\.\\-]+@mines-saint-etienne\\.org");
     }
     
     /**

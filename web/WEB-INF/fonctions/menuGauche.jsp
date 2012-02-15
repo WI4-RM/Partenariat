@@ -3,6 +3,7 @@
     <div class="menuGauche" id='menuGauche' class='menuGauche'>
         <ul>
             <li><a href="index.html">Accueil</a></li>
+            <li> <a href="modifyPassword">modifier le passe</a> </li>
             <li><a href="listePays">Liste des pays</a></li>
             <%--<%@ include file="dernieresDestinations.jsp"%>--%>
             <%@ include file="derniersPays.jsp"%>

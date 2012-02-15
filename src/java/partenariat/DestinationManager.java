@@ -64,4 +64,8 @@ public class DestinationManager {
 
         return false;
     }
+
+    public void createDestination(int idVille, int idPays, int i, String type, String organ, String com, Date dateD, Date dateA) {
+        createDestination(idVille, idPays, i, type, organ, com);
+    }
 }
