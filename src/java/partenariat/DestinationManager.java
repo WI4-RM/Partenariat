@@ -55,7 +55,7 @@ public class DestinationManager {
             date.getTime();
             destination.setDate(date);
             em.persist(destination);
-
+            em.flush();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
