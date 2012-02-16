@@ -1,54 +1,54 @@
 /*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
-*/
-
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entity;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
-*
-* @author lolo
-*/
+ *
+ * @author fingon
+ */
 @Entity
 @Table(name = "profil")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Profil.findAll", query = "SELECT p FROM Profil p"),
     @NamedQuery(name = "Profil.findByIdprofil", query = "SELECT p FROM Profil p WHERE p.idprofil = :idprofil"),
     @NamedQuery(name = "Profil.findByNom", query = "SELECT p FROM Profil p WHERE p.nom = :nom"),
     @NamedQuery(name = "Profil.findByPrenom", query = "SELECT p FROM Profil p WHERE p.prenom = :prenom"),
     @NamedQuery(name = "Profil.findByPromo", query = "SELECT p FROM Profil p WHERE p.promo = :promo"),
+        @NamedQuery(name = "Profil.deleteProfil", query = "DELETE FROM Profil d WHERE d.idprofil = :idprofil"),    
     @NamedQuery(name = "Profil.changeNom", query="UPDATE Profil p SET p.nom = :nom WHERE p.idprofil = :idprofil"),
     @NamedQuery(name = "Profil.changePrenom", query="UPDATE Profil p SET p.prenom = :prenom WHERE p.idprofil = :idprofil"),
     @NamedQuery(name = "Profil.changePromo", query="UPDATE Profil p SET p.promo = :promo WHERE p.idprofil = :idprofil")})
-
 public class Profil implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    //@NotNull
     @Column(name = "idprofil")
     private Integer idprofil;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "nom")
     private String nom;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "prenom")
     private String prenom;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "promo")
     private int promo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "profilIdprofil")
@@ -57,7 +57,7 @@ public class Profil implements Serializable {
     private List<Compte> compteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "profilIdprofil")
     private List<FichierUploade> fichierUploadeList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "profilIdprofil")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "profil")
     private List<Destination> destinationList;
 
     public Profil() {
@@ -106,6 +106,7 @@ public class Profil implements Serializable {
         this.promo = promo;
     }
 
+    @XmlTransient
     public List<Rubrique> getRubriqueList() {
         return rubriqueList;
     }
@@ -114,6 +115,7 @@ public class Profil implements Serializable {
         this.rubriqueList = rubriqueList;
     }
 
+    @XmlTransient
     public List<Compte> getCompteList() {
         return compteList;
     }
@@ -122,6 +124,7 @@ public class Profil implements Serializable {
         this.compteList = compteList;
     }
 
+    @XmlTransient
     public List<FichierUploade> getFichierUploadeList() {
         return fichierUploadeList;
     }
@@ -130,6 +133,7 @@ public class Profil implements Serializable {
         this.fichierUploadeList = fichierUploadeList;
     }
 
+    @XmlTransient
     public List<Destination> getDestinationList() {
         return destinationList;
     }
@@ -160,7 +164,7 @@ public class Profil implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Profil[idprofil=" + idprofil + "]";
+        return "entity.Profil[ idprofil=" + idprofil + " ]";
     }
-
+    
 }

@@ -7,32 +7,30 @@ package entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author charles
+ * @author fingon
  */
 @Entity
 @Table(name = "destination")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Destination.findAll", query = "SELECT d FROM Destination d"),
+    @NamedQuery(name = "Destination.findByDestinationidDestination", query = "SELECT d FROM Destination d WHERE d.destinationPK.destinationidDestination = :destinationidDestination"),
+    @NamedQuery(name = "Destination.findByProfilIdprofil", query = "SELECT d FROM Destination d WHERE d.destinationPK.profilIdprofil = :profilIdprofil"),
     @NamedQuery(name = "Destination.findByType", query = "SELECT d FROM Destination d WHERE d.type = :type"),
     @NamedQuery(name = "Destination.findByOrganisme", query = "SELECT d FROM Destination d WHERE d.organisme = :organisme"),
     @NamedQuery(name = "Destination.findByDate", query = "SELECT d FROM Destination d WHERE d.date = :date"),
-    @NamedQuery(name = "Destination.findByIddestination", query = "SELECT d FROM Destination d WHERE d.iddestination = :iddestination")})
-@XmlRootElement
+    @NamedQuery(name = "Destination.findByDatearrivee", query = "SELECT d FROM Destination d WHERE d.datearrivee = :datearrivee"),
+    @NamedQuery(name = "Destination.findByDatedepart", query = "SELECT d FROM Destination d WHERE d.datedepart = :datedepart"),
+       @NamedQuery(name = "Destination.deleteDestination", query = "DELETE FROM Destination d WHERE d.destinationPK.destinationidDestination = :destinationidDestination")})  
 public class Destination implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "destination_idDestination")
-    private Integer iddestination;
-    protected Destination Destination;
+    @EmbeddedId
+    protected DestinationPK destinationPK;
     @Size(max = 8)
     @Column(name = "type")
     private String type;
@@ -62,21 +60,20 @@ public class Destination implements Serializable {
     public Destination() {
     }
 
-    public Destination(Destination Destination) {
-        this.Destination = Destination;
+    public Destination(DestinationPK destinationPK) {
+        this.destinationPK = destinationPK;
     }
 
-    public Destination(int destinationidDestination, Profil profil) {
-        this.iddestination = destinationidDestination;
-        this.profil = profil;
+    public Destination(int destinationidDestination, int profilIdprofil) {
+        this.destinationPK = new DestinationPK(destinationidDestination, profilIdprofil);
     }
 
-    public Destination getDestination() {
-        return Destination;
+    public DestinationPK getDestinationPK() {
+        return destinationPK;
     }
 
-    public void setDestination(Destination Destination) {
-        this.Destination = Destination;
+    public void setDestinationPK(DestinationPK destinationPK) {
+        this.destinationPK = destinationPK;
     }
 
     public String getType() {
@@ -146,7 +143,7 @@ public class Destination implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (Destination != null ? Destination.hashCode() : 0);
+        hash += (destinationPK != null ? destinationPK.hashCode() : 0);
         return hash;
     }
 
@@ -157,7 +154,7 @@ public class Destination implements Serializable {
             return false;
         }
         Destination other = (Destination) object;
-        if ((this.Destination == null && other.Destination != null) || (this.Destination != null && !this.Destination.equals(other.Destination))) {
+        if ((this.destinationPK == null && other.destinationPK != null) || (this.destinationPK != null && !this.destinationPK.equals(other.destinationPK))) {
             return false;
         }
         return true;
@@ -165,7 +162,7 @@ public class Destination implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Destination[ Destination=" + Destination + " ]";
+        return "entity.Destination[ destinationPK=" + destinationPK + " ]";
     }
     
 }

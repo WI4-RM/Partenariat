@@ -47,7 +47,7 @@ function refreshInfoPerso(nom, prenom, promo){
 function addDestinationP(){
     document.getElementById('cd').innerHTML = "";
     document.getElementById('cd').innerHTML += "\
-<form action=\"addDestination\">\n\
+<form id='newform' action=\"addDestination\">\n\
 <h2>Ajouter une destination</h2>\n\
 <table>\n\
 <tr>\n\
@@ -60,30 +60,32 @@ function addDestinationP(){
 </tr>\n\
 <tr>\n\
 <td>Type *</td>\n\
-<td><input type=\"radio\" name=\"typeVoyage\" value=\"Tourisme\">Tourisme\n\
-<input type=\"radio\" name=\"typeVoyage\" value=\"Etudes\">Etudes\n\
-<input type=\"radio\" name=\"typeVoyage\" value=\"Stage\">Stage</td>\n\
+<td><input type=\"radio\" name=\"type\" value=\"Tourisme\">Tourisme\n\
+<input type=\"radio\" name=\"type\" value=\"Etudes\">Etudes\n\
+<input type=\"radio\" name=\"type\" value=\"Stage\">Stage</td>\n\
 </tr>\n\
 <tr>\n\
 <td>Date de départ *</td>\n\
-<td>JJ<input type=\"text\" id=\"JJd\" name=\"JJd\" style=\"width:20px\" onkeypress:\"checkDate(this.form.JJd,this.form.MMd,this.form.AAAAd)\"/>MM<input type=\"textarea\" name=\"MMd\" style=\"width:20px\"/>AAAA<input type=\"textarea\" name=\"AAAAd\" style=\"width:40px\"/></td>\n\
+<td>JJ<input type=\"text\"  name=\"jourd\" style=\"width:20px\" onkeypress:\"checkDate(this.form.JJd,this.form.MMd,this.form.AAAAd)\"/>MM<input type=\"textarea\" name=\"moisd\" style=\"width:20px\"/>AAAA<input type=\"textarea\" name=\"ana\" style=\"width:40px\"/></td>\n\
 </tr>\n\
 <tr>\n\
 <td>Date de retour *</td>\n\
-<td>JJ<input type=\"text\" id=\"JJa\" name=\"JJa\" style=\"width:20px\" onkeypress:\"checkDate(this.form.JJa,this.form.MMa,this.form.AAAAa)\"/>MM<input type=\"textarea\" name=\"MMa\" style=\"width:20px\"/>AAAA<input type=\"textarea\" name=\"AAAAa\" style=\"width:40px\"/></td>\n\
+<td>JJ<input type=\"text\" name=\"joura\" style=\"width:20px\" onkeypress:\"checkDate(this.form.JJa,this.form.MMa,this.form.AAAAa)\"/>MM<input type=\"textarea\" name=\"moisa\" style=\"width:20px\"/>AAAA<input type=\"textarea\" name=\"and\" style=\"width:40px\"/></td>\n\
 </tr>\n\
 <tr>\n\
 <td>Commentaire</td>\n\
-<td><textarea name=\"commentaires\" style=\"width:400px; height:200px;\"> </textarea></td>\n\
+<td><textarea name=\"com\" style=\"width:400px; height:200px;\"> </textarea></td>\n\
 </tr>\n\
 </table>\n\
 <input type=\"button\" value=\"Annuler\">\n\
-<input type=\"button\" value=\"Créer une nouvelle destination\" onclick=\"javascript:checkFormValues(this.form.ville, this.form.pays, this.form.typeVoyage, this.form.commentaires, this.form.JJa,this.form.MMa,this.form.AAAAa, this.form.JJd,this.form.MMd, this.form.AAAAd)\" >\n\
-<input type=\"submit\" value=\"valider\"/>\n\
+<input type=\"button\" value=\"Créer une nouvelle destination\" onclick=\"javascript:checkFormValues(this.form.ville, this.form.pays, this.form.type, this.form.com, this.form.joura,this.form.moisa,this.form.ana, this.form.jourd,this.form.moisd, this.form.and)\" >\n\
+<input id = 'x' type=\"hidden\" name=\"x\"></input>\n\
+<input id = 'y' type=\"hidden\" name=\"y\"></input>\n\
+<input id = 'z' type=\"hidden\" name=\"z\"></input>\n\
 </form>";
 }
 
-function checkFormValues(ville, pays, type, com, jourD, moisD, anD,jourA, moisA, anA){
+function checkFormValues(ville, pays, type, com, jourA, moisA, anA, jourD, moisD, anD){
     if ((checkNotNull(ville, pays, type)==true)&&(checkDate(jourD, moisD, anD)==true)&&(checkDate(jourA, moisA, anA)==true)){
     var i =0;
     for (i=0; i < type.length; i++)
@@ -92,8 +94,9 @@ function checkFormValues(ville, pays, type, com, jourD, moisD, anD,jourA, moisA,
                    break;
                }
             }
-    var url = "addDestination?ville="+ville.value+"&pays="+pays.value+"&type="+type[i].value+"&com="+com+"&jourd="+jourD.value+"&moisd="+moisD.value+"&and="+anD.value+"&joura="+jourA.value+"&moisa="+moisA.value+"&ana="+anA.value;
-    window.location.replace(url);
+    document.getElementById("addmap").style.left = "10%";
+    map.resize();
+    map.reposition();
 }
 }
 

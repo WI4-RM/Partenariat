@@ -14,21 +14,8 @@ function init() {
 			map.reposition();
 		}, 500);
 	};
-
+        if (loadEvent){
+            map.onLoad = loadEvent;
+        }
 }
 dojo.addOnLoad(init);
-
-function add_destination(pays){
-    xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function(){            
-        if(xhr.readyState == 4){
-            if(xhr.status == 200){ 
-                destination = xhr.responseText; 
-            }
-        }
-    }
-    if (pays == null){
-         xhr.open("GET", "data.xml", true);                
-         xhr.send(null); 
-    }
-}
