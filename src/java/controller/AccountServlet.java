@@ -5,7 +5,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +15,7 @@ import session.InscriptionManager;
 import validator.InputValidator;
 
 /**
- *
+ *Manage pasword reset
  * @author fingon
  */
 @WebServlet(name = "AccountServlet", urlPatterns = {"/forgottenPasswordForm",

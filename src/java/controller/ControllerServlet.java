@@ -747,7 +747,7 @@ public class ControllerServlet extends HttpServlet {
     }
 
     /**
-     *
+     *connection-check function
      * @param request
      * @return true if user is logged
      */
@@ -755,7 +755,10 @@ public class ControllerServlet extends HttpServlet {
         return request.getSession(false) != null && request.getSession(false).getAttribute("email") != null;
     }
     
-    
+    /**
+     * Set all destinations in client context when the client is connected
+     * @param request 
+     */
     private void setDestinations(HttpServletRequest request){
         
                  if (ControllerServlet.isConnected(request)) {

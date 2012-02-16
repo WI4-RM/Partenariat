@@ -5,7 +5,7 @@
 package validator;
 
 /**
- * class which check user input
+ * class which checks user inputs
  * 
  * @author fingon
  */

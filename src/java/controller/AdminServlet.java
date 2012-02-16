@@ -6,8 +6,6 @@ package controller;
 
 import entity.*;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -26,7 +24,7 @@ import session.VilleFacade;
 import validator.InputValidator;
 
 /**
- *
+ *Manages administrator request
  * @author fingon
  */
 @WebServlet(name = "AdminServlet", urlPatterns = {"/administration", "/connectAdmin",
@@ -87,14 +85,14 @@ public class AdminServlet extends HttpServlet {
         String userPath = request.getServletPath();
         String url = "WEB-INF/admin/";
 
-        if (userPath.equals("/administration")) {
+        if (userPath.equals("/administration")) {//redirection vers le tableau de connection
             url += "connectionPanel.jsp";
         }
-        else if (!AdminServlet.isAdminConnected(request))
+        else if (!AdminServlet.isAdminConnected(request))//pour toutes les autres possibilites, l'administrateur doit etre authentifié
         {
             url += "connectionPanel.jsp";
         }
-        else if (userPath.equals("/viewAccount")){
+        else if (userPath.equals("/viewAccount")){ //regarder les comptes utilisateurs
             url += "accounts.jsp";
 
             List<Compte> comptes = compteFacade.findAll();
@@ -109,13 +107,13 @@ public class AdminServlet extends HttpServlet {
             request.getSession().setAttribute("profils", profils);
             
         }
-        else if (userPath.equals("/viewPays")){
+        else if (userPath.equals("/viewPays")){//regarder la liste des pays
             url += "paysView.jsp";
             List<Pays> pays = paysFacade.findAll();
             request.getSession(false).setAttribute("paysList", pays);
             
         }
-        else if (userPath.equals("/delPays")){
+        else if (userPath.equals("/delPays")){ //destruction d'un pays
             Object o = request.getParameter("idDelPays");
             Integer id = Integer.parseInt(request.getParameter("idDelPays"));
             
@@ -153,7 +151,7 @@ public class AdminServlet extends HttpServlet {
             userPath = "/viewPays";
 
             
-        } else if (userPath.equals("/deleteAccount")){
+        } else if (userPath.equals("/deleteAccount")){//destruction d'un compte
             Integer id = Integer.parseInt(request.getParameter("idCompte"));
             if (id == null)
                 throw new NullPointerException("id of compte is nul");
@@ -171,7 +169,7 @@ public class AdminServlet extends HttpServlet {
             //url += "viewAccount";
             userPath = "/viewAccount";
             
-        } else if (userPath.equals("/setNewAdmin")){
+        } else if (userPath.equals("/setNewAdmin")){ // definition d'un nouvel administrateur
             Integer id = Integer.parseInt(request.getParameter("idCompte"));
             if (id == null)
                 throw new NullPointerException("id of compte is nul");
@@ -246,7 +244,12 @@ public class AdminServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
+    /**
+     * setup admin parameters when authentification is succesfull
+     * @param request
+     * @param email 
+     */
     private void createNewAdminSession(HttpServletRequest request, String email) {
         HttpSession session = request.getSession(true);
         session.setAttribute("email", email);
@@ -262,7 +265,11 @@ public class AdminServlet extends HttpServlet {
         
         
     }
-    
+    /**
+     * check if the user is administrator is connected
+     * @param request
+     * @return true if the user is connected & is an administrator 
+     */
     public static boolean isAdminConnected(HttpServletRequest request){
         return ControllerServlet.isConnected(request) &&
                 request.getSession(false).getAttribute("isAdmin") != null;

@@ -6,9 +6,7 @@
 package partenariat;
 
 import entity.Pays;
-import entity.Rubrique;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -36,7 +34,15 @@ public class PaysManager {
 
     @EJB
     RubriqueManager rubriqueManager;
-
+    /**
+     * 
+     * @param nomPays
+     * @param idProfil
+     * @param x
+     * @param y
+     * @param z
+     * @return true if pays is properly created
+     */
      public boolean createPays(String nomPays, int idProfil, float x, float y, int z){
         try {
             //create pays

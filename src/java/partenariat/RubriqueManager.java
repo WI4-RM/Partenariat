@@ -29,7 +29,14 @@ public class RubriqueManager {
     private session.ProfilFacade profilFacade ;
     @EJB
     private session.PaysFacade paysFacade ;
-
+    
+    /**
+     * 
+     * @param titre
+     * @param contenu
+     * @param idPays
+     * @return true if rubrique is properly created
+     */
      public boolean createRubrique(String titre, String contenu, int idPays){
         try {
             //create rubrique

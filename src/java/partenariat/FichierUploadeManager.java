@@ -33,6 +33,14 @@ public class FichierUploadeManager {
     @EJB
     private ProfilFacade profilFacade;
 
+    /**
+     * 
+     * @param name
+     * @param idPays
+     * @param idProfil
+     * @param taille
+     * @return true if the file is created
+     */
      public boolean createFichier(String name, int idPays, int idProfil, int taille){
         try {
             //create fichier

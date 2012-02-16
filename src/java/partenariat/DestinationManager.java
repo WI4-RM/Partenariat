@@ -42,7 +42,16 @@ public class DestinationManager {
 
     @EJB
     DestinationFacade destinationFacade;
-
+    /**
+     * 
+     * @param idVille
+     * @param idPays
+     * @param idProfil
+     * @param type
+     * @param organisme
+     * @param com
+     * @return true if destination is properly created
+     */
      public boolean createDestination(int idVille, int idPays, int idProfil, String type, String organisme, String com){
         try {
             //create destination
@@ -69,7 +78,17 @@ public class DestinationManager {
 
         return false;
     }
-
+     /**
+      * 
+      * @param idVille
+      * @param idPays
+      * @param i
+      * @param type
+      * @param organ
+      * @param com
+      * @param dateD
+      * @param dateA 
+      */
     public void createDestination(int idVille, int idPays, int i, String type, String organ, String com, Date dateD, Date dateA) {
         createDestination(idVille, idPays, i, type, organ, com);
     }

@@ -30,7 +30,15 @@ public class VilleManager {
     @EJB
     PaysFacade paysFacade;
 
-
+    /**
+     * 
+     * @param nomVille
+     * @param idPays
+     * @param x
+     * @param y
+     * @param zoom
+     * @return true if Ville is properly created
+     */
      public boolean createVille(String nomVille, int idPays, float x, float y, int zoom){
         try {
             //create ville

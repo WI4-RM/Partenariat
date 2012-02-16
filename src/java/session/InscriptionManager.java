@@ -26,7 +26,7 @@ import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 /**
- *
+ *Manage connections, inscriptions, password modification
  * @author fingon
  */
 @Stateless
