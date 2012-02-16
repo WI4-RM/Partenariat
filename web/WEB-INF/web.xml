@@ -14,6 +14,11 @@
             <url-pattern>/WEB-INF/compte_view/listePays.jsp</url-pattern>
             <url-pattern>/WEB-INF/compte_view/inscription.jsp</url-pattern>
             <url-pattern>/WEB-INF/compte_view/historique.jsp</url-pattern>
+            <url-pattern>/WEB-INF/compte_view/myProfile.jsp</url-pattern>
+             <url-pattern>/WEB-INF/compte_view/xProfile.jsp</url-pattern>
+             <url-pattern>/WEB-INF/compte_view/listeProfils.jsp</url-pattern>
+             <url-pattern>/WEB-INF/compte_view/rechercheResult.jsp</url-pattern>            
+            <url-pattern>/WEB-INF/compte_view/modifyPassword.jsp</url-pattern>            
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>

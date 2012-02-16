@@ -1,21 +1,31 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
+*/
+
 package entity;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author charles
- */
+*
+* @author lolo
+*/
 @Entity
 @Table(name = "ville")
 @NamedQueries({
@@ -26,15 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ville.findByZoomLevel", query = "SELECT v FROM Ville v WHERE v.zoomLevel = :zoomLevel"),
     @NamedQuery(name = "Ville.findByVille", query = "SELECT v FROM Ville v WHERE v.ville = :ville"),
     @NamedQuery(name = "Ville.findByIdpays", query = "SELECT v FROM Ville v WHERE v.paysIdpays.idpays = :idPays")})
-@XmlRootElement
 public class Ville implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "idVille")
-    private Integer idVille;
     @Basic(optional = false)
     @NotNull
     @Column(name = "X")
@@ -47,13 +49,18 @@ public class Ville implements Serializable {
     @NotNull
     @Column(name = "zoom_level")
     private int zoomLevel;
-    @Size(max = 60)
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "idVille")
+    private Integer idVille;
     @Column(name = "ville")
     private String ville;
     @JoinColumn(name = "pays_idpays", referencedColumnName = "idpays")
     @ManyToOne(optional = false)
     private Pays paysIdpays;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ville")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "destinationidDestination")
     private List<Destination> destinationList;
 
     public Ville() {
@@ -61,13 +68,6 @@ public class Ville implements Serializable {
 
     public Ville(Integer idVille) {
         this.idVille = idVille;
-    }
-
-    public Ville(Integer idVille, float x, float y, int zoomLevel) {
-        this.idVille = idVille;
-        this.x = x;
-        this.y = y;
-        this.zoomLevel = zoomLevel;
     }
 
     public Integer getIdVille() {
@@ -78,27 +78,11 @@ public class Ville implements Serializable {
         this.idVille = idVille;
     }
 
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public int getZoomLevel() {
+    public Integer getZoomLevel() {
         return zoomLevel;
     }
 
-    public void setZoomLevel(int zoomLevel) {
+    public void setZoomLevel(Integer zoomLevel) {
         this.zoomLevel = zoomLevel;
     }
 
@@ -118,7 +102,6 @@ public class Ville implements Serializable {
         this.paysIdpays = paysIdpays;
     }
 
-    @XmlTransient
     public List<Destination> getDestinationList() {
         return destinationList;
     }
@@ -149,7 +132,28 @@ public class Ville implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Ville[ idVille=" + idVille + " ]";
+        return "entity.Ville[idVille=" + idVille + "]";
     }
-    
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+
+    public void setZoomLevel(int zoomLevel) {
+        this.zoomLevel = zoomLevel;
+    }
+
 }

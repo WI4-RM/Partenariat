@@ -4,8 +4,12 @@
  */
 package controller;
 
+import entity.Compte;
+import entity.Pays;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,19 +17,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import session.CompteFacade;
 import session.InscriptionManager;
+import session.PaysFacade;
 import validator.InputValidator;
 
-
-    /**
+/**
  *
  * @author fingon
  */
-@WebServlet(name = "AdminServlet", urlPatterns = {"/administration","/connectAdmin"})
+@WebServlet(name = "AdminServlet", urlPatterns = {"/administration", "/connectAdmin","/viewAccount",
+                                                    "/viewPays","/delPays"})
 public class AdminServlet extends HttpServlet {
-    
+
     @EJB
     private InscriptionManager inscriptionManager;
+    
+    @EJB
+    private CompteFacade compteFacade;
+    
+    @EJB
+    private PaysFacade paysFacade;
 
     /**
      * Processes requests for both HTTP
@@ -39,8 +51,6 @@ public class AdminServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -57,19 +67,54 @@ public class AdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        String userPath= request.getServletPath();
+        String userPath = request.getServletPath();
         String url = "WEB-INF/admin/";
-        
-        if (userPath.equals("/administration")){
-            url+="connectionPanel.jsp";
+
+        if (userPath.equals("/administration")) {
+            url += "connectionPanel.jsp";
         }
-        
+        else if (!AdminServlet.isAdminConnected(request))
+        {
+            url += "connectionPanel.jsp";
+        }
+        else if (userPath.equals("/viewAccount")){
+            url += "accounts.jsp";
+            List<Compte> comptes = compteFacade.findAll();
+            //Iterator<Compte> it = comptes.iterator();
+           // while (it)
+            
+            request.getSession(false).setAttribute("comptes", comptes);
+            
+        }
+        else if (userPath.equals("/viewPays")){
+            url += "paysView.jsp";
+            List<Pays> pays = paysFacade.findAll();
+            request.getSession(false).setAttribute("paysList", pays);
+            
+        }
+        else if (userPath.equals("/delPays")){
+            Object o = request.getParameter("idDelPays");
+            Integer id = Integer.parseInt(request.getParameter("idDelPays"));
+            
+            if (id != null){
+                List<Pays> p = paysFacade.findByIdpays(id);
+                if (p.size() > 0){
+                    paysFacade.remove(p.get(0));
+                }
+            }
+            url += "paysView.jsp";
+            List<Pays> pays = paysFacade.findAll();
+            request.getSession(false).setAttribute("paysList", pays);
+            userPath = "/viewPays";
+
+            
+        }
+
 
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
-            ex.printStackTrace();
-        }        
+        }
     }
 
     /**
@@ -84,24 +129,26 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String userPath = request.getServletPath();
         String url = "WEB-INF/admin/";
-        
-        if (userPath.equals("/connectAdmin")){
+
+        if (userPath.equals("/connectAdmin")) {
             String username = request.getParameter("login");
             String password = request.getParameter("password");
             boolean ok = false; // default : connection is not ok
-            
-            if (InputValidator.checkEmail(username))
+
+            if (InputValidator.checkEmail(username)) {
                 ok = inscriptionManager.connectAdmin(username, password);
 
-            
-            userPath="connectionPanel";
+            }
+
+
+            userPath = "connectionPanel";
             //userPath = "index";
-            if (ok){
+            if (ok) {
                 userPath = "index";
-                this.createNewSession(request, username);
+                this.createNewAdminSession(request, username);
 
             }
             userPath += ".jsp";
@@ -112,9 +159,10 @@ public class AdminServlet extends HttpServlet {
         } catch (Exception ex) {
         }
 
-    
+
     }
-/**
+
+    /**
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
@@ -123,12 +171,15 @@ public class AdminServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-        private void createNewSession(HttpServletRequest request, String name) {
+
+    private void createNewAdminSession(HttpServletRequest request, String email) {
         HttpSession session = request.getSession(true);
-        session.setAttribute("nom", name);
-        //Cookie c = new Cookie("nom", name);
-        
-        
+        session.setAttribute("email", email);
+        session.setAttribute("isAdmin", "true");
+    }
+    
+    public static boolean isAdminConnected(HttpServletRequest request){
+        return ControllerServlet.isConnected(request) &&
+                request.getSession(false).getAttribute("isAdmin") != null;
     }
 }

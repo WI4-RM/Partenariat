@@ -23,8 +23,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Compte.findByPasswordHash", query = "SELECT c FROM Compte c WHERE c.passwordHash = :passwordHash"),
     @NamedQuery(name = "Compte.findByValidationHash", query = "SELECT c FROM Compte c WHERE c.validationHash = :validationHash"),
     @NamedQuery(name = "Compte.findByIsAdministrator", query = "SELECT c FROM Compte c WHERE c.isAdministrator = :isAdministrator"),
-    @NamedQuery(name = "Compte.findBySalt", query = "SELECT c FROM Compte c WHERE c.salt = :salt")})
-@XmlRootElement
+    @NamedQuery(name = "Compte.findBySalt", query = "SELECT c FROM Compte c WHERE c.salt = :salt"),
+    @NamedQuery(name = "Compte.findByIdprofil", query = "SELECT c FROM Compte c WHERE c.profilIdprofil.idprofil = :idprofil")})
 public class Compte implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

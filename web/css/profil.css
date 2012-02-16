@@ -75,24 +75,24 @@ div.colonneGauche{
 	top : 60px ;
 	bottom : 40px ;
 	left : 0px ;
-	width : 500px ;
+	width : 400px ;
 	position : absolute ;
 }
 div.colonneDroiteHaut{
+	/*padding-top : 60px ;
+	/*padding-left : 10px ;*/
+	top : 60px ;
+	bottom : 40px ;
+	left : 400px ;
+	width : 400px ;
+	position : absolute ;
+}
+div.colonneDroite{
 	padding-top : 60px ;
 	/*padding-left : 10px ;*/
 	top : 60px ;
 	bottom : 40px ;
-	left : 500px ;
-	width : 400px ;
-	position : absolute ;
-}
-div.colonneDroiteBas{
-	padding-top : 60px ;
-	/*padding-left : 10px ;*/
-	top : 200px ;
-	bottom : 40px ;
-	left : 500px ;
+	left : 400px ;
         width : 400px ;
 	position : absolute ;
 }
