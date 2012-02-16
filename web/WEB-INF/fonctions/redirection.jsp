@@ -16,6 +16,6 @@
         <meta http-equiv='refresh' content='0;url="<%= url%>"'/>
     </head>
     <body>
-        <p> If the redirection doesn't work, please click <a href='" url "'>here</a>.</p>
+        <p> If the redirection doesn't work, please click <a href='" <%= url %>"'>here</a>.</p>
     </body>
 </html>

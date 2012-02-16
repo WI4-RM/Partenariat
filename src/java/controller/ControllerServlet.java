@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javassist.compiler.ast.Symbol;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -99,7 +100,7 @@ public class ControllerServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected String processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String userPath = request.getServletPath();
@@ -500,10 +501,9 @@ public class ControllerServlet extends HttpServlet {
             url = "/WEB-INF/compte_view/historique.jsp";
         } else if (userPath.equals("/uploadFichier")) {
             if (ControllerServlet.isConnected(request)) {
-                //int idProfil = profilFacade.findAll().get(0).getIdprofil();
-                int idProfil = (Integer) request.getAttribute("idProfil");
+                int idProfil = (Integer) Integer.parseInt((String) session.getAttribute("idProfil"));
+                session.setAttribute("idProfil", idProfil);
                 int idPays = Integer.parseInt((String) request.getSession().getAttribute("idPays"));
-                Pays pays = paysFacade.findByIdpays(idPays).get(0);
                 try {
                     // Create a factory for disk-based file items
                     FileItemFactory factory = new DiskFileItemFactory();
@@ -585,14 +585,7 @@ public class ControllerServlet extends HttpServlet {
             userPath = "/pagePrincipale";
             url = "/WEB-INF/compte_view" + userPath + ".jsp";
         }
-        try {
-
-            request.getRequestDispatcher(url).forward(request, response);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+        return url;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -607,20 +600,12 @@ public class ControllerServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
-// try {
-// if (ControllerServlet.isConnected(request) ){
-// request.setAttribute(inscription, "true");
-// }
-// else {
-// request.setAttribute("connecte", "false");
-// }
-// request.getRequestDispatcher(url).forward(request, response);
-// } catch (Exception ex) {
-// ex.printStackTrace();
-// } finally {
-// //out.close();
-// }
+        String url = processRequest(request, response);
+     try {
+        request.getRequestDispatcher(url).forward(request, response);
+     } catch (Exception ex) {
+        ex.printStackTrace();
+     }
     }
 
     /**
@@ -708,10 +693,9 @@ public class ControllerServlet extends HttpServlet {
 
             }
             
-        }
-// else {
-// processRequest(request, response);
-// }
+        } else {
+            url = processRequest(request, response);
+         }
 
         request.getRequestDispatcher(url).forward(request, response);
 
