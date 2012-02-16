@@ -1,7 +1,8 @@
+
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
+*/
 
 package partenariat;
 
@@ -21,9 +22,9 @@ import session.VilleFacade;
 
 
 /**
- *
- * @author lolo
- */
+*
+* @author lolo
+*/
 @Stateless
 @LocalBean
 public class DestinationManager {

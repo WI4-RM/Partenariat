@@ -37,12 +37,15 @@ public class PaysManager {
     @EJB
     RubriqueManager rubriqueManager;
 
-     public boolean createPays(String nomPays, int idProfil){
+     public boolean createPays(String nomPays, int idProfil, float x, float y, int z){
         try {
             //create pays
             Pays pays = new Pays();
             pays.setNom(Util.verificationTailleString(nomPays, 45));
-
+            pays.setX(x);
+            pays.setY(y);
+            pays.setZoomLevel(z);
+            System.out.println(z);
             em.persist(pays);
 
             pays = paysFacade.findByNom(nomPays).get(0);

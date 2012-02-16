@@ -31,7 +31,7 @@ public class VilleManager {
     PaysFacade paysFacade;
 
 
-     public boolean createVille(String nomVille, int idPays, int x, int y, int zoom){
+     public boolean createVille(String nomVille, int idPays, float x, float y, int zoom){
         try {
             //create ville
             Ville ville = new Ville();

@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javassist.compiler.ast.Symbol;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -36,6 +37,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import partenariat.Dest;
 import partenariat.PaysManager;
 import partenariat.RubriqueManager;
 import partenariat.Util;
@@ -98,7 +100,7 @@ public class ControllerServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected String processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String userPath = request.getServletPath();
@@ -112,17 +114,46 @@ public class ControllerServlet extends HttpServlet {
 
         if (userPath.equals("/index.html") || userPath.equals("/index") || userPath.equals("")) { //Page d'accueil
             url = "/WEB-INF/compte_view/pagePrincipale.jsp";
-
+//            if (ControllerServlet.isConnected(request)) {
+//                ArrayList<Dest> dests = new ArrayList<Dest>();
+//                List<Ville> ville = villeFacade.findAll();
+//                for(int ii = 0; ii<ville.size(); ii++){
+//                    List<Destination> destin = ville.get(ii).getDestinationList();
+//                    float x = ville.get(ii).getX();
+//                    float y = ville.get(ii).getY();
+//                    int z = ville.get(ii).getZoomLevel();
+//                    String city = ville.get(ii).getVille();
+//                    for(int ij = 0; ij<destin.size(); ij++){
+//                        Dest dest = new Dest();
+//                        dest.setCity(city);
+//                        System.out.println(city);
+//                        dest.setId(destin.get(ij).getDestinationPK().getProfilIdprofil());
+//                        dest.setX(x);
+//                        dest.setY(y);
+//                        dest.setZ(z);
+//                        Profil p = profilFacade.findByIdprofil(destin.get(ij).getDestinationPK().getProfilIdprofil()).get(0);
+//                        dest.setName(p.getNom() + " " +p.getPrenom());
+//                        dests.add(dest);
+//                    }
+//                }
+//                request.setAttribute("dests", dests);
+//            }
+            this.setDestinations(request);
+            
         } else if (userPath.equals("/nouveauPays")) { //Créer un nouveau pays
             if (ControllerServlet.isConnected(request)) {
                 String nomPays = request.getParameter("nouveauPays");
+                float x = Float.parseFloat(request.getParameter("x"));
+                float y = Float.parseFloat(request.getParameter("y"));
+                int z = Integer.parseInt(request.getParameter("z"));
+                System.out.print(x);
                 if (!nomPays.equals("") && InputValidator.checkNames(nomPays)) { //validation
                     nomPays = partenariat.Util.InitialeMajuscule(nomPays);
                     List<Pays> pays = paysFacade.findByNom(nomPays);
                     int idPays;
 
                     if ((pays == null) || (pays.size() == 0) || (pays.get(0) == null)) {
-                        paysManager.createPays(nomPays, (Integer) session.getAttribute("idProfil"));
+                        paysManager.createPays(nomPays, (Integer) session.getAttribute("idProfil"), x, y, z);
                         idPays = paysFacade.findByNom(nomPays).get(0).getIdpays();
                     } else {
                         idPays = pays.get(0).getIdpays();
@@ -323,7 +354,8 @@ public class ControllerServlet extends HttpServlet {
 
             url = "/WEB-INF/compte_view/myProfile.jsp";
         } else if (userPath.equals("/changeInfoPerso")) {
-            int id =(Integer)request.getSession().getAttribute("idProfil");
+            //int id =(Integer)request.getSession().getAttribute("idprofil");
+            int id = 1;
             String nom = request.getParameter("nom");
             String prenom = request.getParameter("prenom");
             int promo = Integer.parseInt(request.getParameter("promo"));
@@ -340,6 +372,9 @@ public class ControllerServlet extends HttpServlet {
             String pays = Util.InitialeMajuscule(request.getParameter("pays"));
             String type = request.getParameter("type");
             String com = request.getParameter("com");
+            float x = Float.parseFloat(request.getParameter("x"));
+            float y = Float.parseFloat(request.getParameter("y"));
+            int z = Integer.parseInt(request.getParameter("z"));
             /*
              * int and = Integer.parseInt(request.getParameter("and")); int
              * moisd = Integer.parseInt(request.getParameter("moisd")); // int
@@ -373,15 +408,15 @@ public class ControllerServlet extends HttpServlet {
             List<Pays> listPays = paysFacade.findByNom(pays);
             List<Ville> listVilles = villeFacade.findByVille(ville);
             if ((listPays == null) || (listPays.isEmpty()) || (listPays.get(0) == null)) {
-                paysManager.createPays(pays, 1);
+                paysManager.createPays(pays, 1, x, y, z);
                 idPays = paysFacade.findByNom(pays).get(0).getIdpays();
-                villeManager.createVille(ville, idPays, 0, 0, 0);
+                villeManager.createVille(ville, idPays, x, y, z);
                 idVille = villeFacade.findByVille(ville).get(0).getIdVille();
 
             } else {
                 idPays = listPays.get(0).getIdpays();
                 if ((listVilles) == null || (listVilles.size() == 0) || (listVilles.get(0) == null)) {
-                    villeManager.createVille(ville, idPays, 0, 0, 0);
+                    villeManager.createVille(ville, idPays, x, y, z);
                     idVille = villeFacade.findByVille(ville).get(0).getIdVille();
                 } else {
                     idVille = listVilles.get(0).getIdVille();
@@ -466,10 +501,9 @@ public class ControllerServlet extends HttpServlet {
             url = "/WEB-INF/compte_view/historique.jsp";
         } else if (userPath.equals("/uploadFichier")) {
             if (ControllerServlet.isConnected(request)) {
-                //int idProfil = profilFacade.findAll().get(0).getIdprofil();
-                int idProfil = (Integer) request.getAttribute("idProfil");
+                int idProfil = (Integer) Integer.parseInt((String) session.getAttribute("idProfil"));
+                session.setAttribute("idProfil", idProfil);
                 int idPays = Integer.parseInt((String) request.getSession().getAttribute("idPays"));
-                Pays pays = paysFacade.findByIdpays(idPays).get(0);
                 try {
                     // Create a factory for disk-based file items
                     FileItemFactory factory = new DiskFileItemFactory();
@@ -551,14 +585,7 @@ public class ControllerServlet extends HttpServlet {
             userPath = "/pagePrincipale";
             url = "/WEB-INF/compte_view" + userPath + ".jsp";
         }
-        try {
-
-            request.getRequestDispatcher(url).forward(request, response);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        //String url = "/WEB-INF/compte_view/" + userPath + ".jsp";
+        return url;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -573,20 +600,12 @@ public class ControllerServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
-// try {
-// if (ControllerServlet.isConnected(request) ){
-// request.setAttribute(inscription, "true");
-// }
-// else {
-// request.setAttribute("connecte", "false");
-// }
-// request.getRequestDispatcher(url).forward(request, response);
-// } catch (Exception ex) {
-// ex.printStackTrace();
-// } finally {
-// //out.close();
-// }
+        String url = processRequest(request, response);
+     try {
+        request.getRequestDispatcher(url).forward(request, response);
+     } catch (Exception ex) {
+        ex.printStackTrace();
+     }
     }
 
     /**
@@ -666,19 +685,17 @@ public class ControllerServlet extends HttpServlet {
             if (InputValidator.checkEmail(username)) {
                 ok = inscriptionManager.connect(username, password);
             }
-
             userPath = "pagePrincipale";
             url += "compte_view/" + userPath + ".jsp";
-            //userPath = "index";
             if (ok) {
                 this.createNewSession(request, username);
+                this.setDestinations(request);
 
             }
-
-        }
- else {
- processRequest(request, response);
- }
+            
+        } else {
+            url = processRequest(request, response);
+         }
 
         request.getRequestDispatcher(url).forward(request, response);
 
@@ -735,5 +752,36 @@ public class ControllerServlet extends HttpServlet {
      */
     public static boolean isConnected(HttpServletRequest request) {
         return request.getSession(false) != null && request.getSession(false).getAttribute("email") != null;
+    }
+    
+    
+    private void setDestinations(HttpServletRequest request){
+        
+                 if (ControllerServlet.isConnected(request)) {
+                ArrayList<Dest> dests = new ArrayList<Dest>();
+                List<Ville> ville = villeFacade.findAll();
+                for(int ii = 0; ii<ville.size(); ii++){
+                    List<Destination> destin = ville.get(ii).getDestinationList();
+                    float x = ville.get(ii).getX();
+                    float y = ville.get(ii).getY();
+                    int z = ville.get(ii).getZoomLevel();
+                    String city = ville.get(ii).getVille();
+                    for(int ij = 0; ij<destin.size(); ij++){
+                        Dest dest = new Dest();
+                        dest.setCity(city);
+                        System.out.println(city);
+                        dest.setId(destin.get(ij).getDestinationPK().getProfilIdprofil());
+                        dest.setX(x);
+                        dest.setY(y);
+                        dest.setZ(z);
+                        Profil p = profilFacade.findByIdprofil(destin.get(ij).getDestinationPK().getProfilIdprofil()).get(0);
+                        dest.setName(p.getNom() + " " +p.getPrenom());
+                        dests.add(dest);
+                    }
+                }
+                request.setAttribute("dests", dests);
+            }   
+        
+        
     }
 }

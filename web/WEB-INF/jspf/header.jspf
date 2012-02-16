@@ -14,7 +14,20 @@
         <script type="text/javascript" src="javascript/cataloguePays.js"></script>
         <script type="text/javascript" src="javascript/fonctionsAjoutsModificationPays.js"></script>
         <script type="text/javascript" src="javascript/inputChecker.js"></script>
-        <script type="text/javascript" src="javascript/profil.js"></script>           
+        <script type="text/javascript" src="javascript/profil.js"></script>   
+        <style type="text/css">
+            @import "http://serverapi.arcgisonline.com/jsapi/arcgis/2.6/js/dojo/dijit/themes/claro/claro.css";
+            @import "http://serverapi.arcgisonline.com/jsapi/arcgis/2.6/js/dojo/dojox/grid/resources/Grid.css";
+            html, body { height: 100%; width: 100%; margin: 0; padding: 0; overflow:hidden; }
+        </style>
+
+        <script type="text/javascript">
+            djConfig = {
+            parseOnLoad: true
+            };
+        </script>
+        <script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.6"></script>
+        <script type="text/javascript" src="javascript/map.js"></script>
         <title>Accueil</title>
     </head>
     <body class="body" onload="cataloguePays('A');">
@@ -33,7 +46,7 @@
                  %>
 
                     <tr>
-                        <td>Bienvenue <%= prenom%> ! Dernière connexion le 22/11 à 21h32</td>
+                        <td>Bienvenue <%= nom%> <%= prenom%></td>
                     </tr>
                     <tr>
                         <td><a href="myProfile?idProfil=<%= idProfil%>">Accéder à mon profil</a></td>

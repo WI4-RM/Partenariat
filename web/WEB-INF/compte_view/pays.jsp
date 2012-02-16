@@ -19,6 +19,9 @@
     //Récupération de tous les paramètres
     Pays pays = (Pays)request.getAttribute("pays"); //Le pays est envoyé par le servlet controleur
     String nomPays = pays.getNom();
+    float x = pays.getX();
+    float y = pays.getY();
+    int z = pays.getZoomLevel();
     int idPays = pays.getIdpays();
     ArrayList<Rubrique> listeRub = (ArrayList<Rubrique>)getServletContext().getAttribute("rubriques");
     ArrayList<String> listeTitresRub = (ArrayList<String>)getServletContext().getAttribute("titresRub");
@@ -59,6 +62,9 @@
 
     <!-- Carte du pays -->
     <div id="map"></div>
+    <script type="text/javascript">
+      loadEvent = function(){map.centerAndZoom(new esri.geometry.Point(<%= x%>,<%= y%>),<%= z%>); console.log(<%= x%>); map.enablePan();}
+    </script>
     <br/>
 
     <!-- Affichage des rubriques -->
