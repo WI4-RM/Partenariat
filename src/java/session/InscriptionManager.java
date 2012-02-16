@@ -78,6 +78,8 @@ public class InscriptionManager {
             compte.setSalt(finalSalt);
 
             em.persist(compte);
+            
+            compteFacade.create(compte);
 
             return true;
         } catch (NoSuchAlgorithmException ex) {

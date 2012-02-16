@@ -70,38 +70,3 @@
     </div>
    
 </div>
-<!--
-<div class="divBody">
-    
-	<h1>Profil</h1>
-		
-	<!--<span class="light"><div class="profil" id="ext-div">
-		
-	</div></span>-->
-        <!--<div class="profil" id="ext-div">
-		
-	</div>-->
-       <!-- <div class="colonneGauche" id="cg"></div>
-        <div class="colonneDroiteHaut" id="cdh"></div>
-	<div class="colonneDroiteBas" id="cdb"></div>	
-        
-    
-</div>
-<script type="text/javascript">
-load();
-</script>-->
-<!--<script type="text/javascript">
-refreshPI(true);
-</script>
-<script type="text/javascript">
-refreshPE(true);
-</script>
-<script type="text/javascript">
-refreshIP(true);
-</script>-->
-<!--
-<script type="text/javascript">
-function (){refreshPI(true);
-refreshPE(true);
-refreshIP(true);}
-</script>-->

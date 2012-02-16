@@ -501,7 +501,8 @@ public class ControllerServlet extends HttpServlet {
             url = "/WEB-INF/compte_view/historique.jsp";
         } else if (userPath.equals("/uploadFichier")) {
             if (ControllerServlet.isConnected(request)) {
-                int idProfil = (Integer) Integer.parseInt((String) session.getAttribute("idProfil"));
+                Integer  idProfil = (Integer) session.getAttribute("idProfil");
+                //int idProfil =  Integer.parseInt(idP);
                 session.setAttribute("idProfil", idProfil);
                 int idPays = Integer.parseInt((String) request.getSession().getAttribute("idPays"));
                 try {

@@ -96,6 +96,7 @@ public class AdminServlet extends HttpServlet {
         }
         else if (userPath.equals("/viewAccount")){
             url += "accounts.jsp";
+
             List<Compte> comptes = compteFacade.findAll();
             //Iterator<Compte> it = comptes.iterator();
            // while (it)
@@ -127,7 +128,8 @@ public class AdminServlet extends HttpServlet {
                         Ville ville = lVille.get(i);
                         List<Destination> lDest = ville.getDestinationList();
                         for (int d  = 0; d < lDest.size(); d++)
-                            destinationFacade.deleteDestination( lDest.get(d).getDestinationPK());
+                            destinationFacade.remove(lDest.get(d));
+                            //destinationFacade.deleteDestination( lDest.get(d).getDestinationPK());
                         
 
                         
@@ -137,8 +139,12 @@ public class AdminServlet extends HttpServlet {
                     Pays pays = paysFacade.findByIdpays(id).get(0);
                     List<Rubrique> lRub = pays.getRubriqueList();
                     for (int i=0;i<lRub.size() ; i++)
-                        rubriqueFacade.deleteRubrique(lRub.get(i));
-                    paysFacade.deletePays(id);
+                        rubriqueFacade.remove(lRub.get(i));
+                        //rubriqueFacade.deleteRubrique(lRub.get(i));
+                    
+                   
+                    paysFacade.remove(pays);
+                   // paysFacade.deletePays(id);
                 }
             }
             url += "paysView.jsp";
@@ -160,8 +166,22 @@ public class AdminServlet extends HttpServlet {
             System.out.println(profil.toString());
 
             compteFacade.remove(lCompte.get(0));
-                        profilFacade.deleteProfil(id);
+            profilFacade.remove(profil);
+            
             //url += "viewAccount";
+            userPath = "/viewAccount";
+            
+        } else if (userPath.equals("/setNewAdmin")){
+            Integer id = Integer.parseInt(request.getParameter("idCompte"));
+            if (id == null)
+                throw new NullPointerException("id of compte is nul");
+            List<Compte> lCompte = compteFacade.findByIdCompte(id);
+            if (lCompte.isEmpty())
+                throw new NullPointerException("aucun compte trouvé");
+            
+            lCompte.get(0).setIsAdministrator(true);
+            compteFacade.edit(lCompte.get(0));
+            
             userPath = "/viewAccount";
         }
 

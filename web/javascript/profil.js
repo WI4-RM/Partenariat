@@ -17,7 +17,6 @@ function ModifInfoPerso(nom, prenom, promo){
 <td><input type=\"text\" name=\"promo\" value="+promo+" /></td>\n\
 </tr>\n\
 </table>\n\
-<input type=\"submit\" value=\"Valider les modifications\">\n\
 <input type=\"button\" value=\"Annuler\" onClick=\"javascript:refreshInfoPerso(\'"+nom+"\',\'"+prenom+"\',\'"+promo+"\');\">\n\
 </form>";
 }

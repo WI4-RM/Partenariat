@@ -33,26 +33,31 @@
 
                 </tr>
                 <%
-                   // List<entity.Compte> listeComptes = (List<entity.Compte>) request.getSession(false).getAttribute("comptes");
-                    //if (listeComptes != null) {
-                      //  for (int i = 0; i < listeComptes.size(); i++) {
-                        //    entity.Compte c = listeComptes.get(i);
-                          //  String nom = c.getEmail();
-                            //boolean isAdmin = c.getIsAdministrator();
-                List<entity.Profil> listProfils = (List<entity.Profil>) request.getSession().getAttribute("profils");
-                for (int p=0;p<listProfils.size();p++){
-                    Profil profil = listProfils.get(p);
-                    String nom = profil.getNom();
-                    String prenom = profil.getPrenom();
-                    int promo = profil.getPromo();
-                    String email = "";
-                    boolean isAdmin = false;
-                    int idCompte = -1;
-                    if (profil.getCompteList().size() != 0){
-                        email= profil.getCompteList().get(0).getEmail();
-                        isAdmin = profil.getCompteList().get(0).getIsAdministrator();
-                        idCompte = profil.getCompteList().get(0).getIdcompte();
-                                               }
+                    List<entity.Compte> listeComptes = (List<entity.Compte>) request.getSession(false).getAttribute("comptes");
+                    if (listeComptes != null) {
+                        for (int i = 0; i < listeComptes.size(); i++) {
+                            entity.Compte c = listeComptes.get(i);
+                            String email = c.getEmail();
+                            boolean isAdmin = c.getIsAdministrator();
+                            Profil profil = c.getProfilIdprofil();
+                            String nom = profil.getNom();
+                            String prenom = profil.getPrenom();
+                            int promo = profil.getPromo();
+                            int idCompte = c.getIdcompte();
+               // List<entity.Profil> listProfils = (List<entity.Profil>) request.getSession().getAttribute("profils");
+                //for (int p=0;p<listProfils.size();p++){
+                  //  Profil profil = listProfils.get(p);
+                   // String nom = profil.getNom();
+                    //String prenom = profil.getPrenom();
+                    //int promo = profil.getPromo();
+                   // String email = "";
+                   // boolean isAdmin = false;
+                   // int idCompte = -1;
+                    //if (profil.getCompteList().size() != 0){
+                      //  email= profil.getCompteList().get(0).getEmail();
+                        //isAdmin = profil.getCompteList().get(0).getIsAdministrator();
+                        //idCompte = profil.getCompteList().get(0).getIdcompte();
+                                            //   }
                 %>
                 <tr>
                 <td>
@@ -68,6 +73,7 @@
                 <%
                         
                     }
+                                               }
                 %>
             </table>
         </div>
