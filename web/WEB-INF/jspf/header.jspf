@@ -26,7 +26,6 @@
             <div class = "titreBienvenue"><h1>Bienvenue sur le projet MineWorld !</h1></div>
             <div class="inscription"><table class="inscriptionTable">
                 <%
-                if (request.getAttribute("connecte").equals("true")){
                 if (ControllerServlet.isConnected(request)) {
                     String nom = (String) request.getSession().getAttribute("nom");
                     String prenom = (String) request.getSession().getAttribute("prenom");
