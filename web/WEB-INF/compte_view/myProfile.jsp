@@ -1,6 +1,6 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<div class="divBody">
+<div class="divBody" style ="overflow:auto;">
    <% //int setup = Integer.parseInt(request.getParameter("setup"));
       String nom = (String) request.getSession(false).getAttribute("nom");
       String prenom = (String) request.getSession(false).getAttribute("prenom");
@@ -58,6 +58,13 @@
     <%}%>
            
        
+    </div>
+    <div id ="addmap" style="position:absolute; left:200%; top:20%; bottom:20%; width:80%; border: solid 10px;" id="mapdiv">
+        <div id="map" style="position:absolute; left:0; right:0; top:0; bottom:20px;"></div>
+        <div style="position:absolute; left:0; bottom:0; right:0; height:20px; text-align: center">
+            Zoomez sur la destination puis appuyez sur OK
+            <input type="button" value ="OK" onclick="document.getElementById('x').value=(map.extent.xmax + map.extent.xmin)/2;document.getElementById('y').value=(map.extent.ymax + map.extent.ymin)/2; document.getElementById('z').value=map.getLevel(); document.getElementById('newform').submit();" />
+        </div>
     </div>
    
 </div>

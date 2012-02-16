@@ -12,10 +12,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author charles
+ * @author fingon
  */
 @Entity
 @Table(name = "compte")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Compte.findAll", query = "SELECT c FROM Compte c"),
     @NamedQuery(name = "Compte.findByIdcompte", query = "SELECT c FROM Compte c WHERE c.idcompte = :idcompte"),
@@ -24,13 +25,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Compte.findByValidationHash", query = "SELECT c FROM Compte c WHERE c.validationHash = :validationHash"),
     @NamedQuery(name = "Compte.findByIsAdministrator", query = "SELECT c FROM Compte c WHERE c.isAdministrator = :isAdministrator"),
     @NamedQuery(name = "Compte.findBySalt", query = "SELECT c FROM Compte c WHERE c.salt = :salt"),
-    @NamedQuery(name = "Compte.findByIdprofil", query = "SELECT c FROM Compte c WHERE c.profilIdprofil.idprofil = :idprofil")})
+        @NamedQuery(name = "Compte.findByIdprofil", query = "SELECT c FROM Compte c WHERE c.profilIdprofil.idprofil = :idprofil")})
 public class Compte implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
+   // @NotNull
     @Column(name = "idcompte")
     private Integer idcompte;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation

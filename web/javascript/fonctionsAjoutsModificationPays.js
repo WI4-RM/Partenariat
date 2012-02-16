@@ -9,8 +9,11 @@ function nouveauPays(){
     <form action=\"nouveauPays\">\n\
     <p>Tapez le nom du nouveau pays à créer</p>\n\
     <input type=\"text\" name=\"nouveauPays\"></input>\n\
-    <input type=\"submit\" value=\"Creer un nouveau pays\">\n\
-    </form>";
+    <input id = 'x' type=\"hidden\" name=\"x\"></input>\n\
+    <input id = 'y' type=\"hidden\" name=\"y\"></input>\n\
+    <input id = 'z' type=\"hidden\" name=\"z\"></input>\n\
+    <input onclick='document.getElementById(\"x\").value=(map.extent.xmax + map.extent.xmin)/2; document.getElementById(\"y\").value=(map.extent.ymax + map.extent.ymin)/2; document.getElementById(\"z\").value=map.getLevel();' type=\"submit\" value=\"Creer un nouveau pays\">\n\
+    </form>\n\ ";
 }
 
 function nouvelleCategorie(idPays){

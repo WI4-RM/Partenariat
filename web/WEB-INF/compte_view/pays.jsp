@@ -19,6 +19,9 @@
     //Récupération de tous les paramètres
     Pays pays = (Pays)request.getAttribute("pays"); //Le pays est envoyé par le servlet controleur
     String nomPays = pays.getNom();
+    float x = pays.getX();
+    float y = pays.getY();
+    int z = pays.getZoomLevel();
     int idPays = pays.getIdpays();
     ArrayList<Rubrique> listeRub = (ArrayList<Rubrique>)getServletContext().getAttribute("rubriques");
     ArrayList<String> listeTitresRub = (ArrayList<String>)getServletContext().getAttribute("titresRub");
@@ -59,6 +62,9 @@
 
     <!-- Carte du pays -->
     <div id="map"></div>
+    <script type="text/javascript">
+      loadEvent = function(){map.centerAndZoom(new esri.geometry.Point(<%= x%>,<%= y%>),<%= z%>); console.log(<%= x%>); map.enablePan();}
+    </script>
     <br/>
 
     <!-- Affichage des rubriques -->
@@ -151,8 +157,8 @@
                     <%
                     for (int k = 0; k < stage.size(); k++){
                         Destination dest = stage.get(k);
-                        String nom = dest.getProfilIdprofil().getNom();
-                        String prenom = dest.getProfilIdprofil().getPrenom();
+                        String nom = dest.getProfil().getNom();
+                        String prenom = dest.getProfil().getPrenom();
                         String org = dest.getOrganisme();
                         String com = dest.getCommentaire();
                     %>
@@ -171,8 +177,8 @@
                 <%
                 for (int k = 0; k < semestre.size(); k++){
                     Destination dest = stage.get(k);
-                    String nom = dest.getProfilIdprofil().getNom();
-                    String prenom = dest.getProfilIdprofil().getPrenom();
+                    String nom = dest.getProfil().getNom();
+                    String prenom = dest.getProfil().getPrenom();
                     String org = dest.getOrganisme();
                     String com = dest.getCommentaire();
                 %>
@@ -191,8 +197,8 @@
                 <%
                 for (int k = 0; k < tourisme.size(); k++){
                     Destination dest = stage.get(k);
-                    String nom = dest.getProfilIdprofil().getNom();
-                    String prenom = dest.getProfilIdprofil().getPrenom();
+                    String nom = dest.getProfil().getNom();
+                    String prenom = dest.getProfil().getPrenom();
                     String org = dest.getOrganisme();
                     String com = dest.getCommentaire();
                 %>
