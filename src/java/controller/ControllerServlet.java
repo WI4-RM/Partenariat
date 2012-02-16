@@ -323,8 +323,7 @@ public class ControllerServlet extends HttpServlet {
 
             url = "/WEB-INF/compte_view/myProfile.jsp";
         } else if (userPath.equals("/changeInfoPerso")) {
-            //int id =(Integer)request.getSession().getAttribute("idprofil");
-            int id = 1;
+            int id =(Integer)request.getSession().getAttribute("idProfil");
             String nom = request.getParameter("nom");
             String prenom = request.getParameter("prenom");
             int promo = Integer.parseInt(request.getParameter("promo"));
@@ -677,9 +676,9 @@ public class ControllerServlet extends HttpServlet {
             }
 
         }
-// else {
-// processRequest(request, response);
-// }
+ else {
+ processRequest(request, response);
+ }
 
         request.getRequestDispatcher(url).forward(request, response);
 

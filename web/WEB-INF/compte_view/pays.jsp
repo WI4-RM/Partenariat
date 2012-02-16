@@ -151,8 +151,8 @@
                     <%
                     for (int k = 0; k < stage.size(); k++){
                         Destination dest = stage.get(k);
-                        String nom = dest.getProfilIdprofil().getNom();
-                        String prenom = dest.getProfilIdprofil().getPrenom();
+                        String nom = dest.getProfil().getNom();
+                        String prenom = dest.getProfil().getPrenom();
                         String org = dest.getOrganisme();
                         String com = dest.getCommentaire();
                     %>
@@ -171,8 +171,8 @@
                 <%
                 for (int k = 0; k < semestre.size(); k++){
                     Destination dest = stage.get(k);
-                    String nom = dest.getProfilIdprofil().getNom();
-                    String prenom = dest.getProfilIdprofil().getPrenom();
+                    String nom = dest.getProfil().getNom();
+                    String prenom = dest.getProfil().getPrenom();
                     String org = dest.getOrganisme();
                     String com = dest.getCommentaire();
                 %>
@@ -191,8 +191,8 @@
                 <%
                 for (int k = 0; k < tourisme.size(); k++){
                     Destination dest = stage.get(k);
-                    String nom = dest.getProfilIdprofil().getNom();
-                    String prenom = dest.getProfilIdprofil().getPrenom();
+                    String nom = dest.getProfil().getNom();
+                    String prenom = dest.getProfil().getPrenom();
                     String org = dest.getOrganisme();
                     String com = dest.getCommentaire();
                 %>

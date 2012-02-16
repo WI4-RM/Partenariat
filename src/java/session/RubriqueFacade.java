@@ -55,4 +55,8 @@ public class RubriqueFacade extends AbstractFacade<Rubrique> {
         }
         return 0;
     }
+
+    public void deleteRubrique(Rubrique get) {
+        em.createNamedQuery("Rubrique.deleteRubrique").setParameter(":idrubrique", get.getIdrubrique());
+    }
 }

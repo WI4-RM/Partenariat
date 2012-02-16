@@ -20,12 +20,6 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import sun.misc.BASE64Decoder;
@@ -224,7 +218,7 @@ public class InscriptionManager {
             props.put("mail.smtp.host", "localhost");
             props.put("mail.smtp.user", "localhost.localdomain");
             props.put("mail.debug", "true");
-
+/*
             Session session = Session.getDefaultInstance(props, null);
             session.setDebug(debug);
 
@@ -240,8 +234,8 @@ public class InscriptionManager {
 
             msg.setSubject(subject);
             msg.setContent(message, "text/plain");
-            Transport.send(msg);
-        } catch (MessagingException ex) {
+            Transport.send(msg);*/
+        } catch (Exception ex) {
             Logger.getLogger(InscriptionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

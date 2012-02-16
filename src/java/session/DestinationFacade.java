@@ -6,6 +6,7 @@
 package session;
 
 import entity.Destination;
+import entity.DestinationPK;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -62,6 +63,10 @@ public class DestinationFacade {
         return ((Long) q.getSingleResult()).intValue();
     }
     public List<Destination> findByProfilIdprofil(int id){
-        return em.createNamedQuery("Destination.findByIdprofil").setParameter("profilIdprofil", id).getResultList();
+        return em.createNamedQuery("Destination.profilIdprofil").setParameter("profilIdprofil", id).getResultList();
+    }
+    
+    public void deleteDestination(DestinationPK destPK){
+        em.createNamedQuery("Destination.deleteDestination").setParameter("iddestination", destPK.getDestinationidDestination()).executeUpdate();
     }
 }

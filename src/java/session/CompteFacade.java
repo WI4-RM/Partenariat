@@ -5,6 +5,7 @@
 package session;
 
 import entity.Compte;
+import entity.Profil;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -53,8 +54,19 @@ public class CompteFacade extends AbstractFacade<Compte> {
     public List<Compte> findByIdprofil(int idprofil){
         return em.createNamedQuery("Compte.findByIdprofil").setParameter("idprofil", idprofil).getResultList();
     }
-
-    public List<Compte> findByIdprofil(int idprofil){
-        return em.createNamedQuery("Compte.findByIdprofil").setParameter("idprofil", idprofil).getResultList();
+    
+    public List<Compte> findByIdCompte(int idCompte){
+        return em.createNamedQuery("Compte.findByIdcompte").setParameter("idcompte", idCompte).getResultList();
     }
+    
+//    public void destroyCompteEtProfil(int idCompte){
+//            List<Compte> lCompte = this.findByIdCompte(idCompte);
+//            if (lCompte.isEmpty())
+//                throw new NullPointerException("aucun compte trouvé");
+//            Profil profil = lCompte.get(0).getProfilIdprofil();
+//        this.remove(lCompte.get(0));
+//        
+//    }
+
+
 }

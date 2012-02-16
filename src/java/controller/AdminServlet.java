@@ -4,8 +4,7 @@
  */
 package controller;
 
-import entity.Compte;
-import entity.Pays;
+import entity.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
@@ -18,16 +17,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import session.CompteFacade;
+import session.DestinationFacade;
 import session.InscriptionManager;
 import session.PaysFacade;
+import session.ProfilFacade;
+import session.RubriqueFacade;
+import session.VilleFacade;
 import validator.InputValidator;
 
 /**
  *
  * @author fingon
  */
-@WebServlet(name = "AdminServlet", urlPatterns = {"/administration", "/connectAdmin","/viewAccount",
-                                                    "/viewPays","/delPays"})
+@WebServlet(name = "AdminServlet", urlPatterns = {"/administration", "/connectAdmin",
+                                                    "/viewAccount",
+                                                    "/viewPays","/delPays",
+                                                       "/setNewAdmin","/deleteAccount"})
 public class AdminServlet extends HttpServlet {
 
     @EJB
@@ -38,6 +43,18 @@ public class AdminServlet extends HttpServlet {
     
     @EJB
     private PaysFacade paysFacade;
+    
+    @EJB
+    private ProfilFacade profilFacade;
+    
+    @EJB
+    private VilleFacade villeFacade;
+    
+    @EJB
+    private DestinationFacade destinationFacade;
+    
+    @EJB 
+    private RubriqueFacade rubriqueFacade;
 
     /**
      * Processes requests for both HTTP
@@ -85,6 +102,11 @@ public class AdminServlet extends HttpServlet {
             
             request.getSession(false).setAttribute("comptes", comptes);
             
+            
+            List<Profil> profils = profilFacade.findAll();
+            
+            request.getSession().setAttribute("profils", profils);
+            
         }
         else if (userPath.equals("/viewPays")){
             url += "paysView.jsp";
@@ -99,7 +121,24 @@ public class AdminServlet extends HttpServlet {
             if (id != null){
                 List<Pays> p = paysFacade.findByIdpays(id);
                 if (p.size() > 0){
-                    paysFacade.remove(p.get(0));
+                   // paysFacade.remove(p.get(0));
+                    List<Ville> lVille = p.get(0).getVilleList();
+                    for (int i=0; i< lVille.size();i++){
+                        Ville ville = lVille.get(i);
+                        List<Destination> lDest = ville.getDestinationList();
+                        for (int d  = 0; d < lDest.size(); d++)
+                            destinationFacade.deleteDestination( lDest.get(d).getDestinationPK());
+                        
+
+                        
+                        villeFacade.deleteVille(ville.getIdVille());
+                                              
+                    }
+                    Pays pays = paysFacade.findByIdpays(id).get(0);
+                    List<Rubrique> lRub = pays.getRubriqueList();
+                    for (int i=0;i<lRub.size() ; i++)
+                        rubriqueFacade.deleteRubrique(lRub.get(i));
+                    paysFacade.deletePays(id);
                 }
             }
             url += "paysView.jsp";
@@ -108,6 +147,22 @@ public class AdminServlet extends HttpServlet {
             userPath = "/viewPays";
 
             
+        } else if (userPath.equals("/deleteAccount")){
+            Integer id = Integer.parseInt(request.getParameter("idCompte"));
+            if (id == null)
+                throw new NullPointerException("id of compte is nul");
+            
+            List<Compte> lCompte = compteFacade.findByIdCompte(id);
+            if (lCompte.isEmpty())
+                throw new NullPointerException("aucun compte trouvé");
+            
+            Profil profil = lCompte.get(0).getProfilIdprofil();
+            System.out.println(profil.toString());
+
+            compteFacade.remove(lCompte.get(0));
+                        profilFacade.deleteProfil(id);
+            //url += "viewAccount";
+            userPath = "/viewAccount";
         }
 
 
@@ -176,6 +231,16 @@ public class AdminServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         session.setAttribute("email", email);
         session.setAttribute("isAdmin", "true");
+        
+        
+        Compte c = compteFacade.findTheCompteByEmail(email);
+        Integer idProfil = c.getProfilIdprofil().getIdprofil();
+
+        session.setAttribute("idProfil", idProfil);
+        session.setAttribute("nom", profilFacade.findByIdprofil(idProfil).get(0).getNom());
+        session.setAttribute("prenom", profilFacade.findByIdprofil(idProfil).get(0).getPrenom());       
+        
+        
     }
     
     public static boolean isAdminConnected(HttpServletRequest request){

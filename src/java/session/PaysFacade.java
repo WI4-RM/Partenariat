@@ -5,6 +5,7 @@
 package session;
 
 import entity.Pays;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -51,5 +52,9 @@ public class PaysFacade extends AbstractFacade<Pays> {
 
     public List<Pays> findAllOrderedByName(){
         return em.createNamedQuery("Pays.findAllOrderedByName").getResultList();
+    }
+    
+    public void deletePays(int idpays){
+         em.createNamedQuery("Pays.deletePays").setParameter("idpays", idpays).executeUpdate();
     }
 }

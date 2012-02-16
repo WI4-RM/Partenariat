@@ -1,55 +1,50 @@
 /*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
-*/
-
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
-*
-* @author lolo
-*/
+ *
+ * @author fingon
+ */
 @Entity
 @Table(name = "fichier_uploade")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "FichierUploade.findAll", query = "SELECT f FROM FichierUploade f"),
     @NamedQuery(name = "FichierUploade.findByIdfichierUploade", query = "SELECT f FROM FichierUploade f WHERE f.idfichierUploade = :idfichierUploade"),
     @NamedQuery(name = "FichierUploade.findByNom", query = "SELECT f FROM FichierUploade f WHERE f.nom = :nom"),
     @NamedQuery(name = "FichierUploade.findByTaille", query = "SELECT f FROM FichierUploade f WHERE f.taille = :taille"),
-    @NamedQuery(name = "FichierUploade.findByIdpays", query = "SELECT f FROM FichierUploade f WHERE f.paysIdpays.idpays = :idPays"),
+        @NamedQuery(name = "FichierUploade.findByIdpays", query = "SELECT f FROM FichierUploade f WHERE f.paysIdpays.idpays = :idPays"),
     @NamedQuery(name = "FichierUploade.findByDate", query = "SELECT f FROM FichierUploade f WHERE f.date = :date")})
 public class FichierUploade implements Serializable {
-    @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    //@NotNull
     @Column(name = "idfichier_uploade")
     private Integer idfichierUploade;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "nom")
     private String nom;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "taille")
     private int taille;
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil")
     @ManyToOne(optional = false)
     private Profil profilIdprofil;
@@ -94,6 +89,14 @@ public class FichierUploade implements Serializable {
         this.taille = taille;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public Profil getProfilIdprofil() {
         return profilIdprofil;
     }
@@ -132,15 +135,7 @@ public class FichierUploade implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.FichierUploade[idfichierUploade=" + idfichierUploade + "]";
+        return "entity.FichierUploade[ idfichierUploade=" + idfichierUploade + " ]";
     }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
+    
 }

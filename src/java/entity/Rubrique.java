@@ -1,33 +1,23 @@
 /*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
-*/
-
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
-*
-* @author lolo
-*/
+ *
+ * @author fingon
+ */
 @Entity
 @Table(name = "rubrique")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rubrique.findAll", query = "SELECT r FROM Rubrique r"),
     @NamedQuery(name = "Rubrique.findByIdrubrique", query = "SELECT r FROM Rubrique r WHERE r.idrubrique = :idrubrique"),
@@ -35,28 +25,32 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Rubrique.findByDate", query = "SELECT r FROM Rubrique r WHERE r.date = :date"),
     @NamedQuery(name = "Rubrique.findOrderedByNameThenDate", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays.idpays = :idPays ORDER BY r.nom, r.date DESC"),
     @NamedQuery(name = "Rubrique.findByNomEtIdpays", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays.idpays = :idPays AND r.nom = :nom"),
-    @NamedQuery(name = "Rubrique.findByIdPays", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays.idpays = :idPays ORDER BY r.idrubrique DESC")})
+    @NamedQuery(name = "Rubrique.findByIdPays", query = "SELECT r FROM Rubrique r WHERE r.paysIdpays.idpays = :idPays ORDER BY r.idrubrique DESC"),
+@NamedQuery(name = "Rubrique.deleteRubrique", query = "DELETE FROM Rubrique r WHERE r.idrubrique = :idrubrique")    })    
 public class Rubrique implements Serializable {
-    @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    //@NotNull
     @Column(name = "idrubrique")
     private Integer idrubrique;
+    @Size(max = 45)
     @Column(name = "nom")
     private String nom;
     @Lob
+    @Size(max = 2147483647)
     @Column(name = "texte")
     private String texte;
-    @JoinColumn(name = "pays_idpays", referencedColumnName = "idpays")
-    @ManyToOne(optional = false)
-    private Pays paysIdpays;
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     @JoinColumn(name = "profil_idprofil", referencedColumnName = "idprofil")
     @ManyToOne(optional = false)
     private Profil profilIdprofil;
+    @JoinColumn(name = "pays_idpays", referencedColumnName = "idpays")
+    @ManyToOne(optional = false)
+    private Pays paysIdpays;
 
     public Rubrique() {
     }
@@ -89,12 +83,12 @@ public class Rubrique implements Serializable {
         this.texte = texte;
     }
 
-    public Pays getPaysIdpays() {
-        return paysIdpays;
+    public Date getDate() {
+        return date;
     }
 
-    public void setPaysIdpays(Pays paysIdpays) {
-        this.paysIdpays = paysIdpays;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Profil getProfilIdprofil() {
@@ -103,6 +97,14 @@ public class Rubrique implements Serializable {
 
     public void setProfilIdprofil(Profil profilIdprofil) {
         this.profilIdprofil = profilIdprofil;
+    }
+
+    public Pays getPaysIdpays() {
+        return paysIdpays;
+    }
+
+    public void setPaysIdpays(Pays paysIdpays) {
+        this.paysIdpays = paysIdpays;
     }
 
     @Override
@@ -127,17 +129,7 @@ public class Rubrique implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Rubrique[idrubrique=" + idrubrique + "]";
+        return "entity.Rubrique[ idrubrique=" + idrubrique + " ]";
     }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
+    
 }
-
-

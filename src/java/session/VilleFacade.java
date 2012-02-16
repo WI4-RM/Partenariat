@@ -39,5 +39,9 @@ public class VilleFacade extends AbstractFacade<Ville> {
      public List<Ville> findByVille(String ville) {
         return em.createNamedQuery("Ville.findByVille").setParameter("ville", ville).getResultList();
     }
+
+    public void deleteVille(int idVille) {
+        em.createNamedQuery("Ville.deleteVille").setParameter("idVille", idVille).executeUpdate();
+    }
     
 }

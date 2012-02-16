@@ -54,6 +54,10 @@ public class ProfilFacade extends AbstractFacade<Profil> {
         return;
     }
     
+    public void deleteProfil(int idprofil){
+        em.createNamedQuery("Profil.deleteProfil").setParameter("idprofil", idprofil).executeUpdate();
+    }
+    
     public List<entity.Destination> getDestinationsList(int idProfil){
         List<Profil> lp = findByIdprofil(idProfil);
         Profil p = lp.get(0);
